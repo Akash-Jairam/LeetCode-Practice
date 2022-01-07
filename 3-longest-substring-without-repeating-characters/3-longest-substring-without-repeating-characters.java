@@ -7,10 +7,9 @@ class Solution {
         for(int i = 0; i < s.length(); i++){
             if(map.containsKey(s.charAt(i))){                
                 start = Math.max(start,map.get(s.charAt(i)) + 1);
-                map.put(s.charAt(i), i);
-            }else{
-                map.put(s.charAt(i), i);
-            }
+                
+            }    
+            map.put(s.charAt(i), i);
             len = Math.max(len, i - start +1 );
         }
         

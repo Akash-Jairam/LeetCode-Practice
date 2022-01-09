@@ -4,14 +4,6 @@ class Solution {
         int end = nums.length-1;
         int mid = (end + (end - beginning)) / 2;
         
-        if(nums.length == 1){
-            if(nums[0] == target)
-                return 0;
-            else
-                return -1;
-        }
-        
-        
         while(beginning <= end){
             if(nums[mid] < target){
                 beginning = mid+1;

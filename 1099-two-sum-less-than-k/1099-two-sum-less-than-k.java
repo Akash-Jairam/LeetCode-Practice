@@ -2,7 +2,6 @@ class Solution {
     public int twoSumLessThanK(int[] nums, int k) {
         int currentSum = -1;
         int i = 0;
-        int sum = 0;
         int j;
         
         Arrays.sort(nums);
@@ -12,7 +11,7 @@ class Solution {
             j = nums.length-1;
         
         while(i < j){
-            sum = nums[i] + nums[j];
+            int sum = nums[i] + nums[j];
             if(sum >= k)
                 j--;
             else if(sum  > currentSum){

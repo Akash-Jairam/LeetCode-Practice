@@ -1,6 +1,6 @@
 class Solution {
     public int twoSumLessThanK(int[] nums, int k) {
-        int currentSum = Integer.MIN_VALUE;
+        int currentSum = -1;
         int i = 0;
         int sum = 0;
         int j;
@@ -22,9 +22,6 @@ class Solution {
             }
         }
         
-        if(currentSum == Integer.MIN_VALUE)
-            return -1;
-        else
-            return currentSum;
+        return currentSum;
     }
 }

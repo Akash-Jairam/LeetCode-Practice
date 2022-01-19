@@ -25,18 +25,8 @@ class Solution {
             return false;
         
         
-        boolean val = true;
         
-        if(left.val != right.val)
-            val = false;
-        
-        
-        boolean leftval = check(left.left, right.right);
-        boolean rightval = check(left.right, right.left);
-        
-        
-        
-        return val && leftval && rightval;
+        return (left.val == right.val) && check(left.left, right.right) && check(left.right, right.left);
         
     }
     

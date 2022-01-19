@@ -15,17 +15,30 @@
  */
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        return isAMirror(root, root);
+        return check(root, root);
     }
     
-    public boolean isAMirror(TreeNode r1, TreeNode r2){
-        if(r1 == null && r2 == null)
+    public boolean check(TreeNode left, TreeNode right){
+        if(left == null && right == null)
             return true;
-        
-        if(r1 == null || r2 == null)
+        else if(left == null || right == null)
             return false;
         
-        return r1.val == r2.val && isAMirror(r1.left, r2.right) && isAMirror(r1.right, r2.left);
+        
+        boolean val = true;
+        
+        if(left.val != right.val)
+            val = false;
+        
+        
+        boolean leftval = check(left.left, right.right);
+        boolean rightval = check(left.right, right.left);
+        
+        
+        
+        return val && leftval && rightval;
+        
     }
+    
     
 }

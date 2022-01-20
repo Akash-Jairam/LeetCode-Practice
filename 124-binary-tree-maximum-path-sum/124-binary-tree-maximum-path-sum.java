@@ -24,12 +24,12 @@ class Solution {
         if(node == null)
             return 0;
         
-        int left_gain = Math.max(maxPath(node.left),0);
-        int right_gain = Math.max(maxPath(node.right),0);
+        int leftGain = Math.max(maxPath(node.left),0);
+        int rightGain = Math.max(maxPath(node.right),0);
         
-        int newPath = node.val + left_gain + right_gain;
-        max = Math.max(max, newPath);
+        int maxCandidate = node.val + rightGain + leftGain;
+        max = Math.max(max, maxCandidate);
         
-        return node.val + Math.max(left_gain, right_gain);
+        return node.val + Math.max(leftGain, rightGain);
     }
 }

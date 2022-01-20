@@ -8,30 +8,25 @@
  * }
  */
 class Solution {
-    private TreeNode lowestAncestor = null;
+    TreeNode lca = null;
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null)
-            return null;
-        
-        setLowestAncestor(root, p, q);
-        
-        return this.lowestAncestor;
+        findLowest(root, p, q);
+        return this.lca;
     }
     
-    private int setLowestAncestor(TreeNode root, TreeNode p, TreeNode q){
-        // Exit clause
-       if(root == null || lowestAncestor != null)
-           return 0;
+    public int findLowest(TreeNode node, TreeNode p, TreeNode q){
+        if(node == null || lca != null){
+            return 0;
+        }
         
-        int r = (root.val == p.val || root.val == q.val) ? 1 : 0;
+        int valFound = (node.val == p.val || node.val == q.val) ? 1 : 0;
+        int valFoundOnLeft = findLowest(node.left, p, q);
+        int valFoundOnRight = findLowest(node.right, p, q);
         
-        int leftSide = setLowestAncestor(root.left, p,q);
-        int rightSide = setLowestAncestor(root.right,p,q);
+        if(valFound + valFoundOnLeft + valFoundOnRight >= 2 && lca == null){
+            lca = node;
+        }
         
-        // If both values have been found but the lowest ancestor is not, the lowest ancestor is the current node. If we don't set validate the lowestAncestor, we will get a highter ancestor.
-        if(r + leftSide + rightSide >= 2 && lowestAncestor == null)
-            lowestAncestor = root;
-        
-        return r + leftSide + rightSide;
+        return valFound + valFoundOnLeft + valFoundOnRight;
     }
 }

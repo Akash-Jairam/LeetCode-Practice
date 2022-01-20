@@ -19,21 +19,19 @@ class Solution {
     }
     
     private int setLowestAncestor(TreeNode root, TreeNode p, TreeNode q){
-        // If we reach a node at the end of the tree or the lowest ancestor is already found, return 0;
-        if(root == null || lowestAncestor != null)
-            return 0;
+        // Exit clause
+       if(root == null || lowestAncestor != null)
+           return 0;
         
-        // Tracker which lets us know if p or q is found
-        int r = ( root == p || root == q) ? 1 : 0;
+        int r = (root.val == p.val || root.val == q.val) ? 1 : 0;
         
-        // Check to see if the other value is to the left or right of the tracker
-        int left = setLowestAncestor(root.left, p, q);
-        int right = setLowestAncestor(root.right, p, q);
+        int leftSide = setLowestAncestor(root.left, p,q);
+        int rightSide = setLowestAncestor(root.right,p,q);
         
-        // If a node is found and we know the position of the other node, the lowest Ancestor must be the root.
-        if(r + left + right >= 2 && lowestAncestor == null)
+        // If both values have been found but the lowest ancestor is not, the lowest ancestor is the current node. If we don't set validate the lowestAncestor, we will get a highter ancestor.
+        if(r + leftSide + rightSide >= 2 && lowestAncestor == null)
             lowestAncestor = root;
         
-        return r + left + right;
+        return r + leftSide + rightSide;
     }
 }

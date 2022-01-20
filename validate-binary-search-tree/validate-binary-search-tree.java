@@ -22,9 +22,12 @@ class Solution {
         if(node == null)
             return true;
         
-        if((min != null && node.val <= min ) || (max != null && node.val >= max))
+        if((max != null && node.val >= max) || (min != null && node.val <= min))
             return false;
         
-        return validate(node.left,min, node.val) && validate(node.right, node.val, max);
+        boolean left = validate(node.left, min, node.val);
+        boolean right = validate(node.right, node.val, max);
+        
+        return left && right;
     }
 }

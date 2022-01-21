@@ -20,27 +20,30 @@ class Solution {
             return result;
         
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+        queue.offer(root);
         boolean zig = true;
         
         while(!queue.isEmpty()){
             int size = queue.size();
-            LinkedList<Integer> queue2 = new LinkedList<>();
+            LinkedList<Integer> secondQueue = new LinkedList<Integer>();
             
             for(int i = 0; i < size; ++i){
                 TreeNode node = queue.poll();
+                
                 if(node.left != null)
                     queue.offer(node.left);
+                
                 if(node.right != null)
                     queue.offer(node.right);
+                
                 if(zig)
-                    queue2.offer(node.val);
+                    secondQueue.offer(node.val);
                 else
-                    queue2.addFirst(node.val);
+                    secondQueue.addFirst(node.val);
             }
-            result.add(queue2);
+            result.add(secondQueue);
             zig = !zig;
-            queue2 = new LinkedList<>();
+            secondQueue = new LinkedList<Integer>();
         }
         
         return result;

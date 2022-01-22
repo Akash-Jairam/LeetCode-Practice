@@ -15,20 +15,19 @@
  */
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        return check(root, root);
+        return checkNodes(root, root);
     }
     
-    public boolean check(TreeNode left, TreeNode right){
+    public boolean checkNodes(TreeNode left, TreeNode right){
         if(left == null && right == null)
             return true;
-        else if(left == null || right == null)
+        
+        if(left == null || right == null)
             return false;
         
+        boolean checkOneSide = checkNodes(left.left, right.right);
+        boolean checkOtherSide = checkNodes(left.right, right.left);
         
-        
-        return (left.val == right.val) && check(left.left, right.right) && check(left.right, right.left);
-        
+        return (left.val == right.val) && checkOneSide && checkOtherSide;
     }
-    
-    
 }

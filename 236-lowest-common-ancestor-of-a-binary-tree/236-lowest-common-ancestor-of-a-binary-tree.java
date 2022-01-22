@@ -8,25 +8,24 @@
  * }
  */
 class Solution {
-    TreeNode lca = null;
+    TreeNode lowestCommonAncestor = null;
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        findLowest(root, p, q);
-        return this.lca;
+        findLowestCommonAncestor(root, p, q);
+        return lowestCommonAncestor;
     }
     
-    public int findLowest(TreeNode node, TreeNode p, TreeNode q){
-        if(node == null || lca != null){
+    public int findLowestCommonAncestor(TreeNode node, TreeNode p, TreeNode q){
+        if(node == null)
             return 0;
+        
+        int findCurrent = ((node. val == p.val) || node.val == q.val) ? 1 : 0;
+        int findLeft = findLowestCommonAncestor(node.left, p, q);
+        int findRight = findLowestCommonAncestor(node.right, p, q);
+        
+        if(findCurrent + findLeft + findRight >= 2 && lowestCommonAncestor == null){
+            lowestCommonAncestor = node;
         }
         
-        int valFound = (node.val == p.val || node.val == q.val) ? 1 : 0;
-        int valFoundOnLeft = findLowest(node.left, p, q);
-        int valFoundOnRight = findLowest(node.right, p, q);
-        
-        if(valFound + valFoundOnLeft + valFoundOnRight >= 2 && lca == null){
-            lca = node;
-        }
-        
-        return valFound + valFoundOnLeft + valFoundOnRight;
+        return findCurrent + findLeft + findRight;
     }
 }

@@ -16,8 +16,7 @@ class Node {
 class Solution {
     public Node copyRandomList(Node head) {
         Node iter = head, next;
-        
-        // Make copy of list and weave it into existing list
+        // Copy each node and insert the copied node next to its original
         while(iter != null){
             Node copy = new Node(iter.val);
             next = iter.next;
@@ -26,8 +25,7 @@ class Solution {
             iter = next;
         }
         
-        
-        // Second round: assign random pointers for the copy nodes.
+        // Now that a copied node is next to its original, we can assign the random values of the copies to the node next to the original randoms
         iter = head;
         while(iter != null){
             next = iter.next.next;
@@ -37,18 +35,18 @@ class Solution {
             iter = next;
         }
         
-        // Third round: restore the original list, and extract the copy list.
+        // Unweave the nodes to return the copied list and return the list to its original form    
         iter = head;
-        Node newHead = new Node(0);
-        Node driver = newHead;
+        Node copiedHead = new Node(0);
+        Node copyTracker = copiedHead;
         while(iter != null){
             next = iter.next.next;
-            driver.next = iter.next;
+            copyTracker.next = iter.next;
             iter.next = next;
             iter = iter.next;
-            driver = driver.next;
+            copyTracker = copyTracker.next;
         }
         
-        return newHead.next;
+        return copiedHead.next;
     }
 }

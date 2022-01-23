@@ -28,11 +28,11 @@ class Solution {
         // Now that a copied node is next to its original, we can assign the random values of the copies to the node next to the original randoms
         iter = head;
         while(iter != null){
-            next = iter.next.next;
+            
             if(iter.random != null){
                 iter.next.random = iter.random.next;
             }
-            iter = next;
+            iter = iter.next.next;
         }
         
         // Unweave the nodes to return the copied list and return the list to its original form    

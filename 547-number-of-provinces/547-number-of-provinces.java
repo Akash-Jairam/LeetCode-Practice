@@ -2,12 +2,13 @@ class Solution {
     public int findCircleNum(int[][] isConnected) {
        int count = 0;
        int[] visited = new int[isConnected.length];
-       for(int i = 0; i < isConnected.length; ++i){
+       for(int i = 0; i < visited.length; ++i){
            if(visited[i] == 0){
                count++;
                dfs(isConnected, visited, i);
            }
        }
+        
        return count;
     }
     

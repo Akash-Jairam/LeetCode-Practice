@@ -1,6 +1,5 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-       
         int[] inDegree = new int[numCourses];
         Set<Integer> zeroDegree = new HashSet();
         

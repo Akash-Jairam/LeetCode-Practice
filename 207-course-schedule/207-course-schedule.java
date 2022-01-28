@@ -1,11 +1,6 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        // Create an array of numCourses size and iterate through prerequisites to keep track of the courses that have prerequisites/dependencies/edges
-        // Create a hashset and iterate through the created array and add the courses that have no prerequisistes or dependencies to the hashmap
-        // If the hashset is empty, all the courses have dependencies so we return false
-        // Else take each element from the hashset and iterate through the created array and remove the edges/completing the dependencies. Add any element which has no more dependencies
-        // to our set
-        // Iterate through the created array and if any element is not equal to zero, we return false
+       
         int[] inDegree = new int[numCourses];
         Set<Integer> zeroDegree = new HashSet();
         

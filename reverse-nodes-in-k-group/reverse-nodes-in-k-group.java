@@ -53,7 +53,9 @@ class Solution {
             ListNode nextNodes = copy.next;
             // Current now points to the previous nodes before it
             copy.next = prev;
+            // Assign previous to current node
             prev = copy;
+            // Assign current node to the "next node"
             copy = nextNodes;
             k--;
         }

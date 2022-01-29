@@ -10,69 +10,54 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        // Make pointers to the List's head
-        // Iterate through the list while keeping track of the current element and the count of nodes
-        // If the count is evenly divisible by k, we will reverse the elements from the previous reversal point to the current point
-        // When reversing, we will segregrate the reversed section from the rest of the list and reattach it when we are done
-        // Return the list
-        ListNode copy = head;
-        ListNode iterator = copy;
-        ListNode khead = copy;
+        //Assign two pointers to the head node, one to iterate through the list and "khead" to keep track of the first node to reverse
+        //Create a counter to track the number of elements
+        //When the counter reaches k, we call our reverse function and pass "khead", the current node and k. Our function returns the new head of the reversed node
+        // If it is the first time we call this function, we will update the head of the list
+        // For all other times, we will segment the function using "ktail" and "khead" to make sure that only the nodes within the range are reversed
+        // We will reconnect the nodes after the reversal is done
+        // Return the head
+        ListNode iterator = head;
+        ListNode ktail = head;
+        ListNode khead = head;
         int count = 0;
-        ListNode ktail = khead;
-        
         while(iterator != null){
             count++;
             if(count == k){
                 if(khead == head){
-                    ktail = khead;
-                    ListNode next = iterator.next;
-                    iterator.next = null;
-                    head = reverse(khead, iterator, k);
-                    iterator = next;
-                    ktail.next = next;
-                    khead = iterator;
-                    count = 0;
-                    continue;
-                }else {
-                    ListNode next = iterator.next;
-                    iterator.next = null;
+                    head = reverse(khead, iterator, count);
+                } else {
+                    ListNode next = ktail.next;
                     ktail.next = null;
-                    ktail.next = reverse(khead, iterator, k);
-                    ktail = khead;
-                    ktail.next = next;
-                    iterator = next;
-                    khead = iterator;
-                    count = 0;
-                    continue;
+                    ktail.next = reverse(khead, iterator, count);
                 }
+                ktail = khead;
+                iterator = khead.next;
+                khead = iterator;
+                count = 0;
+                continue;
             }
             iterator = iterator.next;
         }
-        
-        return  head;
+        return head;
     }
     
     public ListNode reverse(ListNode head, ListNode tail, int k){
-        int counter = k;
         ListNode copy = head;
         ListNode prev = null;
         ListNode next = tail.next;
         tail.next = null;
-        while(counter > 0){
-            // Assign a pointer to the next node(s) in the LinkedList
+        
+        while(k > 0){
+            // Make a reference to nodes after current
             ListNode nextNodes = copy.next;
-            // Link the current node to the node(s) before it
+            // Current now points to the previous nodes before it
             copy.next = prev;
-            // Update the previous node to the current node
             prev = copy;
-            // Update the current node to the next node
-            copy = nextNodes; 
-            counter--;
+            copy = nextNodes;
+            k--;
         }
         head.next = next;
         return tail;
-        
-        
     }
 }

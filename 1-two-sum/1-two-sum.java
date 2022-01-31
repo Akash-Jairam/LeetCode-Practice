@@ -3,20 +3,15 @@ class Solution {
         HashMap<Integer, Integer> map = new HashMap<>();
         int[] result = new int[2];
         for(int i = 0; i < nums.length; ++i){
-            map.put(i, nums[i]);
-        }
-        
-        for(int i = 0; i < nums.length; ++i){
-            int count = i+1;
-            while(count < nums.length-1 && nums[i] + nums[count] != target){
-                count++;
-            }
-            if(nums[i] + nums[count] == target){
+            if(map.containsKey(target - nums[i])){
                 result[0] = i;
-                result[1] = count;
+                result[1] = map.get(target-nums[i]);
                 return result;
             }
+            map.put(nums[i], i);
         }
+        
+        
         return result;
     }
     

@@ -6,12 +6,10 @@ class Solution {
             char[] array = str.toCharArray();
             Arrays.sort(array);
             String s = new String(array);
-            if(map.containsKey(s)){
-                map.get(s).add(str);
-            }else{
+            if(!map.containsKey(s)){
                 map.put(s, new ArrayList<>());
-                map.get(s).add(str);
             }
+            map.get(s).add(str);
         }
         
         for(Map.Entry<String,List<String>> entry : map.entrySet()){

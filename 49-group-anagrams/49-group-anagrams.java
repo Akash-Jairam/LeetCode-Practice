@@ -12,9 +12,7 @@ class Solution {
             map.get(s).add(str);
         }
         
-        for(Map.Entry<String,List<String>> entry : map.entrySet()){
-            res.add(entry.getValue());
-        }
-        return res;
+       
+        return new ArrayList<>(map.values());
     }
 }

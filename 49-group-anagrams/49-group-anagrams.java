@@ -5,16 +5,15 @@ class Solution {
         for(String str : strs){
             char[] array = str.toCharArray();
             Arrays.sort(array);
-            map.put(new String(array), new ArrayList<>());
+            String s = new String(array);
+            if(map.containsKey(s)){
+                map.get(s).add(str);
+            }else{
+                map.put(s, new ArrayList<>());
+                map.get(s).add(str);
+            }
         }
         
-        for(int i = 0; i < strs.length; ++i){
-            char[] array = strs[i].toCharArray();
-            Arrays.sort(array);
-            String sorted = new String(array);
-            if(map.containsKey(sorted))
-                map.get(sorted).add(strs[i]);
-        }
         for(Map.Entry<String,List<String>> entry : map.entrySet()){
             res.add(entry.getValue());
         }

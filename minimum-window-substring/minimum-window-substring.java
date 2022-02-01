@@ -21,10 +21,10 @@ class Solution {
                     minStart = start;
                 }
                 final char c2 = s.charAt(start);
-                if(map[c2] >= 0){
+                map[c2]++;
+                if(map[c2] > 0){
                     count++;
                 }
-                map[c2]++;
                 start++;
             }
         }

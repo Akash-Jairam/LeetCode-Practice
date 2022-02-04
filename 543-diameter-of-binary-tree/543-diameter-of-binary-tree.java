@@ -11,25 +11,31 @@
  *         this.left = left;
  *         this.right = right;
  *     }
+ 
+ * Create a global variable to store our answer
+ * Call our find diameter function
+ * return our answer
+ * in our function, if node = null, return 0
+ * find the left diameter and we find the right diameter
+ * We compare the current diameter with the diameter of the current node
+ * Return math.max(left, right) +1
  * }
  */
 class Solution {
-    int diameter = Integer.MIN_VALUE;
+    int max = Integer.MIN_VALUE;
     public int diameterOfBinaryTree(TreeNode root) {
         findDiameter(root);
-        return diameter;
+        return this.max;
     }
     
     public int findDiameter(TreeNode node){
-        if(node == null){
+        if(node == null)
             return 0;
-        }
         
-        int leftLength = findDiameter(node.left);
-        int rightLength = findDiameter(node.right);
+        int leftDiameter = findDiameter(node.left);
+        int rightDiameter = findDiameter(node.right);
         
-        diameter = Math.max(diameter, leftLength + rightLength);
-        
-        return 1 + Math.max(leftLength, rightLength);
+        max = Math.max(max, leftDiameter+rightDiameter);
+        return 1 + Math.max(leftDiameter, rightDiameter);
     }
 }

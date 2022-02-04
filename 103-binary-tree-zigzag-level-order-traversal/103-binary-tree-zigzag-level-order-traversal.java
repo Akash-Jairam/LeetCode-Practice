@@ -18,15 +18,13 @@ class Solution {
         List<List<Integer>> result = new ArrayList<>();
         if(root == null)
             return result;
-        
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
         boolean zig = true;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
         
         while(!queue.isEmpty()){
             int size = queue.size();
-            LinkedList<Integer> list = new LinkedList<>();
-            
+            LinkedList<Integer> list = new LinkedList();
             for(int i = 0; i < size; ++i){
                 TreeNode node = queue.poll();
                 if(node.left != null)
@@ -34,14 +32,14 @@ class Solution {
                 if(node.right != null)
                     queue.offer(node.right);
                 
-                if(zig)
-                    list.add(node.val);
-                else
+                if(!zig)
                     list.addFirst(node.val);
+                else
+                    list.add(node.val);
             }
-            result.add(list);
-            list = new LinkedList<>();
             zig = !zig;
+            result.add(list);
+            list = new LinkedList();
         }
         
         return result;

@@ -1,22 +1,25 @@
 class Solution {
     public String similarRGB(String color) {
-        StringBuilder result = new StringBuilder(color.length());
-        result.append('#');
-        
-        for(int i = 1; i < color.length()-1; i+=2){
-            // Convert string that is a hex number to a decimal integer
-            int currHex = Integer.parseInt(color.charAt(i) + "" + color.charAt(i+1), 16);
-            
-            // Note that 0x11 is 17, we convert the hex to decimal to do the comp then we convert the closest shorthand back to hex and append to result
-            int below = (currHex - (currHex % 17));
-            int above = (currHex - (currHex % 17)) + 17;
-            int closestShortHand = Math.abs(currHex - below) < Math.abs(currHex - above) ? below : above;
-            // Convert the closest shorthand from decimal to hex
-            // If it's a 0, we return "00" instead of just "0"
-            result.append(closestShortHand == 0 ? "00" : Integer.toHexString(closestShortHand));
-            
-        }
-        
-        return result.toString();
+    StringBuilder sb = new StringBuilder(color.length());
+    sb.append("#");
+    for (int i = 1; i < color.length(); i += 2){
+        sb.append(getHexDigits(color.charAt(i), color.charAt(i + 1)));
     }
+    return sb.toString();
+}
+
+private String getHexDigits(char c1, char c2){
+    int d1 = Character.isDigit(c1)? c1 - '0': 10 + c1 - 'a';
+    int d2 = Character.isDigit(c2)? c2 - '0': 10 + c2 - 'a';
+    
+    int sum       = d1 * 16 + d2;
+    int index     = sum / 17; // [ 0x00(0) , 0x11(17), 0x22(34),  0x33(51), ........., 0xff(255) ]
+    int remainder = sum % 17;
+    if (remainder > 17 / 2){
+        index++;
+    }
+    
+    char c = 0 <= index && index <= 9? (char)('0' + index): (char)('a' + index - 10);
+    return String.valueOf(c) + String.valueOf(c);
+}
 }

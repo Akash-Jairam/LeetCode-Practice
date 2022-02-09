@@ -1,17 +1,13 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        TreeMap<Integer,Integer> map = new TreeMap<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>((x,y) -> Integer.compare(x,y));
         int profit = 0;
         
         for(int i = 0; i < prices.length; ++i){
+            if(!pq.isEmpty())
+                profit = Math.max(profit, prices[i] - pq.peek());
             
-            Integer buyPrice = null;
-            if(!map.isEmpty())
-                buyPrice = map.firstKey();
-            if(buyPrice != null){
-                profit = Math.max(profit, prices[i] - buyPrice);
-            }
-            map.put(prices[i], i);
+            pq.add(prices[i]);
         }
         
        return profit;

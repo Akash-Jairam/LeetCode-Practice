@@ -14,11 +14,7 @@ class Solution {
             int plusIndex = localName.indexOf('+');
             if(plusIndex != -1)
                 localName = localName.substring(0, plusIndex);
-            char[] localNameArray = localName.toCharArray();
-            Arrays.sort(localNameArray);
-            localName = new String(localNameArray);
-            while(localName.charAt(0) == '.')
-                localName = localName.substring(1);
+            localName = localName.replace(".", "");
             String cleanedEmail =  localName + "" + email.substring(email.indexOf('@'));
             if(!set.contains(cleanedEmail)){
                 count++; 

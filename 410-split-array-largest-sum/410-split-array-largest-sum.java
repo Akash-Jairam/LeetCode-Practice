@@ -1,11 +1,12 @@
 class Solution {
     public int splitArray(int[] nums, int m) {
-        // Thing of the two edge cases
-        // On one hand, m could be 1 and the largest sum amongst the subarrays would be the highest number in nums
-        // On the other hand, m could be nums.length and the largest sum amongst the subarray would be the total sum of its elements since you will be creating just one array
-        // We need to iterate through our array and find these values
-        // We need to perform a binary using these values to see if we can split our array into m parts until we get the minimum largest sum
-        
+        // The answer will be in the range of two cases
+        // The first is m = 1 where each element will be a subarray and the largest sum would be the largest element in the array
+        // The other case is where m == nums.length where the subarray will be the entire array and the total sum would be the largest element in the array
+        // Once we get these values, we can do a binary search where we find the midpoint between our two ranges and check to see if our array can be split up into m groups where the largest sum is equal to that midpoint
+        // If this is true, we bring the lowest point up to the point after the midpoint
+        // Else we bring the highest point down to the point before the midpoint
+        // We can return either the final lowest or highest point which should be equal
         int min = -1;
         int sum = 0;
         
@@ -29,19 +30,18 @@ class Solution {
         return low;
     }
     
-    public boolean canSplit(int[] nums, int minLargestCandidate, int m){
+    public boolean canSplit(int[] nums, int largestSumCandidate, int m){
         int sum = 0;
-        int arrayCount = 1;
+        int numSubArrays = 1;
+        
         for(int num : nums){
             sum += num;
-            if(sum > minLargestCandidate){
-                ++arrayCount;
-                sum = num;
-                if(arrayCount > m)
+            if(sum > largestSumCandidate){
+                numSubArrays++;
+                if(numSubArrays > m)
                     return false;
-                
+                sum = num;
             }
-            
         }
         
         return true;

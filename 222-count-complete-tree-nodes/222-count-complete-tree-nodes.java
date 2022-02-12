@@ -16,19 +16,13 @@
 class Solution {
     int count = 0;
     public int countNodes(TreeNode root) {
-        if(root == null)
-            return count;
-        traverse(root);
-        return count;
+        int h = height(root);
+        return h < 0 ? 0 :
+               height(root.right) == h-1 ? (int) Math.pow(2,h) + countNodes(root.right)
+                                         :(int) Math.pow(2, h-1) + countNodes(root.left);
     }
     
-    public void traverse(TreeNode root){
-        if(root == null)
-            return;
-        
-        traverse(root.left);
-        traverse(root.right);
-        
-        count++;
+    int height(TreeNode root) {
+        return root == null ? -1 : 1 + height(root.left);
     }
 }

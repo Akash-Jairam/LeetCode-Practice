@@ -15,19 +15,20 @@
  */
 class Solution {
     public int countNodes(TreeNode root) {
-        int h = height(root);
-        if(h < 0){
+        if(root == null)
             return 0;
-        } else if(height(root.right) == h-1){
-            // If the right subtree and the right subtree have the same height
-            return (int) Math.pow(2,h) + countNodes(root.right);
+        TreeNode left = root, right = root; 
+        int height = 0;
+        
+        while(right != null){
+            left = left.left;
+            right = right.right;
+            height++;
         }
-            
-        return (int) Math.pow(2, h-1) + countNodes(root.left);
-                                
-    }
-    
-    int height(TreeNode root) {
-        return root == null ? -1: 1 + height(root.left);
+        
+        if(left == null)
+            return (int) Math.pow(2, height) -1;
+        else
+            return countNodes(root.left) + 1 + countNodes(root.right);
     }
 }

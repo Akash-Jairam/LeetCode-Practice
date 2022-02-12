@@ -14,12 +14,16 @@
  * }
  */
 class Solution {
-    int count = 0;
     public int countNodes(TreeNode root) {
         int h = height(root);
-        return h < 0 ? 0 :
-               height(root.right) == h-1 ? (int) Math.pow(2,h) + countNodes(root.right)
-                                         :(int) Math.pow(2, h-1) + countNodes(root.left);
+        if(h < 0){
+            return 0;
+        } else if(height(root.right) == h-1){
+            return (int) Math.pow(2,h) + countNodes(root.right);
+        }
+            
+        return (int) Math.pow(2, h-1) + countNodes(root.left);
+                                
     }
     
     int height(TreeNode root) {

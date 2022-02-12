@@ -1,24 +1,24 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        // Use a bottom up dynamic programming approach
-        // Create an array of size amount +1 to keep track of all the minimum coin counts until we reach our ammount
-        // Set all values in the created array to amount +1
-        // Iterate through our created array 
-        // Iterate through our coins array and set the value at the current index of our created array to the minimum of the index itself and 1 + the value at the previous index
-        int[] dynamicProgramming = new int[amount+1];
-        Arrays.fill(dynamicProgramming, amount+1);
-        dynamicProgramming[0] = 0;
+        // Bottom up dp approach
+        // Create dp array starting from 0 up to the given amt
+        // Fill array with amount + 1 as the value of its indices
+        // Iterate through dp array and coins array to set the min number of coins
+        // Check if the value at the amount index is not equal to amount plus one
+        // if true, return value
+        // Return -1
         Arrays.sort(coins);
-        
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount+1);
+        dp[0] = 0;
         for(int i = 1; i <= amount; ++i){
             for(int j = 0; j < coins.length; ++j){
-                if(coins[j] <= i)
-                    dynamicProgramming[i] = Math.min(dynamicProgramming[i], dynamicProgramming[i-coins[j]] + 1);
-                else
+                if(coins[j] <=  i){
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }else
                     break;
             }
         }
-        
-        return dynamicProgramming[amount] == amount+1 ? -1 : dynamicProgramming[amount];
+        return dp[amount] == amount +1 ? -1 : dp[amount];
     }
 }

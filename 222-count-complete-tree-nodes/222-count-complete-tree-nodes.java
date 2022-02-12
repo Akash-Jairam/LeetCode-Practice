@@ -14,19 +14,21 @@
  * }
  */
 class Solution {
+    int count = 0;
     public int countNodes(TreeNode root) {
-        int h = height(root);
-        if(h < 0){
-            return 0;
-        } else if(height(root.right) == h-1){
-            return (int) Math.pow(2,h) + countNodes(root.right);
-        }
-            
-        return (int) Math.pow(2, h-1) + countNodes(root.left);
-                                
+        if(root == null)
+            return count;
+        traverse(root);
+        return count;
     }
     
-    int height(TreeNode root) {
-        return root == null ? -1 : 1 + height(root.left);
+    public void traverse(TreeNode root){
+        if(root == null)
+            return;
+        
+        traverse(root.left);
+        traverse(root.right);
+        
+        count++;
     }
 }

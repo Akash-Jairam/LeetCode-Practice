@@ -1,43 +1,40 @@
 class Solution {
     public int oddEvenJumps(int[] arr) {
-        // Create our good starting index count and set it to 1 since every array that is not null will have at least one good starting index
-        // Create two boolean arrays to track our odd (higher) jumps and our even(lower) jumps
-        // Set the last value of these arrays to true since the last element is always a good starting index
-        // Create a tree map and add the last element as the key and the last index as the value
-        // We use a tree map because the order is maintained when we add new elements to it
-        // Iterate through the array starting from the second to last element
-        // Find the entryset for the value that is greater than equal to the value of the element at the current index
-        // Do the same for the entryset for the value that is less than or equal to the value at the current index
-        // If the higher entry set is not null, assign the higher array of i to the value stored in lower array at the value/index of the entryset. Since the higher entryset will have to go lower and we already have that stored so we just get that value
-        // If the lower entry set is not null, assign the lower array of i to the value stored in the higher array at the value/index of the entryset. Since the lower entryset will have to go higher and we already have that stored so we just get that value.
-        // If higher[i] is true, we increment our good starting index count since we know that the first step is always odd/higher so that means we have a valid starting point
-        int good_starting_index = 1;
-        boolean [] lower = new boolean[arr.length];
-        boolean [] higher = new boolean[arr.length];
-        int last = arr.length-1;
-        lower[last] = true;
-        higher[last] = true;
+        // We need two boolean arrays to track the results of jumping up or jumping down at each index
+        // We will set the final index of each boolean array to true and we will deduce the result from these indices (bottom up)
+        // We will use a treeMap which will store our elements in a sorted order
+        // We will iterate through the array from right to left
+        // Check to see if it is possible for us to go low or go high
+        // We will then update our array if either is a possibility to pave the way for the other elements. This is done by setting the low of the current index to the high of the index of the value we found and doing the opposite for the high. (Only if we found values)
+        // If the odd array (high array) of the current index is true, we will increment our count
+        // Put the map with the key being the array value and the value being it's index
+        // Return our count
+        boolean[] high = new boolean[arr.length];
+        boolean[] low = new boolean [arr.length];
+        high[arr.length-1] = true;
+        low[arr.length-1] = true;
         TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(arr[last], last);
+        map.put(arr[arr.length-1], arr.length-1);
+        int count = 1;
         
-        for(int i = last-1; i >= 0; --i){
-            Map.Entry higher_entry = map.ceilingEntry(arr[i]);
-            Map.Entry lower_entry = map.floorEntry(arr[i]);
+        for(int i = arr.length-2; i >=0; --i){
+            Map.Entry<Integer, Integer> oddJump = map.ceilingEntry(arr[i]);
+            Map.Entry<Integer, Integer> evenJump = map.floorEntry(arr[i]);
             
-            if(higher_entry != null){
-                higher[i] = lower[(int) higher_entry.getValue()];
+            if(oddJump != null){
+                high[i] = low[oddJump.getValue()];
             }
             
-            if(lower_entry != null){
-                lower[i] = higher[(int) lower_entry.getValue()];
+            if(evenJump != null){
+                low[i] = high[evenJump.getValue()];
             }
             
-            if(higher[i] == true)
-                good_starting_index++;
+            if(high[i])
+                count++;
             
             map.put(arr[i], i);
         }
         
-        return good_starting_index;
+        return count;
     }
 }

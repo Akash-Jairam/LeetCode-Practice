@@ -1,27 +1,33 @@
 class Solution {
     public int numUniqueEmails(String[] emails) {
-        // Create a map
-        // Iterate through emails array
-        // Parse emails into the address that they will be forwarded to
-        // If the parsed email is in the map, we "continue"
-        // Else we increment our count and put the parsed emal in the map
-        // Return the count
-        Set<String> set = new HashSet();
-        int count = 0;
+        // Create a hashset
+        // Iterate through our emails array
+        // Separate the local name from the domain name
+        // Remove everything after the first "+" in the local name
+        // Use a while loop to remove all the periods from the local name
+        // Add the cleaned email to the set
+        // Return the size of the hashset
+        
+        Set<String> uniqueEmails = new HashSet();
         
         for(String email : emails){
-            String localName = email.substring(0, email.indexOf('@'));
-            int plusIndex = localName.indexOf('+');
-            if(plusIndex != -1)
-                localName = localName.substring(0, plusIndex);
-            localName = localName.replace(".", "");
-            String cleanedEmail =  localName + "" + email.substring(email.indexOf('@'));
-            if(!set.contains(cleanedEmail)){
-                count++; 
-                set.add(cleanedEmail);
-            }
+            uniqueEmails.add(cleanEmail(email));
         }
         
-        return count;
+        return uniqueEmails.isEmpty() ? 0 : uniqueEmails.size();
+    }
+    
+    public String cleanEmail(String email){
+        String domainName = email.substring(email.indexOf("@"));
+        String localName = email.substring(0, email.indexOf("@"));
+        int plusSignIndex = localName.indexOf("+");
+        if(plusSignIndex > -1)
+            localName = localName.substring(0, plusSignIndex);
+        StringBuilder sb = new StringBuilder();
+        for(char c : localName.toCharArray()){
+            if(c != '.')
+                sb.append(c);
+        }
+        return sb.toString() + domainName;
     }
 }

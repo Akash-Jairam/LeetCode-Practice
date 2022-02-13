@@ -15,21 +15,23 @@
  */
 class Solution {
     public int countNodes(TreeNode root) {
-        // Create two references to the root, one for left traversal and one for right traversal
-        // Since we know the binary tree is complete, we can traverse left and right until the right is null and increment our height accordingly
-        // If the left pointer is also null, that means that the tree is full so we can just calculate using 2 ^ n -1
-        // Else we count the left nodes , count the right nodes and add the sum of those two to 1 and return it
-        TreeNode left = root, right = root;
+        // Create two pointers that point to the root and call them left and right
+        // While the right pointer is not equal to null, make the left pointer go left and the right pointer go right. Increment the height tracker accordingly
+        // If the left pointer is equal to null, the tree is fully populated so we return the height
+        // Else we add find the sum of countnodes left and right and add one before returning it
+        TreeNode left = root;
+        TreeNode right = root;
         int height = 0;
         while(right != null){
             left = left.left;
             right = right.right;
-            height++;
+            ++height;
         }
         
         if(left == null)
             return (int) Math.pow(2, height)-1;
-        
-        return countNodes(root.left) + 1 + countNodes(root.right);
+        else
+            return countNodes(root.left)  + countNodes(root.right) + 1;
     }
+
 }

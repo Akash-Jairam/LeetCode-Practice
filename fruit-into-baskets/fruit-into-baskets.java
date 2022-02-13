@@ -1,29 +1,35 @@
 class Solution {
     public int totalFruit(int[] fruits) {
-       // Create our max variable
-       // Create a map to store the last index of each type of fruit tree encountered
-       // Create two pointers and set them both to the first index of the array
-       // If the size of our map is less than or equal to 2, we put the current type of fruit tree and its index into our map and we increment our right pointer
-        // If the size of our map is greater than 2, we iterate through all the values in our map to get the lowest one and we remove that type of tree from our map
-        // Before our loop ends, we subtract the right and left pointers to get our max variable
-        int max = 0, left = 0, right = 0;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        while(right < fruits.length){
-            if(map.size() <= 2){
-                map.put(fruits[right], right);
-                right++;
-            }
-            
-            if(map.size() > 2){
-                int min = fruits.length;
-                for(int tree : map.values()){
-                    min = Math.min(min, tree);
+        // Create a map to keep track of each fruit and it's last index
+        // Create a variable to keep track of the max number of fruits
+        // Find some way to access each type of fruit in the map
+        // If we encounter a new fruit that is not in the map and that size of the map is 2
+        // We remove the type of fruit that was not at the tree before the new fruit and insert the new fruit and its index/
+        // Keep track of the last index of each fruit by updating the map
+        // At the end of each loop check to see if we can increase the max variable
+        // Return the max at the end of the program
+        Map<Integer, Integer> map = new HashMap<>();
+        int max = -1;
+        int startIndex = 0;
+        
+        for(int i = 0; i < fruits.length; ++i){
+            if(!map.containsKey(fruits[i]) && map.size() == 2){
+                int min = Integer.MAX_VALUE;
+                int key = -1;
+                for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+                    if(entry.getValue() < min){
+                        min = entry.getValue();
+                        key = entry.getKey();
+                    }
                 }
-                left = min + 1;
-                map.remove(fruits[min]);
+                startIndex = min + 1;
+                map.remove(key);
             }
-            max = Math.max(max, right - left);
+            max = Math.max(max, i - startIndex + 1);
+            map.put(fruits[i], i);
         }
+        
         return max;
     }
+    
 }

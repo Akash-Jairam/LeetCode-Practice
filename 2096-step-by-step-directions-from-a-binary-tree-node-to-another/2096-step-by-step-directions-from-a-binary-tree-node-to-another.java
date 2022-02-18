@@ -15,26 +15,38 @@
  */
 class Solution {
     public String getDirections(TreeNode root, int startValue, int destValue) {
+        // Create a function that will accept a node, a target value and a stringbuilder
+        // This function will traverse through the tree using the given node until it finds the target while updating the stringbuilder in the process
+        // We will create two string builders and call the search function twice to find the locations of both the start and destination values
+        // We will compare these two strings and find the index of last common character
+        // We will use the index of the last common character to generate our return value
         StringBuilder start = new StringBuilder();
         StringBuilder end = new StringBuilder();
-        find(root, startValue, start);
-        find(root, destValue, end);
-        int i = 0, max_i = Math.min(end.length(), start.length());
-    while (i < max_i && start.charAt(start.length() - i - 1) == end.charAt(end.length() - i - 1))
-        ++i;
-       
-        return "U".repeat(start.length() - i) + end.reverse().toString().substring(i); 
+        findNode(root, startValue, start);
+        findNode(root, destValue, end);
+        int minLength = Math.min(start.length(), end.length());
+        int index = 0;
+        while(index < minLength && start.charAt(start.length() - index -1) == end.charAt(end.length() - index -1))
+           index++;
+        
+        
+        return "U".repeat(start.length()-index) + end.reverse().toString().substring(index);
     }
     
-    public boolean find(TreeNode node, int val, StringBuilder sb){
-        if(node.val == val)
+    public boolean findNode(TreeNode node, int target, StringBuilder sb){
+        if(node.val == target)
             return true;
         
-        if(node.left != null && find(node.left, val, sb)){
+        if(node.left != null && findNode(node.left, target, sb)){
             sb.append("L");
-        } else if(node.right != null && find(node.right, val, sb))
-            sb.append("R");
+            return true;
+        }
         
-        return sb.length() > 0;
+        if(node.right != null && findNode(node.right, target, sb)){
+            sb.append("R");
+            return true;
+        }
+        
+        return false;
     }
 }

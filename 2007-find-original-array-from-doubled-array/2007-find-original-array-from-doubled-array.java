@@ -7,6 +7,8 @@ class Solution {
         // Convert the list to an array and return it.
         if(changed.length % 2 == 1)
             return new int[0];
+        int[] arr = new int[changed.length/2];
+        int index = 0;
         List<Integer> list = new ArrayList<>();
         TreeMap<Integer, Integer> tree = new TreeMap<>();
         for(int num : changed){
@@ -19,13 +21,8 @@ class Solution {
             
             for(int i = 0; i < tree.get(key); ++i){
                 tree.put(key + key, tree.get(key + key) -1);
-                list.add(key);
+                arr[index++] = key;
             }
-        }
-        
-        int[] arr = new int[list.size()];
-        for(int i = 0; i < arr.length; ++i){
-            arr[i] = list.get(i);
         }
         
         return arr;

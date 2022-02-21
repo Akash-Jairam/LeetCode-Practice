@@ -1,31 +1,36 @@
 class Solution {
     public int numUniqueEmails(String[] emails) {
-        // Create a map
-        // Iterate through emails array
-        // Parse emails into the address that they will be forwarded to
-        // If the parsed email is in the map, we "continue"
-        // Else we increment our count and put the parsed emal in the map
-        // Return the count
-        Set<String> set = new HashSet();
+        // Create a variable to track the count
+        // Create a hashset to store our unique emails
+        // Iterate through our array and split the current email at the '@'
+        // "Clean" the local name by feeding it to a function and receiving the 'cleaned' name
+        // Reassemble the email address and check to see if it exists in our set
+        // If it does, increment our count
+        // Else add it to the set
+        // Our function will iterate through the given string and add characters while skipping periods and breaking if we encounter a "+"
         int count = 0;
+        HashSet<String> set = new HashSet();
         
         for(String email : emails){
-            String localName = email.substring(0, email.indexOf('@'));
-            int plusIndex = localName.indexOf('+');
-            if(plusIndex != -1)
-                localName = localName.substring(0, plusIndex);
-            char[] localNameArray = localName.toCharArray();
-            Arrays.sort(localNameArray);
-            localName = new String(localNameArray);
-            while(localName.charAt(0) == '.')
-                localName = localName.substring(1);
-            String cleanedEmail =  localName + "" + email.substring(email.indexOf('@'));
-            if(!set.contains(cleanedEmail)){
-                count++; 
-                set.add(cleanedEmail);
-            }
+            String[] split = email.split("@");
+            String localName = cleanLocal(split[0]);
+            String cleanedEmail = localName + "@" + split[1];
+            set.add(cleanedEmail);
         }
         
-        return count;
+        return set.size();
+    }
+    
+    public String cleanLocal(String email){
+        StringBuilder sb = new StringBuilder(email.length());
+        
+        for(char c : email.toCharArray()){
+            if(c == '+')
+                break;
+            else if(c != '.')
+                sb.append(c);
+        }
+        
+        return sb.toString();
     }
 }

@@ -11,8 +11,12 @@ public class Codec {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
+        // If the node is null, place a 'null,'
+        // Create a variable called leftString and assign to it the result of serialize(root.left)
+        // Create a variable called rightString and assing to it the result of serialize(root.right)
+        // return the string of root.val + comma + leftString + comma+ right String
         if(root == null)
-            return "X,";
+            return "null,";
         
         String leftString = serialize(root.left);
         String rightString = serialize(root.right);
@@ -22,24 +26,28 @@ public class Codec {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
+        // Create a queue 
+        // Assign to the queue the values of the string split into an array  by the commas and converted to a list
+        // return the result of calling the deserialize helper method on this queue
         Queue<String> queue = new LinkedList<>();
-          queue.addAll(Arrays.asList(data.split(",")));
+        queue.addAll(Arrays.asList(data.split(",")));
         return deserializeHelper(queue);
     }
     
     public TreeNode deserializeHelper(Queue<String> queue){
-        String valueForNode = queue.poll();
-        if(valueForNode.equals("X") || valueForNode.equals(""))
+        String current = queue.poll();
+        if(current == null || current.equals("null")){
             return null;
+        }
         
-        TreeNode left = deserializeHelper(queue);
-        TreeNode right = deserializeHelper(queue);
+        TreeNode leftNode = deserializeHelper(queue);
+        TreeNode rightNode = deserializeHelper(queue);
         
-        TreeNode current = new TreeNode(Integer.parseInt(valueForNode));
-        current.left = left;
-        current.right = right;
+        TreeNode currentNode = new TreeNode(Integer.parseInt(current));
+        currentNode.left = leftNode;
+        currentNode.right = rightNode;
         
-        return current;
+        return currentNode;
     }
 }
 

@@ -1,38 +1,37 @@
 class Solution {
     public int oddEvenJumps(int[] arr) {
-        // We need two boolean arrays to track the results of jumping up or jumping down at each index
-        // We will set the final index of each boolean array to true and we will deduce the result from these indices (bottom up)
-        // We will use a treeMap which will store our elements in a sorted order
-        // We will iterate through the array from right to left
-        // Check to see if it is possible for us to go low or go high
-        // We will then update our array if either is a possibility to pave the way for the other elements. This is done by setting the low of the current index to the high of the index of the value we found and doing the opposite for the high. (Only if we found values)
-        // If the odd array (high array) of the current index is true, we will increment our count
-        // Put the map with the key being the array value and the value being it's index
-        // Return our count
+        // Since we know that, if we are at the last element, the jump is complete regardless of whether the jump is odd or even, we can use a bottom up approach starting from the last element
+        // We will need two arrays to track the possibility to the a jump at each index being successful, one for odd jumps and one for even jumps
+        // We will initialize these arrays with the true values for the positions at the last index given what we said before/
+        // We will then create a tree map and add the value at the end as a key and the index as a value
+        // We will then iterate through the array from right to left starting from the second to last index
+        // We will get try to get the entry from our map with the lowest value greater than the current element and the entry with the highest value less than the current element
+        // If those entries exist, we will assign the current index in our boolean arrays to the entry's value / index of the opposite array (we go high after going low for example)
+        // Now, we check to see if the odd jump at the current index is true, if it is, then we increment our count because odd jumps at 1 will successfuly make it to the end
+        TreeMap<Integer, Integer> tree = new TreeMap<>();
         boolean[] high = new boolean[arr.length];
-        boolean[] low = new boolean [arr.length];
+        boolean[] low = new boolean[arr.length];
+        int count = 1;
         high[arr.length-1] = true;
         low[arr.length-1] = true;
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(arr[arr.length-1], arr.length-1);
-        int count = 1;
+        tree.put(arr[arr.length-1], arr.length-1);
         
-        for(int i = arr.length-2; i >=0; --i){
-            Map.Entry<Integer, Integer> oddJump = map.ceilingEntry(arr[i]);
-            Map.Entry<Integer, Integer> evenJump = map.floorEntry(arr[i]);
+        for(int i = arr.length-2; i >= 0; --i){
+            Map.Entry<Integer,Integer> oddEntry = tree.ceilingEntry(arr[i]);
+            Map.Entry<Integer, Integer> evenEntry = tree.floorEntry(arr[i]);
             
-            if(oddJump != null){
-                high[i] = low[oddJump.getValue()];
+            if(oddEntry != null){
+                high[i] = low[oddEntry.getValue()];
             }
             
-            if(evenJump != null){
-                low[i] = high[evenJump.getValue()];
+            if(evenEntry != null){
+                low[i] = high[evenEntry.getValue()];
             }
             
             if(high[i])
-                count++;
+                ++count;
             
-            map.put(arr[i], i);
+            tree.put(arr[i], i);
         }
         
         return count;

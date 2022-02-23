@@ -16,28 +16,22 @@
 class Solution {
     public List<List<Integer>> findLeaves(TreeNode root) {
         List<List<Integer>> result = new ArrayList<>();
-        findLeaf(root, result);
-        
+        traverse(root, result);
         return result;
     }
     
-    public int findLeaf(TreeNode node, List<List<Integer>> result){
+    public int traverse(TreeNode node, List<List<Integer>> result){
         if(node == null)
             return -1;
         
-        int leftLevel = findLeaf(node.left, result);
-        int rightLevel = findLeaf(node.right, result);
+        int leftLevel = traverse(node.left, result);
+        int rightLevel = traverse(node.right, result);
         
         int level = Math.max(leftLevel, rightLevel) + 1;
-        
         if(result.size() <= level)
             result.add(new ArrayList<>());
         
-        
-        
         result.get(level).add(node.val);
-        
-        
-        return Math.max(leftLevel, rightLevel) + 1;
+        return level;
     }
 }

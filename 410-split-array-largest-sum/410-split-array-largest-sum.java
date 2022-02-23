@@ -1,31 +1,35 @@
 class Solution {
     public int splitArray(int[] nums, int m) {
-        // Given that m can be the a single element in one edge and the entire length of the array in the other, we can get these values and perform a binary search
-        // We do this by cont
-        int low = -1;
-        int high = 0;
-        for(int num : nums){
-            low = Math.max(low, num);
-            high += num;
+        // We see that m can be from 1 to nums.length
+        // This means that our solution space is also within that frame
+        // We can use this as criteria to perform a binary search
+        // We will find the midpoint between the high and the low variables 
+        // Before checking to see if it is possible to put our array values in m buckets
+        // If it is possible, we will bring our high down to the midpoint
+        // Else we will bring our low to midpoint + 1
+        int min = -1;
+        int sum = 0;
+        
+        for(int num :  nums){
+            min = Math.max(min, num);
+            sum += num;
         }
         
-        int largestSum = 0;
+        int low = min;
+        int high = sum;
         
         while(low < high){
-            int midPoint = low + (high-low) /2;
-            boolean canReach = check(nums, m, midPoint);
-            if(canReach)
-                high = midPoint;
-            else
-                low = midPoint+1;
-            
-            
+            int midpoint = low + (high - low) / 2;
+            if(canSplit(nums, midpoint, m)){
+                high = midpoint;
+            } else
+                low = midpoint + 1;
         }
         
-        return low;
+        return high;
     }
     
-    public boolean check(int[] nums, int m, int midpoint){
+    public boolean canSplit(int[] nums, int midpoint, int m){
         int count = 1;
         int sum = 0;
         

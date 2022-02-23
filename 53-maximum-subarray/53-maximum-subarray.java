@@ -5,8 +5,8 @@ class Solution {
         
         for(int i = 1; i < nums.length; ++i){
             currentSum = Math.max(currentSum + nums[i], nums[i] );
-            if(currentSum > max)
-                max = currentSum;
+            
+                max = Math.max(currentSum, max);
         }
         
         return max;

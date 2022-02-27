@@ -11,35 +11,40 @@ public class Codec {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if(root == null){
+        // if the root is null, add a "X,"
+        // Make a recursive call to root.left
+        // Make a recrusive call to root.right
+        // Return root.val + root.left + root.right
+        if(root == null)
             return "X,";
-        }
         
+        String leftVal = serialize(root.left);
+        String rightVal = serialize(root.right);
         
-        String leftString = serialize(root.left);
-        String rightString = serialize(root.right);
-        
-        return String.valueOf(root.val) + "," + leftString  + rightString;
+        return String.valueOf(root.val) + "," + leftVal + rightVal;
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        Queue<String> nodesLeft = new LinkedList<>();
-        nodesLeft.addAll(Arrays.asList(data.split(",")));
-        return deserializeHelper(nodesLeft);
+        // Create a queue
+        // Split the string according to commas and add it to the queue
+        // Call our helper method
+        Queue<String> queue = new LinkedList<>();
+        queue.addAll(Arrays.asList(data.split(",")));
+        return deserializeHelper(queue);
     }
     
     public TreeNode deserializeHelper(Queue<String> queue){
-        String valueForNode = queue.poll();
-        if(valueForNode.equals("X"))
+        String currentVal = queue.poll();
+        if(currentVal.equals("X")){
             return null;
+        }
         
-        TreeNode current = new TreeNode(Integer.parseInt(valueForNode));
+        TreeNode current = new TreeNode(Integer.parseInt(currentVal));
         current.left = deserializeHelper(queue);
         current.right = deserializeHelper(queue);
         return current;
     }
-    
 }
 
 // Your Codec object will be instantiated and called as such:

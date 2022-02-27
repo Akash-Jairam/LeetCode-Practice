@@ -10,67 +10,59 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int s1 = size(l1);
-        int s2 = size(l2);
+        int l1Length = size(l1);
+        int l2Length = size(l2);
+        ListNode result = null;
         
-        ListNode resultHead = null;
-        ListNode n = null;
-        
-        while(l1 != null || l2 != null){
-            int v1 = 0;
-            int v2 = 0;
-            if(s1 >= s2){
-                v1 = l1 != null ? l1.val : 0;
+        while(l1Length > 0 && l2Length > 0){
+            int val1 = 0;
+            int val2 = 0;
+            
+            if(l1Length >= l2Length){
+                val1 = l1 != null ? l1.val : 0;
                 l1 = l1.next;
-                s1--;
+                l1Length--;
             }
             
-            if(s2 >= s1 +1){
-                v2 = l2 != null ? l2.val : 0;
+            if(l2Length >= l1Length + 1){
+                val2 = l2 != null ? l2.val : 0;
                 l2 = l2.next;
-                s2--;
+                l2Length--;
             }
             
-            n = new ListNode(v1 + v2);
-            n.next = resultHead;
-            resultHead = n;
+            ListNode node = new ListNode(val1+val2);
+            node.next = result;
+            result = node;
         }
         
         int carry = 0;
-        resultHead = null;
+        ListNode prev = null;
         
-        // Normalize
-        while(n != null){
-            n.val += carry;
-            if(n.val >= 10){
-                n.val = n.val % 10;
-                carry = 1;
-            } else {
-                carry = 0;
-            }
-            
-            ListNode next = n.next;
-            n.next = resultHead;
-            resultHead = n;
-            n = next;
-            
+        while(result != null){
+            ListNode next = result.next;
+            ListNode current = new ListNode((result.val + carry) % 10);
+            current.next = prev; 
+            prev = current;
+            carry = (result.val + carry) / 10;
+            result = next;   
         }
         
-        if(carry > 0){
-            n = new ListNode(1);
-            n.next = resultHead;
-            resultHead = n;
+        if(carry != 0){
+            ListNode node = new ListNode(carry);
+            node.next = prev;
+            prev = node;
         }
         
-        return resultHead;
+        return prev;
     }
     
     public int size(ListNode node){
-        int s = 0;
+        int length = 0;
+        
         while(node != null){
             node = node.next;
-            ++s;
+            ++length;
         }
-        return s;
+        return length;
     }
 }

@@ -1,22 +1,21 @@
 class LRUCache {
-    HashMap<Integer, ListNode> map;
+    int capacity;
     final ListNode head = new ListNode(0,0);
     final ListNode tail = new ListNode(0,0);
-    Integer capacity;
-    
+    HashMap<Integer, ListNode> map;
     public LRUCache(int capacity) {
-        map = new HashMap(capacity);
         this.capacity = capacity;
         this.head.next = tail;
         this.tail.prev = head;
+        map = new HashMap<>(capacity);
     }
     
     public int get(int key) {
-        ListNode node = map.get(key);
-        if(node != null){
-            remove(node);
-            insert(node);
-            return node.val;
+        ListNode current = map.get(key);
+        if(current != null){
+            remove(current);
+            insert(current);
+            return current.val;
         }
         
         return -1;
@@ -26,20 +25,21 @@ class LRUCache {
         ListNode current = map.get(key);
         if(current != null){
             remove(current);
-            current = new ListNode(key, value);
-        } else{
-            current = new ListNode(key, value);
-        }
-        if(map.size() == capacity){
+        } 
+        
+        if(map.size() == this.capacity){
             remove(tail.prev);
         }
         
-        insert(current);
-        
         
             
+        current = new ListNode(key, value);
+    
+        
+        insert(current);
     }
     
+    // Create a function to insert into our doubly linked list
     public void insert(ListNode node){
         map.put(node.key, node);
         ListNode next = head.next;
@@ -49,30 +49,33 @@ class LRUCache {
         next.prev = node;
     }
     
+    // Create a function to remove from a listnode
     public void remove(ListNode node){
         map.remove(node.key);
-        ListNode prev = node.prev;
         ListNode next = node.next;
-        prev.next = next;
+        ListNode prev = node.prev;
         next.prev = prev;
+        prev.next = next;
     }
 }
 
-class ListNode {
-    int val;
-    int key;
-    ListNode prev;
-    ListNode next;
-    
-    public ListNode(int key, int val){
-        this.key = key;
-        this.val = val;
-    }
-    
-}
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache obj = new LRUCache(capacity);
  * int param_1 = obj.get(key);
  * obj.put(key,value);
  */
+// Create a ListNode class which will essentially be a double ended linked list
+// It will hold a key and value of integer type
+// It will also hold pointers to the previous and next listNodes
+class ListNode{
+    int key;
+    int val;
+    ListNode prev;
+    ListNode next;
+    
+    public ListNode(int key, int value){
+        this.key = key;
+        this.val = value;
+    }
+}

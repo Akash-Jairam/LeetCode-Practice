@@ -1,29 +1,35 @@
 class Solution {
     public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
-        // Create a map with key of integer (row) and HashSet as a value (to store reserved seats)
-        // If the size of the map < n, that means there are some rows with no reserved seats
-        // Therefore, our count will be at least (size - map) * 2
-        // Iterate through each row in the map and use its hashset to see if it is possible to have an optimal allocation, if it is increase our count
-        // Return count
-        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
-        for(int[] reservation : reservedSeats){
-            map.putIfAbsent(reservation[0], new HashSet());
-            map.get(reservation[0]).add(reservation[1]);
-        }
-        int count = (n - map.size()) * 2;
-        for(int key : map.keySet()){
-            if(isAvailable(map.get(key), 2, 9))
-                count += 2;
-            else if(isAvailable(map.get(key),2,5) || isAvailable(map.get(key), 6,9) || isAvailable(map.get(key), 4, 7))
-                ++count;
+        // Create a hashmap where the key is an integer which represents the current row and the value is a hashset which contains the positions of the reserved seats
+        // Iterate through our given array and create entries where needed before using the row in the subarray to get the corresponding hashset to add the reserved seat
+        // If the size of our map is not equal to n, that means that some rows have no reservation. We must increment our count by 2 for each row with no reservation
+        // Now, we iterate through our keyset and each key's hashset to tell whether it is possible for a family(ies) to be seated in that row
+        // We will do this by making a call to a function which accepts a hashset, a start position, and an end position before returning false if the hashset contains a value within that range or true if it doesn't
+        // Finally, we return our count
+        HashMap<Integer, HashSet<Integer>> reserved = new HashMap<>();
+        int numFamilies = 0;
+        for(int[] reservedRow : reservedSeats){
+            reserved.putIfAbsent(reservedRow[0], new HashSet());
+            reserved.get(reservedRow[0]).add(reservedRow[1]);
         }
         
-        return count;
+        if(reserved.size() < n )
+            numFamilies += (n - reserved.size()) * 2;
+        
+        for(int key : reserved.keySet()){
+            if(isAvailable(reserved.get(key), 2, 9))
+                numFamilies += 2;
+            else if(isAvailable(reserved.get(key), 2, 5) || isAvailable(reserved.get(key), 6, 9) || isAvailable(reserved.get(key), 4,7))
+                ++numFamilies;
+        }
+        
+        return numFamilies;
+            
     }
     
-    public boolean isAvailable(HashSet<Integer> set, int start, int end){
+    public boolean isAvailable(HashSet<Integer> reservations, int start, int end){
         for(int i = start; i <= end; ++i){
-            if(set.contains(i))
+            if(reservations.contains(i))
                 return false;
         }
         

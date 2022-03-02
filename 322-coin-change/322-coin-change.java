@@ -1,23 +1,27 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        // Create an array to store our optimal number of coins from 0 to amount+1
-        // Fill our array with values of amount plus 1
-        // Assign 0 to the first index of our array since the optimal solution is 0
-        // Create a for loop that goes from 1 to amount 
-        // Create an inner loop that loops through the coins in the array
-        // If the coin is <= to the ammount, choose the lesser of array[amount - coin] + 1 and amount
-        int[] dp = new int[amount+1];
-        Arrays.fill(dp, amount+1);
-        dp[0] = 0;
+        // Create an array that will track the lowest number of coins from 0 to amount
+        // Intialize it to an invalid value like amount + 1
+        // Set the value at index 0 to zero
+        // Iterate through the array, starting from index 1 and going to amount
+        // In a subloop, iterate through each coin
+        // If the coin is less than or equal to the current index
+        // Assign the value at the index to the lesser of the value at the position of (index - coin) + 1 (plus one for the current coin) or the current value at the index
         
-        for(int i = 1; i <= amount; ++i){
+        // Return value at index[amount]
+        
+        int[] change = new int [amount+1];
+        Arrays.fill(change, amount+1);
+        change[0] = 0;
+        
+        for(int i = 0; i < amount+1; ++i){
             for(int coin : coins){
                 if(coin <= i){
-                    dp[i] = Math.min(dp[i - coin] + 1, dp[i]);
+                    change[i] = Math.min(change[i-coin] + 1, change[i]);
                 }
             }
         }
         
-        return dp[amount] != amount + 1 ? dp[amount] : -1;
+        return change[amount] != amount+1 ? change[amount] : -1;
     }
 }

@@ -15,23 +15,25 @@
  */
 class Solution {
     public int distributeCoins(TreeNode root) {
-        // Create an array to store our steps
-        // Call our dfs function
+        // Create an array of size zero that will hold our steps
+        // Make a call to our distribution function and pass our array and the root as params
         int[] steps = new int[] {0};
         distribute(root, steps);
+        
         return steps[0];
     }
     
     public int distribute(TreeNode node, int[] steps){
-        // If the node is null, return 0
         if(node == null)
             return 0;
-        // Find the number of excess coins / coins needed from both the left side and the right side
-        // Add to our array, the sum of the absolute values obtained from the left side and the right side
+        
+        // Make a recursive call to node.left and node.right
+        // Add the absolute of the values returned by those recursive calls to steps
+        // Return whatever we find from the left and the right plus node.val -1 (-1 to account for the current node having or needing one coin)
         int findLeft = distribute(node.left, steps);
         int findRight = distribute(node.right, steps);
-        // Return the count at the current node + the left side count + the right side count - 1 (indicates that the current node either has to keep 1 coin or needs 1 coin)
         steps[0] += Math.abs(findLeft) + Math.abs(findRight);
-        return node.val + findLeft + findRight - 1;
+        
+        return findLeft + findRight + node.val - 1;
     }
 }

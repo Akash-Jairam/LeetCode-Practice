@@ -20,40 +20,49 @@ class Node {
 class Codec {
     // Encodes a tree to a single string.
     public String serialize(Node root) {
-        List<String> list = new LinkedList<>();
-        serializeHelper(root, list);
-        return String.join(",", list);
+        // Create an ArrayList
+        // Call the serializehelper function passing the root and the arraylist
+        // Return string.join comma and arraylist
+        ArrayList<String> nodes = new ArrayList<>();
+        serializeHelper(root, nodes);
+        return String.join(",", nodes);
     }
     
-    public void serializeHelper(Node node, List<String> list){
+    public void serializeHelper(Node node, ArrayList<String> list){
         if(node == null)
             return;
-        
-        list.add(String.valueOf(node.val));
-        list.add(String.valueOf(node.children.size()));
-    
+        String val = String.valueOf(node.val);
+        String size = String.valueOf(node.children.size());
+        list.add(val);
+        list.add(size);
         for(Node current : node.children){
             serializeHelper(current, list);
         }
+        
     }
 	
     // Decodes your encoded data to tree.
     public Node deserialize(String data) {
         if(data.isEmpty())
             return null;
+        // Split the string by the commas and add it to a queue
+        // Call our helper method and pass the queue as a parameter
         Queue<String> queue = new LinkedList<>();
         queue.addAll(Arrays.asList(data.split(",")));
         return deserializeHelper(queue);
     }
     
     public Node deserializeHelper(Queue<String> queue){
-        Node node = new Node( Integer.parseInt(queue.poll()), new ArrayList<>());
-        int size = Integer.parseInt(queue.poll());
-        for(int i = 0; i < size; ++i){
-            node.children.add(deserializeHelper(queue));
+        Node parent = new Node();
+        String current = queue.poll();
+        String currentSize = queue.poll();
+        parent.val = Integer.parseInt(current);
+        parent.children = new ArrayList<Node>(Integer.parseInt(currentSize));
+        for(int i = 0; i < Integer.parseInt(currentSize); ++i){
+            parent.children.add(deserializeHelper(queue));
         }
         
-        return node;
+        return parent;
     }
 }
 

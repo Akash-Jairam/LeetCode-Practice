@@ -1,41 +1,23 @@
 class Solution {
     public boolean isValid(String s) {
-        if(s.length() % 2 == 1)
-            return false;
-        
-        Stack<Character> stack = new Stack<Character>();
-        int stringLength = s.length()-1;
-        
-     
-        
-        for(int i = 0; i <= stringLength; i++){
-            char temp = s.charAt(i);
-            if(temp == '(' || temp == '[' || temp == '{')
-                stack.push(temp);
-            else{
-                switch(temp){
-                    case ')':
-                        if(!stack.isEmpty() && stack.peek() == '(')
-                            stack.pop();
-                        else{
-                            stack.push(temp);
-                        }
-                        break;
-                    case ']':
-                        if(!stack.isEmpty() && stack.peek() == '[')
-                            stack.pop();
-                        else
-                            stack.push(temp);
-                        break;
-                    case '}':
-                        if(!stack.isEmpty() && stack.peek() == '{')
-                            stack.pop();
-                        else
-                            stack.push(temp);
-                        break;
-                }
-            }
-        }  
+        // Create a stack that will hold our open braces
+        // Iterate through s to char array
+        // If we encounter an opening brace, we push to the stack
+        // Else, if the closing brace is equal to the element at the top of the stack, we pop it
+        // Else, push it to the stack
+        Stack<Character> stack = new Stack<>();
+        for(Character c : s.toCharArray()){
+            if(c == '(' || c == '{' || c == '[')
+                stack.push(c);
+            else if( c == ')' && !stack.isEmpty() && stack.peek() == '(')
+                stack.pop();
+            else if( c == ']' && !stack.isEmpty() && stack.peek() == '[')
+                stack.pop();
+            else if( c == '}' && !stack.isEmpty() && stack.peek() == '{')
+                stack.pop();
+            else
+                stack.push(c);
+        }
         
         return stack.isEmpty();
     }

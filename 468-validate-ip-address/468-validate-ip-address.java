@@ -1,40 +1,56 @@
 class Solution {
     public String validIPAddress(String queryIP) {
+         // Use two different functions to check to see if queryIp is ipv4 or ipv6
         if(isIPv4(queryIP)){
             return "IPv4";
-        } else if(isIPv6(queryIP))
+        } else if(isIPv6(queryIP)){
             return "IPv6";
-        else{
+        } else
             return "Neither";
-        }
     }
     
     public boolean isIPv4(String queryIP){
-        String[] arr = queryIP.split("\\.", -1);
-        for(String s : arr){
+        // Split query ip by the "."
+        // If the size of our array is not equal to 4, return false
+        // Check to see if each element is between 0 and 255, else return false
+        // 
+        String[] split = queryIP.split("\\.", -1);
+        for(String s : split){
+            if(s.length() > 1 && s.charAt(0) == '0')
+                return false;
             try{
-                if(Integer.parseInt(s) > 255 || (s.charAt(0) == '0' && s.length() != 1)){
+                int num = Integer.parseInt(s);
+                if(num < 0 || num > 255)
                     return false;
-                }
             } catch(NumberFormatException e){
                 return false;
             }
         }
         
-        return arr.length == 4;
+        return split.length == 4;
     }
     
     public boolean isIPv6(String queryIP){
-        String[] arr = queryIP.split(":", -1);
-        for(String s: arr){
+        // Split the string according to the :
+        // Iterate through our splitarray
+        // Try to convert the string to a hex number and catch any numberformat exception before returning false
+        // Check to see if the int value of the string is less than FFFF converted to int
+        // If not, return false
+        // Return the bool result of split array size = 8
+        int max = Integer.parseInt("FFFF", 16);
+        String[] split = queryIP.split(":", -1);
+        for(String s : split){
             try{
-                if(Integer.parseInt(s, 16) > 65535 || s.length() > 4)
+                if(s.length() > 4)
+                    return false;
+                int num = Integer.parseInt(s, 16);
+                if( num > max)
                     return false;
             } catch(NumberFormatException e){
                 return false;
             }
         }
         
-        return arr.length == 8;
+        return split.length == 8;
     }
 }

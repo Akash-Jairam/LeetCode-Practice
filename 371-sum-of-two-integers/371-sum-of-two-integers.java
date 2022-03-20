@@ -1,12 +1,11 @@
 class Solution {
     public int getSum(int a, int b) {
-        // a will be used to hold our result
-        // b will be used to hold our carry
-        // Use a while loop which will end when b is 0 (there are no more carries)
-        // In the loop:
-        // We will XOR a and b to perform the addition at the current stage
-        // To determine the carry, we will '&' a and b before left shifting the result
-        while( b != 0){
+        // Generally to add two numbers using bit manipulation, we use XOR to do the basic addition
+        // We also need to use AND to find which places have carries
+        // We need to do a left shift of that AND to place the carries at the correct place
+        // We will use b to hold our carries and a to hold the sum
+        // Our loop will keep going until we have nothing left to carry
+        while(b != 0){
             int temp = (a & b) << 1;
             a = a ^ b;
             b = temp;

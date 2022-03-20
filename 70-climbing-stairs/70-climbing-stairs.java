@@ -7,14 +7,17 @@ class Solution {
         // Assign the value at the current index to the sum of the values at the current index -1 and the value at the current index - 2;
         // Return array[n]
         
-        int[] dp = new int[n+1];
-        dp[0] = 1;
-        dp[1] = 1;
+        int prevStep = 1;
+        int prevStep2 = 1;
+        int currStep = 1;
         
         for(int i = 2; i <= n; ++i){
-            dp[i] = dp[i-1] + dp[i-2];
+            currStep= prevStep + prevStep2;
+            prevStep2 = prevStep;
+            prevStep = currStep;
+            
         }
         
-        return dp[n];
+        return currStep;
     }
 }

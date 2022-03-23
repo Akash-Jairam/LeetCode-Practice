@@ -9,14 +9,9 @@ class Solution {
         int max = dp[1];
         
         for(int i = 1; i < nums.length; ++i){
-            int currMax = 0;
-            for(int j = i-1; j >= 0; --j){
-                currMax = Math.max(currMax, dp[j]);
-            }
-            dp[i+1] = nums[i] + currMax;
-            max = Math.max(max, dp[i+1]);
+            dp[i+1] = Math.max(dp[i], dp[i-1] + nums[i]);
         }
         
-        return max;
+        return dp[nums.length];
     }
 }

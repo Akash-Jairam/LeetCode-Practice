@@ -1,42 +1,42 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        //Create an array to track which courses have dependencies and how much
-        //Create a hashset to track which courses do not have dependencies
-        // If the set is empty, we return false because all courses have prereqs
-        // Take a course with no dependencies and iterate through the first array we created and "complete" the course thereby reducing the number of prerequisite
-        // If a course has no dependencies, we add it to our set.
-        // If our course list is empty, we iterate through the first array and if a course still has dependecies we return false
-        // Return true
+        // Create a map to track which courses have depdencies where the key is the course and the value is the dependency
+        // Crease a hashset to track which courses have no dependencies
+        // Iterate through the map and add any course which has no dependency. If the hashset is empty, return false/
+        // Iterate through the hashset and the given array and 'complete' the dependencies for the associated course
+        // Iterate through the map and if any value is still > 0 return false
+        // return true otherwhise
         int[] indegree = new int[numCourses];
-        Set<Integer> zeroDegree = new HashSet();
-        for(int[] course : prerequisites){
-            indegree[course[0]]++;
+        HashSet<Integer> zeroDep = new HashSet();
+        
+        for(int[] pre : prerequisites){
+           indegree[pre[0]]++;
         }
         
-        for(int i = 0; i < numCourses; ++i){
+        for(int i = 0; i < indegree.length; ++i){
             if(indegree[i] == 0)
-                zeroDegree.add(i);
+                zeroDep.add(i);
         }
         
-        if(zeroDegree.isEmpty())
+        if(zeroDep.isEmpty())
             return false;
         
-        while(!zeroDegree.isEmpty()){
-            Iterator<Integer> it = zeroDegree.iterator();
-            int course = it.next();
-            zeroDegree.remove(course);
+        while(!zeroDep.isEmpty()){
+            Iterator<Integer> it = zeroDep.iterator();
+            Integer curr = it.next();
+            zeroDep.remove(curr);
             for(int[] pre : prerequisites){
-                if(pre[1] == course){
+                if(pre[1] == curr){
                     indegree[pre[0]]--;
                     if(indegree[pre[0]] == 0){
-                        zeroDegree.add(pre[0]);
+                        zeroDep.add(pre[0]);
                     }
                 }
             }
         }
         
-        for(int course : indegree){
-            if(course != 0)
+        for(int count : indegree){
+            if(count != 0)
                 return false;
         }
         

@@ -20,35 +20,37 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        // We can do bfs traversal
-        // Use a queue to traverse the graph
-        // Use a map to hold the copied node and the original node as the value and key
-        // Add the given node to the queue
-        // Put the given node into the map and make a copy it it as the key
-        // While our queue is not empty
-        // Poll a node from the queue
-        // Iterate through that queue's neighbors
-        // Add that neighbor to the queue if it is not in the map yet and Put that neighbor into the map
-        // Use the map to get the copy of the current node, that node's list of neighbors and add to it the copy of the current neighbor by pulling it from the map
+        // Use bfs
+        // Create a queue to hold our results
+        // Create a map to map each node to its copy
+        // Add the current node to the queue
+        // Add the current node and a copy of it to the map
+        // While the queue is not empty
+        // Poll the current node
+        // Iterate through that node's neighbors
+        // If the map does not contain that node, add it and make a copy
+        // Add the node to the queue
+        // Using the current node, get a reference to the copy and add the copy you made to its neighbors
         if(node == null)
             return node;
         Queue<Node> queue = new LinkedList<>();
-        HashMap<Node, Node> visited = new HashMap<>();
+        HashMap<Node, Node> map = new HashMap<>();
         queue.offer(node);
-        visited.put(node, new Node(node.val));
+        map.put(node, new Node(node.val));
         
         while(!queue.isEmpty()){
             Node curr = queue.poll();
+            
             for(Node neighbor : curr.neighbors){
-                if(!visited.containsKey(neighbor)){
-                    visited.put(neighbor, new Node(neighbor.val));
-                    queue.offer(neighbor);
+                if(!map.containsKey(neighbor)){
+                    map.put(neighbor, new Node(neighbor.val));
+                                    queue.offer(neighbor);
+
                 }
-                
-                visited.get(curr).neighbors.add(visited.get(neighbor));
+                map.get(curr).neighbors.add(map.get(neighbor));
             }
         }
         
-        return visited.get(node);
+        return map.get(node);
     }
 }

@@ -1,39 +1,69 @@
 class Solution {
     public boolean validTree(int n, int[][] edges) {
-        // Create and initialize adjacency matrix
-        // Loop through edges and add them to the adjacency matrix
-        
-        // Initialize a stack and a map
-        // Loop through the stack and compare the item to the adjacency matrix
-        // Push the neighbor to the stack and add the relationship to the adjacency matrix
-        List<List<Integer>> adjacencyMatrix = new ArrayList<>();
-        
-        for(int i = 0; i < n; ++i){
-            adjacencyMatrix.add(new ArrayList<>());
-        }
+        UnionFind uf = new UnionFind(n);
         
         for(int[] edge : edges){
-            adjacencyMatrix.get(edge[0]).add(edge[1]);
-            adjacencyMatrix.get(edge[1]).add(edge[0]);
+            if(!uf.union(edge[0], edge[1]))
+               return false;
+        }
+               
+        return uf.numberOfComponents == 1;
+    }
+}
+
+public class UnionFind{
+    int[] parents;
+    int[] size;
+    int numberOfComponents;
+    
+    public UnionFind(int n){
+         parents = new int[n];
+        size = new int[n];
+        numberOfComponents = n;
+        
+        for(int i = 0; i < parents.length; ++i){
+            parents[i] = i;
+            size[i] = 1;
+        }
+    }
+    
+    public int find(int curr){
+        int root = curr;
+        
+        while(root != parents[root]){
+            root = parents[root];
         }
         
-        Stack<Integer> stack = new Stack<Integer>();
-        HashMap<Integer,  Integer> map = new HashMap<Integer, Integer>();
-        stack.push(0);
-        map.put(0,-1);
-        
-        while(!stack.isEmpty()){
-            int node = stack.pop();
-            for(int neighbor : adjacencyMatrix.get(node)){
-                if(neighbor == map.get(node))
-                    continue;
-                if(map.containsKey(neighbor))
-                    return false;
-                stack.push(neighbor);
-                map.put(neighbor, node);
-            }
+        // Path compression
+        while(curr != root){
+            int preParent = parents[curr];
+            parents[curr] = root;
+            curr = preParent;
         }
         
-        return map.size() == n;
+        return root;
+    }
+    
+    public int findComponentSize(int curr){
+        int parent = find(curr);
+        return size[parent];
+    }
+    
+    public boolean union(int node1, int node2){
+        int node1Parent = find(node1);
+        int node2Parent = find(node2);
+        
+        if(node1Parent == node2Parent)
+            return false;
+        
+        if(size[node1Parent] > size[node2Parent]){
+            parents[node2Parent] = node1Parent;
+            size[node1Parent] += size[node2Parent];
+        } else {
+            parents[node1Parent] = node2Parent;
+            size[node2Parent] += size[node1Parent];
+        }
+        --numberOfComponents;
+        return true;
     }
 }

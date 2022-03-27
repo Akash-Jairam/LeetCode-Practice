@@ -1,37 +1,37 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode list3 = new ListNode(-1);
-        ListNode copy = list3;
+        ListNode res = new ListNode();
+        ListNode it = res;
         
-        while(list1 != null && list2 != null){
-        
-        if(list1.val < list2.val){
-            copy.next = new ListNode(list1.val);
-            copy = copy.next;
-            list1 = list1.next;
-        } else if(list2.val < list1.val){
-            copy.next = new ListNode(list2.val);
-            copy = copy.next;
-            list2 = list2.next;
-        } else{
-            copy.next = new ListNode(list1.val);
-            list1 = list1.next;
-            copy = copy.next;
-            copy.next = new ListNode(list2.val);
-            copy = copy.next;
-            list2 = list2.next;
-        }
+        while(list1 != null || list2 != null){
+            int l1 = list1 == null ? 101 : list1.val;
+            int l2 = list2 == null ? 101 : list2.val;
             
-        
-    
+            if(l1 < l2){
+                ListNode next = list1.next;
+                list1.next = null;
+                res.next = list1;
+                res = res.next;
+                list1 = next;
+            } else {
+                ListNode next = list2.next;
+                list2.next = null;
+                res.next = list2;
+                res = res.next;
+                list2 = next;
+            } 
         }
         
-        if(list1 != null)
-            copy.next = list1;
-        
-        if(list2 != null)
-            copy.next = list2;
-        
-        return list3.next;
+        return it.next;
     }
 }

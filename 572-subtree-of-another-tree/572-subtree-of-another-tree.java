@@ -15,24 +15,26 @@
  */
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        if(root == null || subRoot == null)
-            return false;
-        else if(root.val == subRoot.val){
-            
-            if(isSameTree(root,subRoot)) return true;
-            
-        } 
-            return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        if(root == null || subRoot == null){
+            return root == null && subRoot == null;
+        } else if(root.val == subRoot.val){
+            if(isSameTree(root, subRoot))
+                return true;
+        }
         
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
     
     public boolean isSameTree(TreeNode p, TreeNode q){
-        if(p == null && q == null) return true;
-        else if(p == null || q == null) return false;
-        else {
-            if(p.val != q.val ) return false;
-            
-            return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+        if(p == null && q == null)
+            return true; 
+        else if(p == null || q == null)
+            return false;
+        else{
+            if(p.val != q.val)
+                return false;
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         }
+       
     }
 }

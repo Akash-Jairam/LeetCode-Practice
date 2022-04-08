@@ -1,21 +1,18 @@
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
-        if(intervals == null || intervals.length == 0 || intervals[0].length == 0)
-            return 0;
+        // Create a priority queue to hold which of our meeting rooms are booked with the one with the earliest ending at the front 
+        // Iterate through our intervals array
+        // If our queue is not empty and there is an element in our priority queue that ends before the start of our interval, we "use that meeting room" for our current meeting by kicking out the people who are in that room lol
+        // We will add the current interval into our queue
         
-        Arrays.sort(intervals, (arr1, arr2) -> (arr1[0] - arr2[0]));
+        // Finally, we return the size of the priorityqueue as our result
         PriorityQueue<int[]> pq = new PriorityQueue<>((arr1, arr2) -> (arr1[1] - arr2[1]));
-        pq.offer(intervals[0]);
-        
-        for(int i = 1; i < intervals.length; ++i){
-            int[] curr = intervals[i];
-            int[] prev = pq.remove();
+        Arrays.sort(intervals, (arr1, arr2) -> (arr1[0] - arr2[0]));
+        for(int[] interval : intervals){
+            if(!pq.isEmpty() && pq.peek()[1] <= interval[0])
+                pq.poll();
             
-            if(prev[1] > curr[0]){
-                pq.offer(prev);
-            }
-                
-            pq.offer(curr);
+            pq.offer(interval);
         }
         
         return pq.size();

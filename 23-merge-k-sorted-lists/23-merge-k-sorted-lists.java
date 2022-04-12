@@ -13,30 +13,26 @@ class Solution {
         if(lists == null || lists.length == 0)
             return null;
         
-        ListNode curr = lists[0];
-        for(int i = 1; i < lists.length; ++i){
-            ListNode temp = new ListNode(-1);
-            ListNode it = temp;
-            while(curr != null || lists[i] != null){
-                int currVal = curr == null ? Integer.MAX_VALUE : curr.val;
-                int listVal = lists[i] == null ? Integer.MAX_VALUE : lists[i].val;
-                
-                if(currVal < listVal){
-                    ListNode next = curr.next;
-                    curr.next = null;
-                    it.next = curr;
-                    curr = next;
-                } else {
-                    ListNode next = lists[i].next;
-                    lists[i].next = null;
-                    it.next = lists[i];
-                    lists[i] = next;
-                }
-                it = it.next;
-            }
-            curr = temp.next;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((l1, l2) -> (l1.val - l2.val));
+        
+        for(ListNode list : lists){
+            if(list != null)
+                pq.offer(list);
         }
         
-        return curr;
+        ListNode res = new ListNode(-1);
+        ListNode it = res;
+        
+        while(!pq.isEmpty()){
+            ListNode curr = pq.poll();
+            if(curr.next != null)
+                pq.offer(curr.next);
+            
+            curr.next = null;
+            it.next = curr;
+            it = it.next;
+        }
+        
+        return res.next;
     }
 }

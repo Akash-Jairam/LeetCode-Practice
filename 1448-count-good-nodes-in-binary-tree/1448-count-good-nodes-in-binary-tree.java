@@ -18,17 +18,18 @@ class Solution {
     public int goodNodes(TreeNode root) {
         if(root == null)
             return 1;
-        return helper(root, root.val);
+        helper(root, root.val);
+        return count;
     }
     
-    public int helper(TreeNode root, int maxSoFar){
+    public void helper(TreeNode root, int maxSoFar){
         if(root == null)
-            return count;
+            return;
         
         if(root.val >= maxSoFar)
             ++count;
         
         helper(root.left, Math.max(root.val, maxSoFar));
-        return helper(root.right, Math.max(root.val, maxSoFar));
+        helper(root.right, Math.max(root.val, maxSoFar));
     }
 }

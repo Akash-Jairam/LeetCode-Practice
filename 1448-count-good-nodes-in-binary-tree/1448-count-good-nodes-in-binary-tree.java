@@ -16,25 +16,19 @@
 class Solution {
     int count = 0;
     public int goodNodes(TreeNode root) {
-        TreeSet<Integer> set = new TreeSet<>();
-        
-        return helper(root, set);
+        if(root == null)
+            return 1;
+        return helper(root, root.val);
     }
     
-    public int helper(TreeNode root, TreeSet<Integer> set){
+    public int helper(TreeNode root, int maxSoFar){
         if(root == null)
             return count;
         
-        
-        Integer ceiling = set.ceiling(root.val);
-        
-        if((!set.isEmpty() && set.last() <= root.val ) || ceiling == null)
+        if(root.val >= maxSoFar)
             ++count;
         
-        set.add(root.val);
-        TreeSet<Integer> leftSet = new TreeSet<>(set);
-        TreeSet<Integer> rightSet = new TreeSet<>(set);
-        helper(root.left, leftSet);
-        return helper(root.right, rightSet);
+        helper(root.left, Math.max(root.val, maxSoFar));
+        return helper(root.right, Math.max(root.val, maxSoFar));
     }
 }

@@ -24,7 +24,7 @@ class Solution {
                     }
                 }
                     
-                if(curr.left != null){
+                if(curr.left != null && curr.val > p.val){
                     queue.offer(curr.left);
                 }
                 

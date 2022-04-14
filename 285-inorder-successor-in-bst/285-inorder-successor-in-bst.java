@@ -9,7 +9,7 @@
  */
 class Solution {
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
-        PriorityQueue<TreeNode> pq = new PriorityQueue<>((a, b) -> (a.val - b.val));
+        TreeNode res = null;
         
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
@@ -18,8 +18,12 @@ class Solution {
             int size = queue.size();
             for(int i = 0; i < size; ++i){
                 TreeNode curr = queue.poll();
-                if(curr.val > p.val)
-                    pq.offer(curr);
+                if(curr.val > p.val){
+                    if(res == null || (res != null && curr.val < res.val)){
+                        res = curr;
+                    }
+                }
+                    
                 if(curr.left != null){
                     queue.offer(curr.left);
                 }
@@ -30,6 +34,6 @@ class Solution {
             }
         }
         
-        return pq.isEmpty() ? null : pq.peek();
+        return res;
     }
 }

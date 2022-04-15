@@ -16,8 +16,6 @@ class Solution {
             candidates.add(curr);
             return;
         }
-        if(!arr.contains(curr))
-            candidates.add(curr);
         
         
         

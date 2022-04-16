@@ -10,59 +10,37 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if(head == null || head.next == null)
-            return;
-        // The head of our first half
-        ListNode l1 = head;
-        // The tail of our last half
-        ListNode fast = head;
-        // The head of our second half
-        ListNode slow = head;
-        // THE tail of our first half
-        ListNode prev = null;
+        HashMap<Integer, ListNode> map = new HashMap<>();
+        int size = 0;
+        ListNode it = head;
         
-        while(fast != null && fast.next != null){
-            prev = slow;
-            fast = fast.next.next;
-            slow = slow.next;
+        while(it != null){
+            ListNode next = it.next;
+            it.next = null;
+            ++size;
+            map.put(size, it);
+            it = next;
         }
         
-        prev.next = null;
-        slow = reverse(slow);
+        int bottomIndex = size;
+        int startIndex = 1;
         head = new ListNode(-1);
-        ListNode iter = head;
-        boolean flip = false;
-        
-        while(l1 != null || slow != null){
-            int l1Val = l1 == null ? 1001 : l1.val;
-            int l2Val = slow == null ? 1001 : slow.val;
-            
-            if(!flip && l1 != null){
-                ListNode next = l1.next;
-                l1.next = null;
-                iter.next = l1;
-                iter = iter.next;
-                l1 = next;
-            } else if (slow != null){
-                ListNode next = slow.next;
-                slow.next = null;
-                iter.next = slow;
-                iter = iter.next;
-                slow = next;
-            }
-            flip = !flip;
+        it = head;
+        Queue<ListNode> queue = new LinkedList<>();
+        while(startIndex < bottomIndex){
+            queue.offer(map.get(startIndex));
+            queue.offer(map.get(bottomIndex));
+            ++startIndex;
+            --bottomIndex;
         }
-    }
-    
-    public ListNode reverse(ListNode node){
-        ListNode prev = null;
-        
-        while(node != null){
-            ListNode next = node.next;
-            node.next = prev;
-            prev = node;
-            node = next;
+        if(queue.size() != size){
+            queue.offer(map.get(bottomIndex));
         }
-        return prev;
+        while(!queue.isEmpty()){
+            it.next = queue.poll();
+            it = it.next;
+        }
+        head = head.next;
     }
+
 }

@@ -10,37 +10,54 @@
  */
 class Solution {
     public void reorderList(ListNode head) {
-        HashMap<Integer, ListNode> map = new HashMap<>();
-        int size = 0;
-        ListNode it = head;
+        if(head == null || head.next == null) return;
+        // Find the middle of the list
+        ListNode prev = null;
+        ListNode slow = head;
+        ListNode fast = head;
         
-        while(it != null){
-            ListNode next = it.next;
-            it.next = null;
-            ++size;
-            map.put(size, it);
-            it = next;
+        while(fast != null && fast.next != null){
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
         }
         
-        int bottomIndex = size;
-        int startIndex = 1;
-        head = new ListNode(-1);
-        it = head;
-        Queue<ListNode> queue = new LinkedList<>();
-        while(startIndex < bottomIndex){
-            queue.offer(map.get(startIndex));
-            queue.offer(map.get(bottomIndex));
-            ++startIndex;
-            --bottomIndex;
+        prev.next = null;
+        // Reverse the second half
+        ListNode l1 = head;
+        ListNode l2 = reverse(slow);
+        // Merge the two halves
+        ListNode res = new ListNode(-1);
+        ListNode it = res;
+        
+        while(l1 != null || l2 != null){
+            if(l1 != null){
+                it.next = l1;
+                it = it.next;
+                l1 = l1.next;
+            }
+            
+            if(l2 != null){
+                it.next = l2;
+                l2 = l2.next;
+                it = it.next;
+            }
         }
-        if(queue.size() != size){
-            queue.offer(map.get(bottomIndex));
-        }
-        while(!queue.isEmpty()){
-            it.next = queue.poll();
-            it = it.next;
-        }
-        head = head.next;
+        
+        
+        head = res.next;
     }
-
+    
+    public ListNode reverse(ListNode head){
+        ListNode prev = null;
+        
+        while(head != null){
+            ListNode next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
+        }
+        
+        return prev;
+    }
 }

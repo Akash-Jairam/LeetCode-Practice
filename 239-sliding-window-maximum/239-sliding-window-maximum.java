@@ -16,7 +16,7 @@ class Solution {
                 dq.pollLast();
             }
             
-            dq.offer(i);
+            dq.offerLast(i);
             
             if(i - k + 1 >= 0){
                 res[i - k + 1] = nums[dq.peek()];

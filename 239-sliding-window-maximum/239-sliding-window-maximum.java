@@ -12,7 +12,7 @@ class Solution {
         for(int i = 0; i < n; ++i){
         // If the dq is not empty and top element is an index which is outside the range of i - k + 1 , remove it
             if(!dq.isEmpty() && dq.peekFirst() < i - k + 1)
-                dq.poll();
+                dq.pollFirst();
             
         // While the dq is not empty and the number is the last index is less than the number at the current index, we remove that index from the queue
             while(!dq.isEmpty() && nums[dq.peekLast()] <  nums[i]){

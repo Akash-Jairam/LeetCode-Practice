@@ -1,39 +1,43 @@
 class Solution {
     public int minCharacters(String a, String b) {
-        int[] aCharCount = new int[26];
-        int[] bCharCount = new int[26];
+        // Use two arrays to map the letter count of the characters in a and b respectively
+        // Create our minCharacters variable
+        // Iterate through each letter in the alphabet
+        // Calculate how many changes it would take to turn all the characters in both strings to the current character. This is done by subtracting the combined count of the current character from combined length of both strings 
+        
+        // Update the value at the current index for both maps to the sum of all characters before it
+        // Calculate how much changes it would take to make every character in string a be less than or equal to the current letter and how many changes it would take to make every character in b greater than the current letter
+        // Do the same for b 
+        // Update the minimum if necessary
+        // Return minimum
+        int[] aMap = new int[26];
+        int[] bMap = new int[26];
         int aLength = a.length();
         int bLength = b.length();
-        int res = Math.max(aLength, bLength) -1;
-        
         for(int i = 0; i < aLength; ++i){
-            aCharCount[a.charAt(i) - 'a']++;
+            aMap[a.charAt(i) - 'a']++; 
         }
         
         for(int i = 0; i < bLength; ++i){
-            bCharCount[b.charAt(i) - 'a']++;
+            bMap[b.charAt(i) - 'a']++;
         }
+        int min = Math.max(aLength, bLength);
         
         for(int i = 0; i < 26; ++i){
-            // Find how many changes it would take to make both a and b consist of only the current character
-            // This would mean finding the total character count and subtracting it from the current character count
-            res = Math.min(res, aLength - aCharCount[i] + bLength - bCharCount[i]);
+            min = Math.min(min, aLength - aMap[i] + bLength - bMap[i]);
             
             if(i > 0){
-                // Get the current count of the number of characters that are i or less in a and b respectively
-                aCharCount[i] += aCharCount[i-1];
-                bCharCount[i] += bCharCount[i-1];
+                aMap[i] += aMap[i-1];
+                bMap[i] += bMap[i-1];
+                
             }
             
             if(i < 25){
-                // We find the amount of changes needed to convert the remaining characters in a that are not less than the current letter and we need to add the amount of characters in b that are less than the current letter (since no character in b can be less than the current character )
-                // Do this again but swap a and b
-                // Find the min of res and these
-                res = Math.min(res, aLength - aCharCount[i] + bCharCount[i]);
-                res = Math.min(res, bLength - bCharCount[i] + aCharCount[i]);
+                min = Math.min(min, aLength - aMap[i] + bMap[i]);
+                min = Math.min(min, bLength - bMap[i] + aMap[i]);
             }
         }
         
-        return res;
+        return min;
     }
 }

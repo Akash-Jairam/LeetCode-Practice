@@ -1,17 +1,12 @@
 class Solution {
-    public int consecutiveNumbersSum(int n) {
+    public int consecutiveNumbersSum(int N) {
         int count = 0;
         
-        int pos = 1;
-        
-        while(pos <= n){
-            if(n % pos == 0)
+        for(int n = 2; n*(n+1)/2 <= N; ++n){
+            if((N - n * (n+1)/2) % n == 0)
                 ++count;
-            
-            n -= pos;
-            ++pos;
         }
         
-        return count;
+        return count+1;
     }
 }

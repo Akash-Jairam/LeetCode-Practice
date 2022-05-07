@@ -1,40 +1,35 @@
 class Solution {
     public int minCharacters(String a, String b) {
-        // Use two arrays to map the letter count of the characters in a and b respectively
-        // Create our minCharacters variable
-        // Iterate through each letter in the alphabet
-        // Calculate how many changes it would take to turn all the characters in both strings to the current character. This is done by subtracting the combined count of the current character from combined length of both strings 
-        
-        // Update the value at the current index for both maps to the sum of all characters before it
-        // Calculate how much changes it would take to make every character in string a be less than or equal to the current letter and how many changes it would take to make every character in b greater than the current letter
-        // Do the same for b 
-        // Update the minimum if necessary
-        // Return minimum
+        // Create 2 arrays to track the character count in both strings
         int[] aMap = new int[26];
         int[] bMap = new int[26];
-        int aLength = a.length();
-        int bLength = b.length();
-        for(int i = 0; i < aLength; ++i){
-            aMap[a.charAt(i) - 'a']++; 
+        
+        for(char c : a.toCharArray()){
+            aMap[c - 'a']++;
         }
         
-        for(int i = 0; i < bLength; ++i){
-            bMap[b.charAt(i) - 'a']++;
+        for(char c : b.toCharArray()){
+            bMap[c - 'a']++;
         }
-        int min = Math.max(aLength, bLength);
         
+        int min = Integer.MAX_VALUE;
+        // Iterate through each character in the alphabet
+        // Check to see how much characters in a and b are different from the current character;
+        // if the current index is greater than 0, add the previous count to the current index in our array map
+        // this is to create a running total of all the lesser characters
+        // See how much characters in a and b are greater than the current character
         for(int i = 0; i < 26; ++i){
-            min = Math.min(min, aLength - aMap[i] + bLength - bMap[i]);
+            min = Math.min(min, a.length() - aMap[i] + b.length() - bMap[i]);
             
             if(i > 0){
                 aMap[i] += aMap[i-1];
                 bMap[i] += bMap[i-1];
-                
             }
             
+            
             if(i < 25){
-                min = Math.min(min, aLength - aMap[i] + bMap[i]);
-                min = Math.min(min, bLength - bMap[i] + aMap[i]);
+                min = Math.min(min, a.length() - aMap[i] + bMap[i]);
+                min = Math.min(min, b.length() - bMap[i] + aMap[i]);
             }
         }
         

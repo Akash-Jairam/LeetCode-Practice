@@ -1,20 +1,20 @@
 class OrderedStream {
-    int ptr;
     String[] stream;
+    int ptr;
     public OrderedStream(int n) {
         this.stream = new String[n+1];
-        this.ptr = 0;
+        this.ptr = 1;
     }
     
     public List<String> insert(int idKey, String value) {
-        stream[idKey - 1] = value;
-        List<String> list = new ArrayList<>();
-        while(stream[ptr] != null){
-            list.add(stream[ptr]);
+        stream[idKey] = value;
+        List<String> chunk = new ArrayList<>();
+        while( ptr < stream.length && stream[ptr] != null){
+            chunk.add(stream[ptr]);
             ++ptr;
         }
         
-        return list;
+        return chunk;
     }
 }
 

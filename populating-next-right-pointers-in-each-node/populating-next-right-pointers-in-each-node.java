@@ -25,6 +25,7 @@ class Solution {
     public Node connect(Node root) {
         if(root == null)
             return root;
+        
         Queue<Node> queue = new LinkedList<>();
         queue.offer(root);
         
@@ -33,20 +34,20 @@ class Solution {
             Node prev = null;
             for(int i = 0; i < size; ++i){
                 Node curr = queue.poll();
-                if(prev != null)
-                    curr.next = prev;
+                if(curr.left != null)
+                    queue.offer(curr.left);
                 
                 if(curr.right != null)
                     queue.offer(curr.right);
                 
-                if(curr.left != null)
-                    queue.offer(curr.left);
-                
-                if(i != size -1)
-                    prev = curr;
+                if(prev != null)
+                    prev.next = curr;
+                prev = curr;
             }
         }
         
         return root;
     }
+    
+
 }

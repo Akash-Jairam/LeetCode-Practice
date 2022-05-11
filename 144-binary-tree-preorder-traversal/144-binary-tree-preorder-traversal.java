@@ -14,15 +14,23 @@
  * }
  */
 class Solution {
-    final List<Integer> traversal = new ArrayList<Integer>();
-    
     public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
         if(root == null)
-            return traversal;
-        traversal.add(root.val);
-        preorderTraversal(root.left);
-        preorderTraversal(root.right);
-        return traversal;
+            return res;
+        traverse(res, root);
+        return res;
     }
     
+    public void traverse(List<Integer> res, TreeNode root){
+        if(root == null)
+            return;
+        
+        res.add(root.val);
+        if(root.left != null)
+            traverse(res, root.left);
+        
+        if(root.right != null)
+            traverse(res, root.right);
+    }
 }

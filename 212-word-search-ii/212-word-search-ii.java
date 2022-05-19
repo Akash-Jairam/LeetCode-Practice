@@ -1,37 +1,46 @@
 class Solution {
-    int[][] directions = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-    
+    int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0,1}, {0, -1} };
     public List<String> findWords(char[][] board, String[] words) {
-        List<String> res = new ArrayList<>();
         Node root = buildTrie(words);
+        List<String> res = new ArrayList<>();
         
         for(int i = 0; i < board.length; ++i){
             for(int j = 0; j < board[0].length; ++j){
-                dfs(board, i , j, root, res);
+                char c = board[i][j];
+                if(root.children[c - 'a'] != null){
+                    traverse(board, i, j, root, res);
+                }
             }
         }
         
         return res;
     }
     
-    public void dfs(char[][] board, int i, int j, Node node, List<String> res){
-        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length)
+    public void traverse(char[][] board, int i, int j, Node node, List<String> res){
+        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] == '*')
             return;
         
         char c = board[i][j];
-        if(c == '*' || node.children[c - 'a'] == null)
+        if(node.children[c - 'a'] == null)
             return;
         
         node = node.children[c - 'a'];
-        if(node.word != null){
+        
+        if(node.word != null ){
             res.add(node.word);
             node.word = null;
         }
+            
+        
+        
+         
         
         board[i][j] = '*';
+        
         for(int[] dir : directions){
-            dfs(board, i + dir[0], j + dir[1], node, res);
+            traverse(board, i + dir[0], j + dir[1], node, res);
         }
+    
         board[i][j] = c;
     }
     
@@ -39,11 +48,11 @@ class Solution {
         Node root = new Node();
         for(String word : words){
             Node it = root;
-            for(char c : word.toCharArray()){
-                int val = c - 'a';
-                if(it.children[val] == null)
-                    it.children[val] = new Node();
-                it = it.children[val];
+            for(int i = 0; i < word.length(); ++i){
+                int idx = word.charAt(i) - 'a';
+                if(it.children[idx] == null)
+                    it.children[idx] = new Node();
+                it = it.children[idx];
             }
             it.word = word;
         }
@@ -52,11 +61,11 @@ class Solution {
     }
 }
 
-class Node{
+class Node {
     Node[] children;
     String word;
     
     public Node(){
-        children = new Node[26];
+        this.children = new Node[26];
     }
 }

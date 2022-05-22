@@ -1,55 +1,63 @@
 class UndergroundSystem {
-    HashMap<Integer, Trip> curr;
-    HashMap<String, List<Trip>> completed;
+    HashMap<Integer, Trip> currentTrips;
+    HashMap<String, List<Trip>> completedTrips;
+    
+    
     public UndergroundSystem() {
-        this.curr = new HashMap<>();
-        this.completed = new HashMap<>();
+        this.currentTrips = new HashMap<>();
+        this.completedTrips = new HashMap<>();
     }
     
     public void checkIn(int id, String stationName, int t) {
-        Trip trip = new Trip(id, stationName, t);
-        curr.put(id, trip);
+        if(this.currentTrips.containsKey(id))
+            return;
+        
+        this.currentTrips.put(id, new Trip(id, stationName, t));
     }
     
     public void checkOut(int id, String stationName, int t) {
-        if(curr.containsKey(id)){
-            Trip trip = curr.get(id);
-            trip.destination = stationName;
-            trip.end = t;
-            if(!completed.containsKey(trip.startPoint)){
-                completed.put(trip.startPoint, new ArrayList<>());
-            }
-            completed.get(trip.startPoint).add(trip);
-            curr.remove(id);
-        }
+        if(!this.currentTrips.containsKey(id))
+            return;
+        
+        Trip curr = currentTrips.get(id);
+        currentTrips.remove(id);
+        curr.end = stationName;
+        curr.endTime = t;
+        
+        completedTrips.putIfAbsent(curr.start, new ArrayList<>());
+        completedTrips.get(curr.start).add(curr);
     }
     
     public double getAverageTime(String startStation, String endStation) {
-        List<Trip> trips = completed.get(startStation);
-        int size = 0;
-        int totalTime = 0;
+        List<Trip> trips = completedTrips.get(startStation);
+        if(trips == null || trips.size() == 0)
+            return 0;
+        
+        int count = 0;
+        int total = 0;
+        
         for(Trip trip : trips){
-            if(trip.destination.equals(endStation)){
-                totalTime += (trip.end - trip.start);
-                ++size;
+            if(trip.end.equals(endStation)){
+                total += (trip.endTime - trip.startTime);
+                ++count;
             }
         }
         
-        return totalTime / (double) size;
+        return total / (double) count;
     }
 }
 
 class Trip {
     int id;
-    int start;
-    String startPoint;
-    String destination;
-    int end;
+    String start;
+    int startTime;
+    String end;
+    int endTime;
     
-    public Trip(int id, String startPoint, int start){
+    public Trip(int id, String stationName, int t){
         this.id = id;
-        this.startPoint = startPoint;
-        this.start = start;
+        this.start = stationName;
+        this.startTime = t;
     }
 }
 

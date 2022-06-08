@@ -1,31 +1,33 @@
 class Solution {
     public List<String> alertNames(String[] keyName, String[] keyTime) {
-        HashMap<String, List<String>> users = new HashMap<>();
         List<String> res = new ArrayList<>();
+        HashMap<String, List<Integer>> map = new HashMap<>();
+        
         for(int i = 0; i < keyName.length; ++i){
-            users.putIfAbsent(keyName[i], new ArrayList<>());
-            users.get(keyName[i]).add(keyTime[i]);
+            map.putIfAbsent(keyName[i], new ArrayList<>());
+            map.get(keyName[i]).add(convertToMins(keyTime[i]));
         }
         
-        for(String user : users.keySet()){
-            List<String> times = users.get(user);
+        for(String name: map.keySet()){
+            List<Integer> times = map.get(name);
             Collections.sort(times);
-           
+            int count = 1;
             for(int i = 0; i < times.size() - 2; ++i){
-                String prev = times.get(i);
-                String[] prevSplit = prev.split(":");
-                int prevTime = Integer.parseInt(prevSplit[0]) * 60 + Integer.parseInt(prevSplit[1]);
-                String curr = times.get(i+2);
-                String[] currSplit = curr.split(":");
-                int currTime = Integer.parseInt(currSplit[0]) * 60 + Integer.parseInt(currSplit[1]);
-                if(currTime - prevTime <= 60){
-                    res.add(user);
+                if(Math.abs(times.get(i) - times.get(i+2)) <= 60){
+                    res.add(name);
                     break;
                 }
             }
+            
         }
         
         Collections.sort(res);
         return res;
+    }
+    
+    public int convertToMins(String keyTime){
+        int colon = keyTime.indexOf(":");
+        
+        return Integer.parseInt(keyTime.substring(0, colon)) * 60 + Integer.parseInt(keyTime.substring(colon + 1));
     }
 }

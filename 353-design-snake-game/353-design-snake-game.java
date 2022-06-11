@@ -43,7 +43,7 @@ class SnakeGame {
         if(row < 0 || row > height || col < 0 || col > width)
             return true;
         
-        // Ensure snake didn't bite its tail or its body
+        // Ensure snake didn't its body and also makes sure that if the snake is about to bite its tail, it is fine because the tail will move out the way
         return (!nextPosition.equals(bodyQueue.peekFirst()) && body.contains(nextPosition));
     }
     

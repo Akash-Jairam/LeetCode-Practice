@@ -1,70 +1,66 @@
 class SnakeGame {
-
-    private int height;
-    private int width;
-    private Set<Pair<Integer, Integer>> body;
-    private Deque<Pair<Integer, Integer>> bodyQueue;
-    private Queue<Pair<Integer, Integer>> foodQueue;
-    private int foodEat;
+    int width;
+    int height;
+    int eaten;
+    HashSet<Pair<Integer, Integer>> body;
+    Deque<Pair<Integer, Integer>> bodyQueue;
+    Queue<Pair<Integer, Integer>> foodQueue;
     
     public SnakeGame(int width, int height, int[][] food) {
         this.width = width - 1;
         this.height = height - 1;
-        foodEat = 0;
+        eaten = 0;
         
         body = new HashSet();
-        bodyQueue = new LinkedList<>();
         body.add(new Pair<>(0, 0));
-        bodyQueue.add(new Pair<>(0,0));
-        
+        bodyQueue = new LinkedList<>();
+        bodyQueue.offer(new Pair<>(0, 0));
         foodQueue = new LinkedList<>();
+        
         for(int[] f : food){
-            foodQueue.offer(new Pair<> (f[0], f[1]));
+            foodQueue.offer(new Pair<>(f[0], f[1]));
+        }
+    }
+    
+    public int move(String direction) {
+        Pair<Integer, Integer> nextDirection = move(bodyQueue.peekFirst(), direction);
+        if(snakeDie(nextDirection))
+            return -1;
+        
+        if(!foodQueue.isEmpty() && !body.contains(foodQueue.peek()) && nextDirection.equals(foodQueue.peek())){
+            foodQueue.poll();
+            body.add(nextDirection);
+            bodyQueue.addFirst(nextDirection);
+            ++eaten;
+            return eaten;
         }
         
+        body.remove(bodyQueue.pollLast());
+        body.add(nextDirection);
+        bodyQueue.addFirst(nextDirection);
+        return eaten;
     }
     
-    private Pair<Integer, Integer> move(Pair<Integer, Integer> currentPos, String dir){
-        if(dir.equals("L")){
-            return new Pair<>(currentPos.getKey() , currentPos.getValue()  -1 );
-        } else if(dir.equals("R")){
-            return new Pair<>(currentPos.getKey() , currentPos.getValue() + 1);
-        }  else if(dir.equals("U")){
-            return new Pair<>(currentPos.getKey() - 1 , currentPos.getValue());
-        }  else {
-            return new Pair<>(currentPos.getKey() + 1 , currentPos.getValue()  );
+    public Pair<Integer, Integer> move(Pair<Integer, Integer> currentPos, String direction){
+        if(direction.equals("L")){
+            return new Pair<>(currentPos.getKey(), currentPos.getValue() - 1);
+        } else if(direction.equals("R")){
+            return new Pair<>(currentPos.getKey(), currentPos.getValue() + 1);
+        } else if(direction.equals("U")){
+            return new Pair<>(currentPos.getKey() - 1,currentPos.getValue());
+        } else {
+            return new Pair<>(currentPos.getKey() + 1, currentPos.getValue());
         }
     }
     
-    private boolean snakeDie(Pair<Integer, Integer> nextPosition){
-        int row = nextPosition.getKey();
-        int col = nextPosition.getValue();
+    public boolean snakeDie(Pair<Integer, Integer> nextDirection){
+        int row = nextDirection.getKey();
+        int col = nextDirection.getValue();
         
         if(row < 0 || row > height || col < 0 || col > width)
             return true;
         
-        // Ensure snake didn't its body and also makes sure that if the snake is about to bite its tail, it is fine because the tail will move out the way
-        return (!nextPosition.equals(bodyQueue.peekFirst()) && body.contains(nextPosition));
-    }
-    
-    public int move(String direction){
-        Pair<Integer, Integer> currentPosition = bodyQueue.peekLast();
-        Pair<Integer, Integer> nextPosition = move(currentPosition, direction);
-        if(snakeDie(nextPosition))
-            return -1;
-        
-        if(!foodQueue.isEmpty() && !body.contains(foodQueue.peek()) && nextPosition.equals(foodQueue.peek())){
-            foodQueue.poll();
-            body.add(nextPosition);
-            bodyQueue.addLast(nextPosition);
-            ++foodEat;
-            return foodEat;
-        }
-        
-        body.remove(bodyQueue.pollFirst());
-        body.add(nextPosition);
-        bodyQueue.addLast(nextPosition);
-        return foodEat;
+        return !bodyQueue.peekLast().equals(nextDirection) && body.contains(nextDirection);
     }
 }
 

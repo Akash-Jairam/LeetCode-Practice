@@ -1,22 +1,22 @@
 class SnakeGame {
-    int width;
     int height;
-    int eaten;
+    int width;
+    int foodEaten;
+    
     HashSet<Pair<Integer, Integer>> body;
     Deque<Pair<Integer, Integer>> bodyQueue;
     Queue<Pair<Integer, Integer>> foodQueue;
-    
     public SnakeGame(int width, int height, int[][] food) {
+        this.height = height-1;
         this.width = width - 1;
-        this.height = height - 1;
-        eaten = 0;
+        foodEaten = 0;
         
         body = new HashSet();
         body.add(new Pair<>(0, 0));
         bodyQueue = new LinkedList<>();
-        bodyQueue.offer(new Pair<>(0, 0));
-        foodQueue = new LinkedList<>();
+        bodyQueue.offer(new Pair<>(0,0));
         
+        foodQueue = new LinkedList<>();
         for(int[] f : food){
             foodQueue.offer(new Pair<>(f[0], f[1]));
         }
@@ -28,17 +28,17 @@ class SnakeGame {
             return -1;
         
         if(!foodQueue.isEmpty() && !body.contains(foodQueue.peek()) && nextDirection.equals(foodQueue.peek())){
-            foodQueue.poll();
+            ++foodEaten;
             body.add(nextDirection);
             bodyQueue.addFirst(nextDirection);
-            ++eaten;
-            return eaten;
+            foodQueue.poll();
+            return foodEaten;
         }
-        
-        body.remove(bodyQueue.pollLast());
+         body.remove(bodyQueue.pollLast());
         body.add(nextDirection);
         bodyQueue.addFirst(nextDirection);
-        return eaten;
+       
+        return foodEaten;
     }
     
     public Pair<Integer, Integer> move(Pair<Integer, Integer> currentPos, String direction){
@@ -53,14 +53,14 @@ class SnakeGame {
         }
     }
     
-    public boolean snakeDie(Pair<Integer, Integer> nextDirection){
-        int row = nextDirection.getKey();
-        int col = nextDirection.getValue();
+    public boolean snakeDie(Pair<Integer, Integer> curr){
+        int row = curr.getKey();
+        int col = curr.getValue();
         
         if(row < 0 || row > height || col < 0 || col > width)
             return true;
         
-        return !bodyQueue.peekLast().equals(nextDirection) && body.contains(nextDirection);
+        return !curr.equals(bodyQueue.peekLast()) && body.contains(curr);
     }
 }
 

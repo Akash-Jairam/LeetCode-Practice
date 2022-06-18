@@ -1,45 +1,46 @@
 class Solution {
     public String rankTeams(String[] votes) {
-        Node[] nodes = new Node[26];
+        Team[] teams = new Team[26];
         
         for(int i = 0; i < 26; ++i){
-            nodes[i] = new Node((char) (i + 'A'));
+            teams[i] = new Team((char) (i + 'A'));
         }
         
-        for(String vote: votes){
+        for(String vote : votes){
             for(int i = 0; i < vote.length(); ++i){
-                nodes[vote.charAt(i) - 'A'].count[i]++;
+                char c = vote.charAt(i);
+                teams[c - 'A'].votes[i]++;
             }
         }
         
-        Arrays.sort(nodes, new Comparator<Node>(){
+        Arrays.sort(teams, new Comparator<Team>(){
             @Override
-            public int compare(Node node1, Node node2){
+            public int compare(Team a, Team b){
                 for(int i = 0; i < 26; ++i){
-                    if(node1.count[i] != node2.count[i]){
-                        return node2.count[i] - node1.count[i];
-                    }
+                    if(a.votes[i] != b.votes[i])
+                        return b.votes[i] - a.votes[i];
                 }
-                return node1.ch - node2.ch;
+                
+                return a.name - b.name;
             }
         });
         
         StringBuilder sb = new StringBuilder();
         
         for(int i = 0; i < votes[0].length(); ++i){
-           sb.append(nodes[i].ch); 
+            sb.append(teams[i].name);
         }
         
         return sb.toString();
     }
 }
 
-class Node{
-    char ch;
-    int[] count;
+class Team {
+    char name;
+    int[] votes;
     
-    public Node (char ch){
-        this.ch = ch;
-        this.count = new int[26];
-    } 
+    public Team(char name){
+        this.name = name;
+        this.votes = new int[26];
+    }
 }

@@ -12,15 +12,29 @@ class TimeMap {
     }
     
     public String get(String key, int timestamp) {
-        if(map.containsKey(key)){
-            List<Pair<Integer, String>> list = map.get(key);
-            for(int i = list.size() -1 ; i >= 0; --i){
-                if(list.get(i).getKey() <= timestamp)
-                    return list.get(i).getValue();
+        if(!map.containsKey(key))
+            return "";
+        else{
+            return binarySearch(timestamp, map.get(key));
+        }  
+    }
+    
+    public String binarySearch(int timeStamp, List<Pair<Integer, String>> list){
+        int start = 0, end = list.size() - 1;
+        
+        while(start < end){
+            int mid = start + (end - start) / 2;
+            if(list.get(mid).getKey() > timeStamp)
+                
+                end = mid - 1;
+            else{
+                if(list.get(mid+1).getKey() > timeStamp)
+                    return list.get(mid).getValue();
+                    start = mid + 1;
             }
         }
         
-        return "";
+        return list.get(start).getKey() <= timeStamp ? list.get(start).getValue() : "";
     }
 }
 

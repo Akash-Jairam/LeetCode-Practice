@@ -24,6 +24,8 @@ class TimeMap {
         
         while(start < end){
             int mid = start + (end - start) / 2;
+            if(list.get(mid).getKey() == timeStamp)
+                    return list.get(mid).getValue();
             if(list.get(mid).getKey() > timeStamp)
                 
                 end = mid - 1;

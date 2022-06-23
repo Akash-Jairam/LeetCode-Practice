@@ -21,16 +21,18 @@ class WordDistance {
         int i = 0, j = 0, min = Integer.MAX_VALUE;
         
         while(i < w1.size() && j < w2.size()){
-             int index1 = w1.get(i), index2 = w2.get(j);
-            if (index1 > index2) {
-                min = Math.min(min, index1 - index2);
-                j++;
-            } else {
-                min = Math.min(min, index2 - index1);
-                i++;                
+            int w1Idx = w1.get(i);
+            int w2Idx = w2.get(j);
+            if(w1Idx > w2Idx){
+                min = Math.min(min, w1Idx - w2Idx);
+                ++j;
+            } else{
+                min = Math.min(min, w2Idx - w1Idx);
+                ++i;
             }
-            if (min == 1) { // doesn't get better than this!
-                cache.put( cacheKey, min);
+            
+            if(min == 1){
+                cache.put(cacheKey, min);
                 return min;
             }
         }

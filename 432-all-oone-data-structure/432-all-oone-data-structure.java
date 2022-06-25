@@ -34,7 +34,6 @@ class AllOne {
         while(tree.size() > 0 && tree.get(tree.lastKey()).size() == 0){
             tree.pollLastEntry();
         }
-        TreeMap<Integer, List<String>> tree2 = tree;
         return tree.size() == 0 ? "" : tree.get(tree.lastKey()).get(0);
     }
     

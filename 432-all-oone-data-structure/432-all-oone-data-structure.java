@@ -1,49 +1,93 @@
 class AllOne {
-    
-    HashMap<String, Integer> map;
-    TreeMap<Integer, List<String>> tree;
+    ValueNode valueHead, valueTail;
+    Map<String, ValueNode> keys;
     
     public AllOne() {
-        map = new HashMap<>();
-        tree = new TreeMap<>();
+        valueHead = new ValueNode(0);
+        valueTail = new ValueNode(0);
+        valueHead.next = valueTail;
+        valueTail.prev = valueHead;
+        keys = new HashMap<>();
     }
     
     public void inc(String key) {
-        int count =  map.getOrDefault(key, 0);
-        map.put(key, count + 1);
-        if(tree.containsKey(count))
-            tree.get(count).remove(key);
-        tree.putIfAbsent(map.get(key), new ArrayList<>());
-        tree.get(map.get(key)).add(key);
+        ValueNode node = keys.getOrDefault(key, valueHead);
+        ValueNode vn = node.next;
+        
+        if(vn.val != node.val + 1){
+            vn = new ValueNode(node.val + 1);
+            vn.insertAt(node.next);
+        }
+        
+        vn.strs.add(key);
+        keys.put(key, vn);
+        if(node != valueHead) node.remove(key);
     }
     
     public void dec(String key) {
-        int count = map.get(key);
-        tree.get(count).remove(key);
-        if(count == 1){
-            map.remove(key);
-        } else{
-            map.put(key, count - 1);
-            tree.putIfAbsent(count, new ArrayList<>());
-            tree.get(count - 1).add(key);
+        ValueNode node = keys.get(key);
+        if(node == null) return;
+        
+        if(node.val == 1){
+            keys.remove(key);
+            node.remove(key);
+            return;
         }
-    
+        
+        ValueNode prev = node.prev;
+        if(prev.val != node.val - 1){
+            prev = new ValueNode(node.val - 1);
+            prev.insertAt(node);
+        }
+        
+        prev.strs.add(key);
+        keys.put(key, prev);
+        node.remove(key);
     }
     
     public String getMaxKey() {
-        while(tree.size() > 0 && tree.get(tree.lastKey()).size() == 0){
-            tree.pollLastEntry();
-        }
-        return tree.size() == 0 ? "" : tree.get(tree.lastKey()).get(0);
-    }
-    
-    public String getMinKey() {
-        for(List<String> val : tree.values()){
-            if(val.size() > 0)
-                return val.get(0);
+        if(valueTail.prev != valueHead){
+            return valueTail.prev.strs.iterator().next();
         }
         
         return "";
+    }
+    
+    public String getMinKey() {
+        if(valueHead.next != valueTail){
+            return valueHead.next.strs.iterator().next();
+        }
+        
+        return "";
+    }
+}
+
+class ValueNode{
+    ValueNode next;
+    ValueNode prev;
+    int val;
+    Set<String> strs;
+    
+    public ValueNode(int val){
+        this.val = val;
+        strs = new LinkedHashSet<>();
+    }
+    
+    // Places this node between the given node and its predecessor
+    public void insertAt(ValueNode node){
+        next = node;
+        prev = node.prev;
+        prev.next = this;
+        next.prev = this;
+    }
+    
+    public void remove(String str){
+        strs.remove(str);
+        // If no strings are in the node, remove it from the chain
+        if(strs.isEmpty()){
+            prev.next = next;
+            next.prev = prev;
+        }
     }
 }
 

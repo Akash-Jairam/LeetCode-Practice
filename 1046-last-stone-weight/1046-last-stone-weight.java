@@ -7,11 +7,11 @@ class Solution {
         }
         
         while(pq.size() > 1){
-            int y = pq.poll();
-            int x = pq.poll();
-            
-            if(y - x > 0)
-                pq.offer(y - x);
+            int s1 = pq.poll();
+            int s2 = pq.poll();
+            if(s1 != s2){
+                pq.offer(Math.abs(s1 - s2));
+            }
         }
         
         return pq.isEmpty() ? 0 : pq.peek();

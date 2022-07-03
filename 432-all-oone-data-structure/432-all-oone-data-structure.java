@@ -1,17 +1,17 @@
 class AllOne {
-    ValueNode valueHead, valueTail;
+    ValueNode head,  tail;
     Map<String, ValueNode> keys;
     
     public AllOne() {
-        valueHead = new ValueNode(0);
-        valueTail = new ValueNode(0);
-        valueHead.next = valueTail;
-        valueTail.prev = valueHead;
+        head = new ValueNode(0);
+        tail = new ValueNode(0);
+        head.next = tail;
+        tail.prev = head;
         keys = new HashMap<>();
     }
     
     public void inc(String key) {
-        ValueNode node = keys.getOrDefault(key, valueHead);
+        ValueNode node = keys.getOrDefault(key, head);
         ValueNode vn = node.next;
         
         if(vn.val != node.val + 1){
@@ -19,19 +19,19 @@ class AllOne {
             vn.insertAt(node.next);
         }
         
-        vn.strs.add(key);
+        vn.keys.add(key);
         keys.put(key, vn);
-        if(node != valueHead) node.remove(key);
+        if(node != head) node.remove(key);
     }
     
     public void dec(String key) {
         ValueNode node = keys.get(key);
-        if(node == null) return;
+        if(node == null)
+            return;
         
         if(node.val == 1){
-            keys.remove(key);
             node.remove(key);
-            return;
+            keys.remove(key);
         }
         
         ValueNode prev = node.prev;
@@ -39,23 +39,22 @@ class AllOne {
             prev = new ValueNode(node.val - 1);
             prev.insertAt(node);
         }
-        
-        prev.strs.add(key);
+        prev.keys.add(key);
         keys.put(key, prev);
         node.remove(key);
     }
     
     public String getMaxKey() {
-        if(valueTail.prev != valueHead){
-            return valueTail.prev.strs.iterator().next();
+        if(tail.prev != head){
+            return tail.prev.keys.iterator().next();
         }
         
         return "";
     }
     
     public String getMinKey() {
-        if(valueHead.next != valueTail){
-            return valueHead.next.strs.iterator().next();
+        if(head.next != tail){
+            return head.next.keys.iterator().next();
         }
         
         return "";
@@ -63,17 +62,15 @@ class AllOne {
 }
 
 class ValueNode{
-    ValueNode next;
-    ValueNode prev;
+    ValueNode next, prev;
     int val;
-    Set<String> strs;
+    Set<String> keys;
     
     public ValueNode(int val){
         this.val = val;
-        strs = new LinkedHashSet<>();
+        this.keys = new LinkedHashSet<>();
     }
     
-    // Places this node between the given node and its predecessor
     public void insertAt(ValueNode node){
         next = node;
         prev = node.prev;
@@ -81,13 +78,15 @@ class ValueNode{
         next.prev = this;
     }
     
-    public void remove(String str){
-        strs.remove(str);
-        // If no strings are in the node, remove it from the chain
-        if(strs.isEmpty()){
+    public void remove(String key){
+        keys.remove(key);
+        if(keys.isEmpty()){
             prev.next = next;
             next.prev = prev;
+            return;
         }
+        
+        
     }
 }
 

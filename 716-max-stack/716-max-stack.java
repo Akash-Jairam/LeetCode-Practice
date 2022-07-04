@@ -1,46 +1,41 @@
 class MaxStack {
-    TreeMap<Integer, List<Integer>> map;
-    Deque<Integer> queue;
+
+    Deque<Integer> stack;
+    TreeMap<Integer, Integer> treeMap;
     public MaxStack() {
-        map = new TreeMap<>();
-        queue = new LinkedList<>();
+        stack = new LinkedList<Integer>();
+        treeMap = new TreeMap<>();
     }
     
     public void push(int x) {
-        Deque<Integer> q = queue;
-        map.putIfAbsent(x, new ArrayList<>());
-        map.get(x).add(x);
-        queue.offerLast(x);
+        stack.addLast(x);
+        treeMap.put(x, treeMap.getOrDefault(x, 0) + 1);
     }
     
     public int pop() {
-        Deque<Integer> q = queue;
-        int num = queue.pollLast();
-        removeFromMap(num);
-        return num;
+        Integer popped = stack.pollLast();
+        treeMap.put(popped, treeMap.get(popped) - 1);
+        if(treeMap.get(popped) == 0)
+            treeMap.remove(popped);
+        return popped;
     }
     
     public int top() {
-    Deque<Integer> q = queue;
-        return queue.peekLast();
+        return stack.peekLast();
     }
     
     public int peekMax() {
-        return map.lastKey();
+        return treeMap.lastKey();
     }
     
     public int popMax() {
-        int num = map.lastKey();
-        queue.removeLastOccurrence(num);
-        removeFromMap(num);
-        return num;
-    }
-    
-    public void removeFromMap(int num){
-        List<Integer> list = map.get(num);
-        list.remove(Integer.valueOf(num));
-        if(list.size() == 0)
-            map.remove(num);
+        int max = treeMap.lastKey();
+        stack.removeLastOccurrence(max);
+        treeMap.put(max, treeMap.get(max) - 1);
+        if(treeMap.get(max) == 0)
+            treeMap.remove(max);
+        
+        return max;
     }
 }
 

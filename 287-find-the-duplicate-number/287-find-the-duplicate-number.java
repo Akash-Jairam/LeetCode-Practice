@@ -1,22 +1,19 @@
 class Solution {
     public int findDuplicate(int[] nums) {
+        Arrays.sort(nums);
         
-        int slow = nums[0];
-        int fast = nums[nums[0]];
+        int start = 0, end = nums.length - 1;
         
-        // Let tortoise meet hare
-        while(slow != fast){
-            slow = nums[slow];
-            fast = nums[nums[fast]];
+        while(start < end){
+            if(nums[start] == nums[start + 1] )
+                return nums[start];
+            
+            if(nums[end] == nums[end - 1])
+                return nums[end];
+            ++start;
+            --end;
         }
         
-        // Hare wins. Give tortoise a second chance from the start to catch hare
-        slow = 0;
-        
-        while(slow != fast){
-            slow = nums[slow];
-            fast = nums[fast];
-        }
-        return slow;
+        return nums[start];
     }
 }

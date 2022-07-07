@@ -1,6 +1,5 @@
 class Solution {
     public List<String> fizzBuzz(int n) {
-        int idx = 0;
         String fizz = "Fizz";
         String buzz = "Buzz";
         List<String> res = new ArrayList<>();

@@ -9,8 +9,9 @@ class Solution {
         }
         
         int idx = 0;
+        
         for(int num : nums2){
-            int count = map.getOrDefault(num, 0);
+            int count = map.getOrDefault(num,0);
             if(count > 0){
                 nums1[idx] = num;
                 map.put(num, 0);

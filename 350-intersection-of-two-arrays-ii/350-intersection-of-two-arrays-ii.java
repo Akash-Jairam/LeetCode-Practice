@@ -12,7 +12,7 @@ class Solution {
         for(int num : nums2){
             int count = map.getOrDefault(num, 0);
             
-            if(count > 0 && idx < nums1.length){
+            if(count > 0){
                 nums1[idx] = num;
                 ++idx;
                 map.put(num, count - 1);

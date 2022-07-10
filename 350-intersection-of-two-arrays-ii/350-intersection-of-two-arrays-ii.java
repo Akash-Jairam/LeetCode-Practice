@@ -4,18 +4,18 @@ class Solution {
             return intersect(nums2, nums1);
         
         HashMap<Integer, Integer> map = new HashMap<>();
-        for(int n : nums1){
-            map.put(n, map.getOrDefault(n, 0) + 1);
+        for(int num : nums1){
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
         
         int idx = 0;
-        
-        for(int n : nums2){
-            int count = map.getOrDefault(n, 0);
-            if(count > 0){
-                nums1[idx] = n;
+        for(int num : nums2){
+            int count = map.getOrDefault(num, 0);
+            
+            if(count > 0 && idx < nums1.length){
+                nums1[idx] = num;
                 ++idx;
-                map.put(n, count - 1);
+                map.put(num, count - 1);
             }
         }
         

@@ -1,22 +1,24 @@
 class Solution {
     public int maxArea(int h, int w, int[] horizontalCuts, int[] verticalCuts) {
-         Arrays.sort(horizontalCuts);
+        Arrays.sort(horizontalCuts);
         Arrays.sort(verticalCuts);
-
-        int maxVerticalLength = horizontalCuts[0]; //originally named maxH (hence the confusion). this value is initialized to horizontalCuts[0] since the current vertical length is the distance to the first horizontal cut
-        int maxHorizontalLength = verticalCuts[0]; //originally named maxV (hence the confusion). this value is initialized to verticalCuts[0] since the current horizontal length is the distance to the first vertical cut
         
-        for (int i = 1; i < horizontalCuts.length; i++) {
-            maxVerticalLength = Math.max(maxVerticalLength, horizontalCuts[i] - horizontalCuts[i - 1]);
+        int maxVert = 0, maxHori = 0;
+        int prev = 0;
+        for(int i = 0; i < verticalCuts.length; ++i){
+            maxVert = Math.max(maxVert, verticalCuts[i] - prev);
+            prev = verticalCuts[i];
         }
-
-        maxVerticalLength = Math.max(maxVerticalLength, h - horizontalCuts[horizontalCuts.length - 1]);
-
-        for (int i = 1; i < verticalCuts.length; i++) {
-            maxHorizontalLength = Math.max(maxHorizontalLength, verticalCuts[i] - verticalCuts[i - 1]);
+        
+        maxVert = Math.max(maxVert, w - prev);
+        prev = 0;
+        for(int i = 0; i < horizontalCuts.length; ++i){
+            maxHori = Math.max(maxHori, horizontalCuts[i] - prev);
+            prev = horizontalCuts[i];
         }
-
-        maxHorizontalLength = Math.max(maxHorizontalLength, w - verticalCuts[verticalCuts.length - 1]);
-        return (int)((long) maxVerticalLength * maxHorizontalLength % 1000000007 );
+        
+        maxHori = Math.max(maxHori, h - prev );
+        
+        return (int)((long) maxVert * maxHori % 1000000007) ;
     }
 }

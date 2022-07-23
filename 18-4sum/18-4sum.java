@@ -3,8 +3,8 @@ class Solution {
         Arrays.sort(nums);
         return kSum(nums, target, 0, 4);
     }
-	
-    public List<List<Integer>> kSum(int[] nums, long target, int start, int k) {
+    
+    public List<List<Integer>> kSum(int[] nums, long target, int start, int k){
         List<List<Integer>> res = new ArrayList<>();
 
         // If we have run out of numbers to add, return res.
@@ -26,7 +26,7 @@ class Solution {
         if (k == 2) {
             return twoSum(nums, target, start);
         }
-    
+        
         for (int i = start; i < nums.length; ++i) {
             if (i == start || nums[i - 1] != nums[i]) {
                 for (List<Integer> subset : kSum(nums, target - nums[i], i + 1, k - 1)) {
@@ -35,25 +35,29 @@ class Solution {
                 }
             }
         }
-    
+        
         return res;
     }
-	
-    public List<List<Integer>> twoSum(int[] nums, long target, int start) {
+    
+    public List<List<Integer>> twoSum(int[] nums, long target, int start){
         List<List<Integer>> res = new ArrayList<>();
         int lo = start, hi = nums.length - 1;
-    
-        while (lo < hi) {
+        
+        while(lo < hi){
             int currSum = nums[lo] + nums[hi];
-            if (currSum < target || (lo > start && nums[lo] == nums[lo - 1])) {
-                ++lo;
-            } else if (currSum > target || (hi < nums.length - 1 && nums[hi] == nums[hi + 1])) {
+            if(currSum > target){
                 --hi;
+            } else if(currSum < target){
+                ++lo;
             } else {
-                res.add(Arrays.asList(nums[lo++], nums[hi--]));
+                res.add(Arrays.asList(nums[lo], nums[hi]));
+                while(lo < hi && nums[lo] == nums[lo + 1]) ++lo;
+                while(lo < hi && nums[hi] == nums[hi-1]) --hi;
+                ++lo;
+                --hi;
             }
         }
-                                                          
+        
         return res;
     }
 }

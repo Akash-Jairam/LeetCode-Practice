@@ -28,28 +28,23 @@
  */
 class Solution {
     public int depthSumInverse(List<NestedInteger> nestedList) {
-        int res = 0, runningSum = 0;
+        Queue<NestedInteger> queue = new LinkedList<>();
+        queue.addAll(nestedList);
         
-        Deque<NestedInteger> queue = new LinkedList<>();
-        
-        for(NestedInteger i : nestedList){
-            queue.addLast(i);
-        }
-        
+        int levelSum = 0, result = 0;
         while(!queue.isEmpty()){
             int size = queue.size();
             for(int i = 0; i < size; ++i){
                 NestedInteger curr = queue.poll();
                 if(curr.isInteger()){
-                    runningSum += curr.getInteger();
+                    levelSum += curr.getInteger();
                 } else{
                     queue.addAll(curr.getList());
                 }
             }
-            
-            res += runningSum;
+            result += levelSum;
         }
         
-        return res;
+        return result;
     }
 }

@@ -1,17 +1,16 @@
 class MyCalendar {
-    
-    List<int[]> bookings;
+    TreeMap<Integer, Integer> map;
     public MyCalendar() {
-        bookings = new ArrayList<>();
+        map = new TreeMap<>();
     }
     
     public boolean book(int start, int end) {
-        for(int[] booking : bookings){
-            if(Math.max(booking[0], start) < Math.min(booking[1], end)){
-                return false;
-            }
-        }
-        bookings.add(new int[]{start, end});
+        Integer floorKey = map.floorKey(start);
+        Integer ceilingKey = map.ceilingKey(start);
+        
+        if(floorKey != null && start < map.get(floorKey) ) return false;
+        if(ceilingKey != null && ceilingKey < end) return false;
+        map.put(start, end);
         return true;
     }
 }

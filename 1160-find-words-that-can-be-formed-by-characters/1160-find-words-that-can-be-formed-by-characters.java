@@ -1,26 +1,31 @@
 class Solution {
     public int countCharacters(String[] words, String chars) {
-        int[] charsMap = new int[26];
-        mapWord(charsMap, chars);
-        int res = 0;
+        int[] cMap = map(chars);
+        int count = 0;
         for(String word : words){
-            int[] wordMap = new int[26];
-            mapWord(wordMap, word);
-            int count = 0;
+            int[] curr = map(word);
+            boolean canBeFormed = true;
             for(int i = 0; i < 26; ++i){
-                if(wordMap[i] <= charsMap[i])
-                    count += wordMap[i];
+                if(curr[i] > cMap[i]){
+                    canBeFormed = false;
+                    break;
+                }
             }
-            if(count == word.length())
-                res += count;
+            
+            if(canBeFormed){
+                count += word.length();
+            }
         }
         
-        return res;
+        return count;
     }
     
-    public void mapWord(int[] map, String word){
-        for(int i = 0; i < word.length(); ++i){
-            map[word.charAt(i) - 'a']++;
+    public int[] map(String s){
+        int[] map = new int[26];
+        for(int i = 0; i < s.length(); ++i){
+            map[s.charAt(i) - 'a']++;
         }
+        
+        return map;
     }
 }

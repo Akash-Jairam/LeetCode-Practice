@@ -20,8 +20,9 @@ class Solution {
     
     
     public void dfs(char[][] board, int i, int j, List<String> res, TrieNode it, boolean[][] visited){
-        if(it.word != "" && !res.contains(it.word)){
+        if(it.word != ""){
            res.add(it.word);
+           it.word = "";
         }
         
         if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || visited[i][j])

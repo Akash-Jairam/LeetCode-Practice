@@ -1,71 +1,60 @@
 class Solution {
-    int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0,1}, {0, -1} };
     public List<String> findWords(char[][] board, String[] words) {
-        Node root = buildTrie(words);
         List<String> res = new ArrayList<>();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        TrieNode root = new TrieNode();
+        for(String word : words){
+            buildTrie(root, word);
+        }
         
         for(int i = 0; i < board.length; ++i){
             for(int j = 0; j < board[0].length; ++j){
                 char c = board[i][j];
                 if(root.children[c - 'a'] != null){
-                    traverse(board, i, j, root, res);
+                    dfs(board, i, j, res, root, visited);
                 }
             }
         }
-        
         return res;
     }
     
-    public void traverse(char[][] board, int i, int j, Node node, List<String> res){
-        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] == '*')
+    
+    public void dfs(char[][] board, int i, int j, List<String> res, TrieNode it, boolean[][] visited){
+        if(it.word != "" && !res.contains(it.word)){
+           res.add(it.word);
+        }
+        
+        if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || visited[i][j])
             return;
         
         char c = board[i][j];
-        if(node.children[c - 'a'] == null)
+        if(it.children[c - 'a'] == null)
             return;
         
-        node = node.children[c - 'a'];
+        it = it.children[c - 'a'];
+        visited[i][j] = true;
+        dfs(board, i + 1, j, res, it, visited);
+        dfs(board, i - 1, j, res, it, visited);
+        dfs(board, i, j + 1, res, it, visited);
+        dfs(board, i, j - 1, res, it, visited);
         
-        if(node.word != null ){
-            res.add(node.word);
-            node.word = null;
-        }
+        visited[i][j] = false;
+    }
+    public void buildTrie(TrieNode root, String s){
+        TrieNode it = root;
+        
+        for(int i = 0; i < s.length(); ++i){
+            char c = s.charAt(i);
+            if(it.children[c - 'a'] == null)
+                it.children[c - 'a'] = new TrieNode();
             
-        
-        
-         
-        
-        board[i][j] = '*';
-        
-        for(int[] dir : directions){
-            traverse(board, i + dir[0], j + dir[1], node, res);
+            it = it.children[c - 'a'];
         }
-    
-        board[i][j] = c;
+        it.word = s;
     }
     
-    public Node buildTrie(String[] words){
-        Node root = new Node();
-        for(String word : words){
-            Node it = root;
-            for(int i = 0; i < word.length(); ++i){
-                int idx = word.charAt(i) - 'a';
-                if(it.children[idx] == null)
-                    it.children[idx] = new Node();
-                it = it.children[idx];
-            }
-            it.word = word;
-        }
-        
-        return root;
-    }
-}
-
-class Node {
-    Node[] children;
-    String word;
-    
-    public Node(){
-        this.children = new Node[26];
+    class TrieNode{
+        String word = "";
+        TrieNode[] children = new TrieNode[26];
     }
 }

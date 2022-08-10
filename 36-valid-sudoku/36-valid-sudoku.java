@@ -1,37 +1,39 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
         int number;
-        for(int row = 0; row < board.length; ++row){
-            boolean[] rowCheck = new boolean[9];
-            boolean[] colCheck = new boolean[9];
-            boolean[] cell = new boolean[9];
+        
+        for(int i = 0; i < board.length; ++i){
+            boolean[] checkRow = new boolean[10];
+            boolean[] checkCol = new boolean[10];
+            boolean[] checkBox = new boolean[10];
             
-            for(int col = 0; col < board[0].length; ++col){
-                
-                if(board[row][col] != '.'){
-                    number = board[row][col] - '1';
-                    
-                    if(rowCheck[number])
+            for(int j = 0; j < board[0].length; ++j){
+                // Check row
+                if(board[i][j] != '.'){
+                    number = board[i][j] - '0';
+                    if(checkRow[number])
                         return false;
-                    rowCheck[number] = true;
+                    checkRow[number] = true;
                 }
                 
-                if(board[col][row] != '.'){
-                    number = board[col][row] - '1';
-                    
-                    if(colCheck[number])
+                // Check Col
+                if(board[j][i] != '.'){
+                    number = board[j][i] - '0';
+                    if(checkCol[number])
                         return false;
-                    colCheck[number] = true;
+                    
+                    checkCol[number] = true;
                 }
                 
-                int rowBox = row / 3 * 3 + col/3;
-                int colBox = row % 3 * 3 + col % 3;
-                if(board[rowBox][colBox] != '.'){
-                    number = board[rowBox][colBox] - '1';
-                    
-                    if(cell[number])
+                // Check Box
+                int row = (i / 3 * 3) + j/3;
+                int col = (i % 3 * 3) + j % 3;
+                if(board[row][col]  != '.'){
+                    number = board[row][col] - '0';
+                    if(checkBox[number])
                         return false;
-                    cell[number] = true;
+                    
+                    checkBox[number] = true;
                 }
             }
         }

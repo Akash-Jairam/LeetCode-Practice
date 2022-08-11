@@ -1,85 +1,75 @@
 class Solution {
     public List<String> fullJustify(String[] words, int maxWidth) {
-        List<String> result = new ArrayList<>();
+        List<String> res = new ArrayList<>();
         
         int start = 0;
         int end = 0;
-        while (start < words.length) {
-            end = findLastWordIndex(words, start, maxWidth);
-
-            String line = justify(words, start, end, maxWidth);
-            result.add(line);
-            
+        
+        while(start < words.length){
+            end = findWordIndex(words, start, maxWidth);
+            res.add(justify(words, start, end, maxWidth));
             start = end + 1;
         }
         
-        return result;
+        return res;
     }
     
-    private int findLastWordIndex(String[] words, int i, int maxWidth) {
-        int j = i;
+    public int findWordIndex(String[] words, int start, int maxWidth){
+        int i = start;
         
-        int currWidth = words[j].length(); //took first word at j, notice first one doesn't need a space.
-        j++;
-        
-        while (j< words.length && (currWidth + 1+ words[j].length()<= maxWidth)) {
-            currWidth = currWidth + 1 + words[j].length();
-            j++;
+        int currWidth = words[i].length();
+        ++i;
+        while(i < words.length && (currWidth + 1 + words[i].length()) <= maxWidth){
+            currWidth = currWidth + 1 + words[i].length();
+            ++i;
         }
-
-        return j-1; //end now points at the next index so -1
+        
+        // i will be invalid so we need to return i - 1
+        return i - 1;
     }
     
-    private String justify(String[] words, int i, int j, int maxWidth) {
-        // if there is only one word, we simply pad extra spaces.
-        if (j - i == 0) return padResult(words[i], maxWidth); 
+    public String justify(String[] words, int start, int end, int maxWidth){
+        if(end - start == 0) return padResult(words[start], maxWidth);
         
-        // For last line, j will always point to the last element.
-        boolean isLastLine = j == words.length - 1; 
-
-        // find the length of words. 
+        boolean isLastLine = end == words.length - 1;
+        
         int l = 0;
-        for (int k=i; k<=j; k++) {
+        for(int k = start; k <= end; ++k){
             l += words[k].length();
         }
         
         int numSpaces = maxWidth - l;
-        int numWordsToPad = j-i; // for total of 3 words, j=2, i=0 so 2 words to pad (since we don't pad last one)
+        int numWordsToPad = end - start;
         
-        StringBuilder sb = new StringBuilder();
-        
-        // SpaceStr is the string with right num of spaces that should be attached to each word (numWordsToPad)
-        String spaceStr = isLastLine ? " " : blank(numSpaces / numWordsToPad); // simple separation in last line
-        // remainderSpaceCount is the number of extra space that need to be attached to first words (from left)
+        StringBuilder sb = new StringBuilder(maxWidth);
+        String spaceStr = isLastLine ? " " : blank(numSpaces / numWordsToPad);
         int remainderSpaceCount = isLastLine ? 0 : numSpaces % numWordsToPad;
         
         int usedTotal = 0;
-        for (int k=i; k<=j; k++) {
-            sb.append(words[k]).append(spaceStr); // notice we also end up attaching to the last word, we will trim it later
+        
+        for(int k = start; k <= end; ++k){
+            sb.append(words[k]).append(spaceStr);
             
-            // also append extra spaces 
-            if (remainderSpaceCount > 0) {
+            if(remainderSpaceCount > 0){
                 sb.append(" ");
-                remainderSpaceCount--;
+                --remainderSpaceCount;
             }
         }
         
-        String line = sb.toString().trim(); // the last word will also have spaces, so need to tirm.
-        
-        return padResult(line, maxWidth); // if the last word still needs to be padded.
+        String line = sb.toString().trim();
+        return padResult(line, maxWidth);
     }
     
-    private String padResult(String result, int maxWidth) {
+    private String padResult(String result, int maxWidth){
         return result + blank(maxWidth - result.length());
     }
     
-    private String blank(int count) {
+    private String blank(int count){
         StringBuilder sb = new StringBuilder();
-        while (count > 0) {
+        while(count > 0){
             sb.append(" ");
-            count--;
+            --count;
         }
-        
         return sb.toString();
     }
 }

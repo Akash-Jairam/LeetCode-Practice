@@ -16,7 +16,7 @@ class Solution {
     }
     
     public Integer findLCA(TreeNode root, TreeNode p, TreeNode q){
-        if(root == null)
+        if(root == null || lca != null)
             return 0;
         
         int current = root.val == p.val || root.val == q.val ? 1 : 0;

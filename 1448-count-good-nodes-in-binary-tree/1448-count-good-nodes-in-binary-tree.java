@@ -16,20 +16,21 @@
 class Solution {
     int count = 0;
     public int goodNodes(TreeNode root) {
-        if(root == null)
-            return 1;
-        helper(root, root.val);
+
+        
+        helper(root, Integer.MIN_VALUE);
         return count;
     }
     
-    public void helper(TreeNode root, int maxSoFar){
+    public void helper(TreeNode root, int prev){
         if(root == null)
             return;
         
-        if(root.val >= maxSoFar)
+        if(prev <= root.val)
             ++count;
         
-        helper(root.left, Math.max(root.val, maxSoFar));
-        helper(root.right, Math.max(root.val, maxSoFar));
+        int max = Math.max(prev, root.val);
+        helper(root.left, max);
+        helper(root.right, max);
     }
 }

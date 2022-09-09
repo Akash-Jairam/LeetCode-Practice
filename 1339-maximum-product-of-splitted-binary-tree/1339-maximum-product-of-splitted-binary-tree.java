@@ -15,27 +15,27 @@
  */
 class Solution {
     public int maxProduct(TreeNode root) {
-        long total = sum(root);
-        long[] res = new long[1];
-        maxProduct(root, total, res);
-        return (int)(res[0] % (1e9 + 7));
+        long sum = findSum(root);
+        long[] res = new long[]{sum, 0};
+        findMaxProduct(root, res);
+        return (int) (res[1] % (1e9 + 7));
     }
     
-    private long sum(TreeNode root){
+    public long findMaxProduct(TreeNode root, long[] res){
         if(root == null)
             return 0;
         
-        return sum(root.left) + root.val + sum(root.right);
-    }
-    
-    private long maxProduct(TreeNode root, long total, long[] res){
-        if(root == null)
-            return 0;
-        
-        long left = maxProduct(root.left, total, res);
-        long right = maxProduct(root.right, total, res);
-        long curr = left + right + root.val;
-        res[0] = Math.max(res[0], curr * (total - curr));
+        long left = findMaxProduct(root.left, res);
+        long right = findMaxProduct(root.right, res);
+        long curr = left + root.val + right;
+        res[1] = Math.max(res[1], curr * (res[0] - curr));
         return curr;
+    }
+    
+    public long findSum(TreeNode root){
+        if(root == null)
+            return 0;
+        
+        return findSum(root.left) + root.val + findSum(root.right);
     }
 }

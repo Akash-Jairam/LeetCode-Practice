@@ -1,25 +1,31 @@
 class Solution {
     public List<String> topKFrequent(String[] words, int k) {
+        List<String> res = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
-        
-        for(String s : words){
-            map.put(s, map.getOrDefault(s, 0) + 1);
+        for(String word : words){
+            map.put(word, map.getOrDefault(word, 0) + 1);
         }
-        
-        PriorityQueue<Pair<String, Integer>> pq = new PriorityQueue<>((p1, p2) ->
-        p1.getValue() == p2.getValue() ? p2.getKey().compareTo(p1.getKey()) : p1.getValue() - p2.getValue());
-        
-        for(String key : map.keySet()){
-            pq.offer(new Pair<>(key, map.get(key)));
+        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(new WordComparator());
+        for(Map.Entry<String, Integer> e : map.entrySet()){
+            pq.offer(e);
             if(pq.size() > k)
                 pq.poll();
         }
-        
-        List<String> res = new ArrayList<>();
         
         while(!pq.isEmpty()){
             res.add(0, pq.poll().getKey());
         }
         return res;
+    }
+    
+    class WordComparator implements Comparator<Map.Entry<String, Integer>>{
+        @Override
+        public int compare(Map.Entry<String, Integer> p1, Map.Entry<String, Integer> p2){
+            if(p1.getValue() == p2.getValue()){
+                return p2.getKey().compareTo(p1.getKey());
+            }
+            
+            return p1.getValue() - p2.getValue();
+        }
     }
 }

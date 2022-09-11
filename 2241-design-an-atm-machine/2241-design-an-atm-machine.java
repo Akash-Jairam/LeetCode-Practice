@@ -1,15 +1,14 @@
 class ATM {
-    private final long[] money;
-    private final int[] coin;
     
+    long[] amounts = new long[5];
+    int[] denoms = new int[] {20, 50, 100, 200, 500};
     public ATM() {
-        money = new long[5];
-        coin = new int[] {20, 50, 100, 200, 500};
+        
     }
     
     public void deposit(int[] banknotesCount) {
-        for(int i = 0; i < 5; ++i){
-            money[i] += banknotesCount[i];
+        for(int i = 0; i < amounts.length; ++i){
+            amounts[i] += banknotesCount[i];
         }
     }
     
@@ -17,17 +16,16 @@ class ATM {
         int[] res = new int[5];
         
         for(int i = 4; i >= 0; --i){
-            int k = (int) Math.min(money[i], amount/coin[i]);
-            res[i] = k;
-            amount -= k * coin[i];
+            int currBills = (int) Math.min(amounts[i], amount / denoms[i]);
+            amount -= currBills * denoms[i];
+            res[i] += currBills;
         }
         
-        if(amount != 0){
+        if(amount != 0)
             return new int[]{-1};
-        }
         
         for(int i = 0; i < 5; ++i){
-            money[i] -= res[i];
+            amounts[i] -= res[i];
         }
         
         return res;

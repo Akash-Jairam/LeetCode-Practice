@@ -11,32 +11,39 @@ public class Codec {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if(root == null)
-            return "X,";
-            
-        String leftString = serialize(root.left);
-        String rightString = serialize(root.right);
-        
-        return String.valueOf(root.val) + "," + leftString + rightString;
+        StringBuilder sb = new StringBuilder();
+        helper(root, sb);
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        Queue<String> nodesLeft = new LinkedList<>();
-        nodesLeft.addAll(Arrays.asList(data.split(",")));
-        return deserializeHelper(nodesLeft);
+        Queue<String> queue = new LinkedList<>();
+        String[] split = data.split(",");
+        for(String s : split) queue.offer(s);
+        return buildTree(queue);
     }
     
-    public TreeNode deserializeHelper(Queue<String> queue){
-        String current = queue.poll();
-        if(current.isEmpty() || current.equals("X"))
-            return null;
-        
-        TreeNode node = new TreeNode(Integer.parseInt(current));
-        node.left = deserializeHelper(queue);
-        node.right = deserializeHelper(queue);
-        
+    public TreeNode buildTree(Queue<String> queue){
+        if(queue.isEmpty()) return null;
+        String curr = queue.poll();
+        if(curr.equals("null")) return null;
+        TreeNode node = new TreeNode(Integer.parseInt(curr));
+        node.left = buildTree(queue);
+        node.right = buildTree(queue);
         return node;
+    }
+    
+    public void helper(TreeNode node, StringBuilder sb){
+        if(node == null){
+            sb.append("null,");
+            return;
+        }
+        
+        sb.append(node.val + ",");
+        helper(node.left, sb);
+        helper(node.right, sb);
     }
 }
 

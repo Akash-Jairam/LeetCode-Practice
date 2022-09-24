@@ -1,7 +1,6 @@
 class Solution {
     public int[] amountPainted(int[][] paint) {
         if(paint == null || paint.length == 0) return new int[0];
-        
         int[] lines = new int[50001];
         int[] res = new int[paint.length];
         

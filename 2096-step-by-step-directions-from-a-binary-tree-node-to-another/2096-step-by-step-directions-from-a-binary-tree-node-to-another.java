@@ -15,38 +15,28 @@
  */
 class Solution {
     public String getDirections(TreeNode root, int startValue, int destValue) {
-        // Create two string builders, one to track the traversal to find the start val
-        // And one to track the traversal to find the destination value
-        // Create a function while will find a value and update the given stringbuilder
-        // Take the two string builders and iterate through them from right to left (since the first root visited will be the last character) until we get to the last common character
-        // Our traversal from the start to the lowest common ancestor will be the U times the distance between the start and the LCA
-        // Our traversal from the lca to the destination, will be the substring of the reverse of the stringbuilder from the lca index (since we are going top down)
-        StringBuilder begin = new StringBuilder();
+        StringBuilder start = new StringBuilder();
+        findNode(root, startValue, start);
+        
         StringBuilder end = new StringBuilder();
-        findNode(root, startValue, begin);
         findNode(root, destValue, end);
-        int limit = Math.min(begin.length(), end.length());
-        int lca = 0;
-        while(lca < limit && begin.charAt(begin.length() -1- lca) == end.charAt( end.length()-1  - lca)){
-            lca++;
+        
+        int offset = 0;
+        int limit = Math.min(start.length(), end.length());
+        while(offset < limit && start.charAt(start.length() - 1 - offset) == end.charAt(end.length() - 1 - offset)){
+            ++offset;
         }
         
-        
-        return "U".repeat(begin.length() - lca) + end.reverse().toString().substring(lca);
+        return "U".repeat(start.length() - offset) + end.reverse().toString().substring(offset);
     }
     
-    // Find Node
-    // If the node val == the target, we return true
-    // We perform null checks on the left and right nodes before making a recursive call
-    // We append L or R based on if either recursive call returned true
-    public boolean findNode(TreeNode node, int target, StringBuilder sb){
-        if(node.val == target)
-            return true;
+    public boolean findNode(TreeNode node, int val, StringBuilder sb){
+        if(node.val == val) return true;
         
-        if(node.left != null && findNode(node.left, target, sb)){
+        if(node.left != null && findNode(node.left, val, sb)){
             sb.append("L");
             return true;
-        }else if(node.right != null && findNode(node.right, target, sb)){
+        } else if(node.right != null && findNode(node.right, val, sb)){
             sb.append("R");
             return true;
         }

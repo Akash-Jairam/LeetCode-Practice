@@ -1,21 +1,23 @@
 class Logger {
-
     HashMap<String, Integer> map;
-    
+    int cooldown = 10;
     public Logger() {
         map = new HashMap<>();
+        
     }
     
     public boolean shouldPrintMessage(int timestamp, String message) {
-        HashMap<String, Integer> map = this.map;
-       if(map.containsKey(message) && timestamp - map.get(message) < 0)
-           return false;
+        if(!map.containsKey(message)){
+            map.put(message, timestamp);
+            return true;
+        } else if(timestamp - map.get(message) >= 10){
+            map.put(message, timestamp);
+            return true;
+        }
         
-        map.put(message, timestamp + 10);
-        return true;
+        return false;
     }
 }
-
 
 /**
  * Your Logger object will be instantiated and called as such:

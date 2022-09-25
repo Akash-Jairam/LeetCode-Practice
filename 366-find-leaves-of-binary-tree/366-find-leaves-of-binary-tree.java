@@ -15,23 +15,20 @@
  */
 class Solution {
     public List<List<Integer>> findLeaves(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-        traverse(root, result);
-        return result;
+        List<List<Integer>> res = new ArrayList<>();
+        traverse(root, res);
+        return res;
     }
     
-    public int traverse(TreeNode node, List<List<Integer>> result){
-        if(node == null)
-            return -1;
+    public int traverse(TreeNode node, List<List<Integer>> res){
+        if(node == null) return -1;
         
-        int leftLevel = traverse(node.left, result);
-        int rightLevel = traverse(node.right, result);
+        int level = Math.max(traverse(node.left, res), traverse(node.right, res)) + 1;
+        if(res.size() <= level){
+            res.add(new ArrayList<>());
+        }
         
-        int level = Math.max(leftLevel, rightLevel) + 1;
-        if(result.size() <= level)
-            result.add(new ArrayList<>());
-        
-        result.get(level).add(node.val);
+        res.get(level).add(node.val);
         return level;
     }
 }

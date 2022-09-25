@@ -1,38 +1,33 @@
 class StockPrice {
-    int current = -1;
-    int min = Integer.MAX_VALUE;
-    int max = Integer.MIN_VALUE;
-    HashMap<Integer, Integer> map;
-    TreeMap<Integer, Integer> tree;
+    TreeMap<Integer, Integer> map;
+    TreeMap<Integer, List<Integer>> tree;
     public StockPrice() {
-        map = new HashMap<>();
+        map = new TreeMap<>();
         tree = new TreeMap<>();
     }
     
     public void update(int timestamp, int price) {
-        int currPrice = map.getOrDefault(timestamp, -1);
-        if(tree.containsKey(currPrice)){
-            tree.put(currPrice, tree.get(currPrice) - 1);
-            if(tree.get(currPrice) == 0)
-                tree.remove(currPrice);
+        if(map.containsKey(timestamp)){
+            int prevPrice = map.get(timestamp);
+            tree.get(prevPrice).remove(Integer.valueOf(timestamp));
+            if(tree.get(prevPrice).size() == 0) tree.remove(prevPrice);
         }
+        
+        tree.putIfAbsent(price, new ArrayList<>());
+        tree.get(price).add(timestamp);
         map.put(timestamp, price);
-        tree.put(price, tree.getOrDefault(price, 0) + 1);
-        max = tree.lastKey();
-        min = tree.firstKey();
-        current = Math.max(current, timestamp);
     }
     
     public int current() {
-        return map.getOrDefault(current, -1);
+        return map.get(map.lastKey());
     }
     
     public int maximum() {
-        return max;
+        return tree.lastKey();
     }
     
     public int minimum() {
-        return min;
+        return tree.firstKey();
     }
 }
 

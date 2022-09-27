@@ -3,7 +3,7 @@ class Solution {
         List<Long> res = new ArrayList<>();
         
         if(finalSum % 2 == 0){
-            long num = 2L;
+            Long num = 2L;
             while(num <= finalSum){
                 finalSum -= num;
                 res.add(num);
@@ -12,7 +12,8 @@ class Solution {
         } else{
             return res;
         }
-        res.add(finalSum + res.remove(res.size()-1));
+        
+        res.add(finalSum + res.remove(res.size() - 1));
         return res;
     }
 }

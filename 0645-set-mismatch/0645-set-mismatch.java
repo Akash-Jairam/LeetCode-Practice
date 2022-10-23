@@ -1,18 +1,15 @@
 class Solution {
     public int[] findErrorNums(int[] nums) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int max = nums.length;
-        int[] res = new int[2];
-        for(int num : nums){
-            map.put(num, map.getOrDefault(num, 0) + 1);
+        int dup = -1, missing = 1;
+        for(int n : nums){
+            if(nums[Math.abs(n) - 1] < 0) dup = Math.abs(n);
+            else nums[Math.abs(n) - 1] *= -1;
         }
         
-        for(int i = 1; i <= max; ++i){
-            if(!map.containsKey(i)) res[1] = i;
-            else if(map.get(i) == 2) res[0] = i;
+        for(int i = 1; i < nums.length; ++i){
+            if(nums[i] > 0) missing =  i+1;
         }
         
-        return res;
-        
+        return new int[]{dup, missing};
     }
 }

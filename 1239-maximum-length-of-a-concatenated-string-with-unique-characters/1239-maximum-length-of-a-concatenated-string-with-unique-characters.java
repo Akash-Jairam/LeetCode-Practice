@@ -22,7 +22,6 @@ class Solution {
             
         backtrack(arr, index+1, curr + "" + arr.get(index) , candidates);
         backtrack(arr, index+1, curr, candidates);
-         
     }
     
     public int findUnique(String s){

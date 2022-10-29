@@ -1,23 +1,22 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t): return False
-        s_map = {}
-        t_map = {}
+        char_map = {}
         
-        for c1, c2 in zip(s, t):
-            if c1 in s_map:
-                s_map[c1] += 1
+        for c in s:
+            if c in char_map:
+                char_map[c] += 1
             else:
-                s_map[c1] = 1
-            
-            if c2 in t_map:
-                t_map[c2] += 1
-            else:
-                t_map[c2] = 1
+                char_map[c] = 1
         
-        for c in s_map.keys():
-            if c not in t_map or s_map[c] != t_map[c] :
+        for c in t:
+            if c not in char_map:
                 return False
-            
+            else:
+                char_map[c] -= 1
+        
+        for count in char_map.values():
+            if count != 0:
+                return False
+        
         return True
         

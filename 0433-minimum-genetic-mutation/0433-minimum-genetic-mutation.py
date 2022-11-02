@@ -14,7 +14,7 @@ class Solution:
                 if curr == end:
                     return steps
                 for cand in bank:
-                    if self.isNext(curr, cand):
+                    if self.isNext(curr, cand) and cand not in queue:
                         queue.append(cand)
             
             steps += 1

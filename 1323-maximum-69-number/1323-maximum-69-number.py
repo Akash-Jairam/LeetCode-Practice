@@ -9,9 +9,8 @@ class Solution:
             curr_index += 1
             num_copy //= 10
         
-        if index_first_six > -1:
-            to_add = int (3 * (math.pow(10, index_first_six)))
-            num += to_add
+        if index_first_six > -1:     
+            num +=  int (3 * (math.pow(10, index_first_six)))
         
         return num
         

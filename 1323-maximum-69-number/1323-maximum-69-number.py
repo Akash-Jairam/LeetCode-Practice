@@ -1,12 +1,17 @@
 class Solution:
     def maximum69Number (self, num: int) -> int:
-        res = list(map(str, str(num)))
+        num_copy = num
+        index_first_six = -1
+        curr_index = 0
+        while num_copy > 0:
+            if num_copy % 10 == 6:
+                index_first_six = curr_index
+            curr_index += 1
+            num_copy //= 10
         
-        for i in range(len(res)):
-            if res[i] == '6':
-                res[i] = '9'
-                break
-                
-        return (int) ("".join(res))
+        if index_first_six > -1:
+            to_add = int (3 * (math.pow(10, index_first_six)))
+            return num + to_add
         
+        return num
         

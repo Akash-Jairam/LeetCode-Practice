@@ -1,14 +1,11 @@
 class Solution:
     def frequencySort(self, s: str) -> str:
-        char_map = {}
+        char_map = collections.Counter(s)
         
-        for c in s:
-            char_map[c] = char_map.setdefault(c, 0) + 1
+        sb = []
+        for letter, freq in char_map.most_common():
+            sb.append(letter * freq)
         
-        res = ''
-        for k, v in sorted(char_map.items(), key = lambda item: item[1]):
-         for i in range(v):
-                res = k + res
         
-        return res
-                
+        return "".join(sb)
+        

@@ -18,4 +18,5 @@ class Solution:
             mid = mid.next
             
         return mid
+    
         

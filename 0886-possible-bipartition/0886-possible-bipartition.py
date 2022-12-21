@@ -1,41 +1,29 @@
-class UnionFind:
-    def __init__(self, size):
-        self.parent = list(range(size))
-        self.rank = [0] * size
+class UF:
+    def __init__(self, n):
+        self.p = [i for i in range(n+1)]
     
-    def find(self, x):
-        if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])
+    def find(self, i):                                        # Find parent
+        if i != self.p[i]:
+            self.p[i] = self.find(self.p[i])
+        return self.p[i]    
         
-        return self.parent[x]
-    
-    def union_set(self, x, y):
-        xset = self.find(x)
-        yset = self.find(y)
-        if xset == yset:
-            return
-        
-        if self.rank[xset] < self.rank[yset]:
-            self.parent[xset] = yset
-        elif self.rank[xset] > self.rank[yset]:
-            self.parent[yset] = xset
-        else:
-            self.parent[yset] = xset
-            self.rank[xset] += 1
+    def union(self, j, parent_dislike_i, parent_i):    
+        p_j = self.find(j)
+        self.p[p_j] = parent_dislike_i 
+        return p_j != parent_i                                # Check if there is a parent conflict
         
 class Solution:
-    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
-        adj = [[] for _ in range(n + 1)]
-        for dislike in dislikes:
-            adj[dislike[0]].append(dislike[1])
-            adj[dislike[1]].append(dislike[0])
+    def possibleBipartition(self, N: int, dislikes: List[List[int]]) -> bool:
+        self.graph = collections.defaultdict(list)            # Create graph and initilize union find
+        uf = UF(N)
+        for (u, v) in dislikes:
+            self.graph[u].append(v)
+            self.graph[v].append(u)
         
-        dsu = UnionFind(n + 1)
-        for node in range(1, n + 1):
-            for neighbor in adj[node]:
-                # Check if the node and its neighbor is in the same set.
-                if dsu.find(node) == dsu.find(neighbor): return False
-                # Move all the neighbours into same set as the first neighbour.
-                dsu.union_set(adj[node][0], neighbor)
-        
-        return True
+        for i in range(1, N+1):
+            parent_i = uf.find(i)
+            if parent_i in self.graph:
+                parent_dislike_i = uf.find(self.graph[i][0])  # Pick a dislike node's parent as a common parent for the rest of dislike nodes
+                for dis in self.graph[i][1:]:                 # For each dislike node
+                    if not uf.union(dis, parent_dislike_i, parent_i): return False   # Return False if there is a conflict when grouping
+        return True  

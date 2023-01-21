@@ -1,5 +1,7 @@
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
+        #Find the lexigraphically first string and the lexigraphically last string
+        #Compare them and return the common string
         res = ""
         first = last = strs[0]
         

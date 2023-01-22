@@ -3,15 +3,12 @@ class Solution:
         email_set = set()
         
         for email in emails:
-            split = email.split('@')
-            left_side = ""
-            for c in split[0]:
-                if c == '.':
-                    continue
-                elif c == '+':
+            locale = []
+            for c in email:
+                if c == '+' or c == '@':
                     break
-                else:
-                    left_side += c
-            email_set.add(left_side + '@' + split[1])
+                elif c != '.':
+                   locale.append(c) 
+            email_set.add('.'.join(locale) + email[email.find('@'):])
         
         return len(email_set)

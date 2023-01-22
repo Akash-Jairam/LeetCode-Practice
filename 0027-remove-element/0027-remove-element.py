@@ -1,16 +1,11 @@
 class Solution:
     def removeElement(self, nums: List[int], val: int) -> int:
-        k, n = 0, len(nums)
+        swap_idx = 0
         
-        for i in range(n):
-            if nums[i] == val:
-                j = i+1
-                while j < n and nums[j] == val:
-                    j += 1
-                
-                if j < n:
-                    nums[i], nums[j] = nums[j], nums[i]
-                    k += 1
-            else:
-                k += 1
-        return k
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[swap_idx], nums[i] = nums[i], nums[swap_idx]
+                swap_idx += 1
+        
+        return swap_idx
+        

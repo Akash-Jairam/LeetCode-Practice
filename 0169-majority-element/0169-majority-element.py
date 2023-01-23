@@ -5,7 +5,9 @@ class Solution:
         
         for num in nums:
             num_map[num] += 1
-            if num_map[num] > threshold:
-                return num
+        
+        for key, value in num_map.items():
+            if value > threshold:
+                return key
         
         return -1

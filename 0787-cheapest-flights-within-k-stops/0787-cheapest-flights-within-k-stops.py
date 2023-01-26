@@ -3,6 +3,7 @@ class Solution:
         adj_list = defaultdict(list)
         for u,v,w in flights: adj_list[u].append((v,w))
         queue = deque([(0, src, k)])
+        #Infinity
         price = [float(inf)] * N        
         while queue:
             cost, node, stops = queue.popleft()

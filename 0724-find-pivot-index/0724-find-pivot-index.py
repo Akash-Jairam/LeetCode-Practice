@@ -4,7 +4,7 @@ class Solution:
         curr_sum = 0
         
         for i in range(n):
-            if curr_sum == (total - nums[i] - curr_sum) or (i == n-1 and curr_sum == 0):
+            if curr_sum == (total - nums[i] - curr_sum):
                 return i
             curr_sum += nums[i]
             

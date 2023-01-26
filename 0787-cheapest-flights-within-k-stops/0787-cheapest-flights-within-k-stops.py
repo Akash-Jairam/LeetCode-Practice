@@ -1,16 +1,19 @@
+## BFS solution
 class Solution:
-    def findCheapestPrice(self, N: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        adj_list = defaultdict(list)
-        for u,v,w in flights: adj_list[u].append((v,w))
-        queue = deque([(0, src, k)])
-        #Infinity
-        price = [float(inf)] * N        
-        while queue:
-            cost, node, stops = queue.popleft()
-            for nei,w in adj_list[node]:
-                if cost + w < price[nei]:
-                    price[nei] = cost + w
-                    if stops > 0:
-                        queue.append((cost + w, nei, stops - 1))
-        
-        return -1 if price[dst] == float(inf) else price[dst]
+    def findCheapestPrice(self, n, flights, src, dst, k):
+        adj = defaultdict(list)
+        for s, d, p in flights:
+            adj[s].append((d, p))
+        queue = deque()
+        queue.append((src, 0))
+        costs = [float("inf")] * n
+        while queue and k >= 0:
+            m = len(queue)
+            for _ in range(m):
+                curr, cost = queue.popleft()
+                for node, price in adj[curr]:
+                    if cost + price < costs[node]:
+                        costs[node] = cost + price
+                        queue.append((node, costs[node]))
+            k -= 1
+        return costs[dst] if costs[dst] != float("inf") else -1

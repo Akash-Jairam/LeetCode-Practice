@@ -1,5 +1,6 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
+        #Use arrays to track the left product and right product
         n = len(nums)
         left_prod, right_prod = [1] * n, [1] * n
         res = []

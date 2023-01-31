@@ -9,19 +9,12 @@ class Solution:
         for num in nums:
             temp = num
             count = 1
-            while n_set and temp - 1 in n_set:
-                temp -= 1
-                n_set.remove(temp)
-                count += 1
-            
-            temp = num
-            while n_set and temp + 1 in n_set:
-                temp += 1
-                n_set.remove(temp)
-                count += 1
+            if temp - 1 not in n_set:
+                while n_set and temp + 1 in n_set:
+                    temp += 1
+                    count += 1
             
             max_seq = max(max_seq, count)
-            if not n_set:
-                break
+           
                 
         return max_seq

@@ -10,19 +10,19 @@
 <p>Return a list of <code>transactions</code> that are possibly invalid. You may return the answer in <strong>any order</strong>.</p>
 
 <p>&nbsp;</p>
-<p><strong>Example 1:</strong></p>
+<p><strong class="example">Example 1:</strong></p>
 
 <pre><strong>Input:</strong> transactions = ["alice,20,800,mtv","alice,50,100,beijing"]
 <strong>Output:</strong> ["alice,20,800,mtv","alice,50,100,beijing"]
 <strong>Explanation:</strong> The first transaction is invalid because the second transaction occurs within a difference of 60 minutes, have the same name and is in a different city. Similarly the second one is invalid too.</pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre><strong>Input:</strong> transactions = ["alice,20,800,mtv","alice,50,1200,mtv"]
 <strong>Output:</strong> ["alice,50,1200,mtv"]
 </pre>
 
-<p><strong>Example 3:</strong></p>
+<p><strong class="example">Example 3:</strong></p>
 
 <pre><strong>Input:</strong> transactions = ["alice,20,800,mtv","bob,50,1200,mtv"]
 <strong>Output:</strong> ["bob,50,1200,mtv"]

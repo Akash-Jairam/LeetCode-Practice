@@ -1,46 +1,36 @@
+from collections import defaultdict
 class UndergroundSystem:
     class trip:
-        def __init__(self, startStation, startTime):
-            self.startStation = startStation
-            self.startTime = startTime
-            self.endStation = None
-            self.endTime = None
+        def __init__(self, start, uid, time):
+            self.startSt = start
+            self.uid = uid
+            self.start_time = time
+            self.endSt = ''
             self.timeTaken = None
-        
-        def find_time_taken(self):
-            self.timeTaken = self.endTime - self.startTime
             
     def __init__(self):
-        self.customer = {}
-        self.completed = {}
+            self.completed = defaultdict(list)
+            self.cust_map = {}
 
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        self.customer[id] = self.trip(stationName, t)
+        self.cust_map[id] = self.trip(stationName, id, t)
         
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        if id in self.customer:
-            curr_trip = self.customer[id]
-            curr_trip.endStation = stationName
-            curr_trip.endTime = t
-            curr_trip.find_time_taken()
-            startStation = curr_trip.startStation
-            if startStation not in self.completed:
-                self.completed[startStation] = []
-            self.completed[startStation].append(curr_trip)
-        
+        curr_trip = self.cust_map[id]
+        curr_trip.endSt = stationName
+        curr_trip.timeTaken = t - curr_trip.start_time
+        del self.cust_map[id]
+        self.completed[curr_trip.startSt].append(curr_trip)
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        if startStation in self.completed:
-            count, curr_sum = 0, 0
-            for trip in self.completed[startStation]:
-                if trip.endStation == endStation:
-                    curr_sum += trip.timeTaken
-                    count += 1
-            
-            return curr_sum / count
+        count, total = 0, 0
+        for trip in self.completed[startStation]:
+            if trip.endSt == endStation:
+                count += 1
+                total += trip.timeTaken
         
-        return -1
+        return total / count if count > 0 else 0
 
 
 # Your UndergroundSystem object will be instantiated and called as such:

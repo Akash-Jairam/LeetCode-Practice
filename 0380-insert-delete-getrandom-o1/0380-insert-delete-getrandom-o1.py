@@ -14,11 +14,12 @@ class RandomizedSet:
 
     def remove(self, val: int) -> bool:
         if val in self.num_map:
-            last_element, idx = self.num_list[-1], self.num_map[val]
-            self.num_list[idx], self.num_map[last_element] = last_element,idx
-            del self.num_map[val]
+            idx, last_num = self.num_map[val], self.num_list[-1]
+            self.num_list[idx], self.num_map[last_num] = last_num, idx
             self.num_list.pop()
+            del self.num_map[val]
             return True
+        
         return False
 
     def getRandom(self) -> int:

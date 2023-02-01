@@ -1,8 +1,8 @@
+import random
 class RandomizedSet:
 
     def __init__(self):
         self.num_map, self.num_list = {}, []
-        
 
     def insert(self, val: int) -> bool:
         if val in self.num_map:
@@ -11,7 +11,6 @@ class RandomizedSet:
         self.num_list.append(val)
         self.num_map[val] = len(self.num_list) - 1
         return True
-        
 
     def remove(self, val: int) -> bool:
         if val in self.num_map:
@@ -20,12 +19,10 @@ class RandomizedSet:
             del self.num_map[val]
             self.num_list.pop()
             return True
-        
         return False
 
     def getRandom(self) -> int:
         return random.choice(self.num_list)
-        
 
 
 # Your RandomizedSet object will be instantiated and called as such:

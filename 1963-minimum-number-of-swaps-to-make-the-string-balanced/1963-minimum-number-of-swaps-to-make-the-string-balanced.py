@@ -1,23 +1,23 @@
 class Solution:
     def minSwaps(self, s: str) -> int:
-        leftstack, rightstack = [], []
+        num_left, num_right = 0, 0
         left, right = 0, len(s) - 1
         swaps = 0
         
         while left < right:
             if s[left] == '[':
-                leftstack.append(s[left])
-            elif leftstack:
-                leftstack.pop()
+                num_left += 1
+            elif num_left:
+                num_left -= 1
             else:
                 while right > left:
                     if s[right] == ']':
-                        rightstack.append(s[right])
-                    elif rightstack:
-                        rightstack.pop()
+                        num_right += 1
+                    elif num_right:
+                        num_right -= 1
                     else:
-                        leftstack.append(s[left])
-                        rightstack.append(s[right])
+                        num_left += 1
+                        num_right += 1
                         right -= 1
                         swaps += 1
                         break

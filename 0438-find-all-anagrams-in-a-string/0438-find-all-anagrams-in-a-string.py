@@ -1,16 +1,18 @@
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        res, s_map, p_map = [], [0] * 26, [0] * 26
-        m = len(p)
+        p_map, s_map = [0] * 26, [0] * 26
+        p_len = len(p)
+        res = []
+        
         for c in p:
             p_map[ord(c) - ord('a')] += 1
-            
+        
         for i in range(len(s)):
-            if i >= m:
-                s_map[ord(s[i-m]) - ord('a')] -= 1
-            
             s_map[ord(s[i]) - ord('a')] += 1
+            if i >= p_len:
+                s_map[ord(s[i - p_len]) - ord('a')] -= 1
+            
             if s_map == p_map:
-                res.append(i - m + 1)
-                
+                res.append(i- p_len + 1)
+        
         return res

@@ -16,6 +16,7 @@ class Solution:
                 doms[i-1] = 'L'
             elif v == 'R':
                 if i + 1 < len(doms) and doms[i+1] == '.':
+                    # If standing dom is in between left and right like 'R.L', don't add to queue
                     if i + 2 < len(doms) and doms[i+2] == 'L':
                         queue.popleft()
                     else:

@@ -1,5 +1,10 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
+        #Use sliding window to get the maxLeft and maxRight
+        #Slide the lesser of the maxleft and maxright
+        #Before sliding subtract the height of the current right or left
+        #from the min of the maxes
+        #Add the diff to res
         n = len(height)
         maxLeft, maxRight = height[0], height[n-1]
         left, right = 0, n-1

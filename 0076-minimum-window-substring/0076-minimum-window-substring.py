@@ -1,5 +1,7 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
+        # Sliding window
+        # Update window whenever we have all required chars to see how far we can go
         window, t_map = {}, {}
         l, res, reslen = 0, [-1, -1], float('inf')
         have, need = 0, len(t)

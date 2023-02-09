@@ -1,28 +1,31 @@
-from collections import defaultdict
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        def compare(s_m, t_m):
-            for k, v in t_m.items():
-                if s_m[k] < v:
-                    return False
-            
-            return True
-        left = 0
-        s_map, t_map = defaultdict(int), defaultdict(int)
-        
+        window, t_map = {}, {}
+        l, res, reslen = 0, [-1, -1], float('inf')
+        have, need = 0, len(t)
         for c in t:
-            t_map[c] += 1
+            t_map[c] = 1 + t_map.get(c, 0)
             
-        res = ""
-        for right in range(len(s)):
-            s_map[s[right]] += 1
-            if compare(s_map, t_map):    
-                while left <= right and compare(s_map, t_map):
-                    curr = s[left:(right+1)]
-                    if len(curr) < len(res) or res == "":
-                        res = curr
-                    s_map[s[left]] -= 1
-                    left += 1
-                    
-        
-        return res
+        for r in range(len(s)):
+            c = s[r]
+            window[c] = 1 + window.get(c, 0)
+            
+            if c in t_map and window[c] <= t_map[c]:
+                have += 1
+            
+            while have == need:
+                if r - l + 1 < reslen:
+                    reslen = r - l + 1
+                    res = [l, r]
+                c = s[l]
+                window[c] -= 1
+                if c in t_map and window[c] < t_map[c]:
+                    have -= 1
+                
+                
+                l += 1
+            
+        l, r = res
+
+        return s[l:r+1] if reslen != float('inf') else ""
+                

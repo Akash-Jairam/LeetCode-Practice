@@ -1,6 +1,9 @@
 from collections import deque
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # Use a queue where the idx of highest number is the first element 
+        # Pop elements whenever the curr number is greater than elements at the back of the queue
+        # Append the max element to res
         queue = deque()
         l, r, res = 0,0, []
         

@@ -1,5 +1,8 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
+        # Use sliding window
+        # Keep track of when we are within the threshold
+        # When outside threshold, increment left and decrement map accordingly
         l, r = 0, 0
         c_map = [0] * 26
         max_char = 0

@@ -8,6 +8,11 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
+        # Use slow and fast pointers to get to the midpoint of the list
+        # Reverse the midpoint of the list
+        # Now you have pointers to the front and back
+        # Use those pointers to reassemble the list
+        # Be mindful of those pointers converging
         def reverse(node):
             prev = None
             while node:

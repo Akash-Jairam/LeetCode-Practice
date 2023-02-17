@@ -14,6 +14,7 @@ class Solution:
         # Use those pointers to reassemble the list
         # Be mindful of those pointers converging
         def reverse(node):
+            
             prev = None
             while node:
                 nxt = node.next
@@ -28,23 +29,14 @@ class Solution:
             slow = slow.next
             fast = fast.next.next
         
-        front, back = head, reverse(slow)
-        it = ListNode(-1)
-        while front and back and front != back:
-            fnxt = front.next
-            back_prev = back.next
-            
-            front.next = None
-            back.next = None
-            
-            it.next = front
-            it.next.next = back
-            front = fnxt
-            back = back_prev
-            it = it.next.next
-            
-        if front == back:
-            it.next = back
+        back = slow.next
+        slow.next = None
+        front, back = head, reverse(back)
+        
+        while back:
+            f_nxt, b_nxt = front.next, back.next
+            front.next, back.next = back, f_nxt
+            front, back = f_nxt, b_nxt
         
             
         

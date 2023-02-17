@@ -8,30 +8,38 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        nodes = []
-        it = head
-        
-        while it:
-            nodes.append(it)
-            it = it.next
-        
-        l, r = 0, len(nodes) - 1
-        front, idx = True, 0
-        it = ListNode(-1)
-        newHead = it
-       
-        while l <= r:
-            if front:
-                nodes[l].next = None
-                it.next = nodes[l]
-                it = it.next
-                l += 1
-            else:
-                nodes[r].next = None
-                it.next = nodes[r]
-                it = it.next
-                r -= 1
+        def reverse(node):
+            prev = None
+            while node:
+                nxt = node.next
+                node.next = prev
+                prev = node
+                node = nxt
+            return prev
             
-            front = not front
+        slow, fast = head, head
         
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        front, back = head, reverse(slow)
+        it = ListNode(-1)
+        while front and back and front != back:
+            fnxt = front.next
+            back_prev = back.next
+            
+            front.next = None
+            back.next = None
+            
+            it.next = front
+            it.next.next = back
+            front = fnxt
+            back = back_prev
+            it = it.next.next
+            
+        if front == back:
+            it.next = back
+        
+            
         

@@ -3,7 +3,7 @@ class KthLargest:
     def __init__(self, k: int, nums: List[int]):
         self.heap = nums
         self.k = k
-        self.heap.sort()
+        heapq.heapify(self.heap)
         self.balance()
         
 

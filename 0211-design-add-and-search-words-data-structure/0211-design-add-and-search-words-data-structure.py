@@ -22,12 +22,12 @@ class WordDictionary:
             
         it.word = word
         
-    def helper(self, it, word):
-        for i in range(len(word)):
+    def helper(self, it, word, j):
+        for i in range(j, len(word)):
             if word[i] == '.':
                 res = False
                 for child in it.children:
-                    if child and self.helper(child, word[i+1:]):
+                    if child and self.helper(child, word, i+1):
                         return True
                 return False
             else:
@@ -39,7 +39,7 @@ class WordDictionary:
         return it.word != None
     
     def search(self, word: str) -> bool:
-        return self.helper(self.root, word)
+        return self.helper(self.root, word, 0)
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()

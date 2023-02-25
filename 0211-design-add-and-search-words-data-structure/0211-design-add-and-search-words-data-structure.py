@@ -1,3 +1,4 @@
+from collections import deque
 class WordDictionary:
     
     class Node:
@@ -26,9 +27,9 @@ class WordDictionary:
             if word[i] == '.':
                 res = False
                 for child in it.children:
-                    if child:
-                        res = res or self.helper(child, word[i+1:])
-                return res
+                    if child and self.helper(child, word[i+1:]):
+                        return True
+                return False
             else:
                 idx = ord(word[i]) - ord('a')
                 if not it.children[idx]:
@@ -36,9 +37,9 @@ class WordDictionary:
                 it = it.children[idx]
         
         return it.word != None
+    
     def search(self, word: str) -> bool:
         return self.helper(self.root, word)
-
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()

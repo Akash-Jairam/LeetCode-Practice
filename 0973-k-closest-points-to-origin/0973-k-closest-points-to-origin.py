@@ -4,7 +4,7 @@ class Solution:
         min_heap = []
         
         for x, y in points:
-            heapq.heappush(min_heap, (-(x**2 + y ** 2) ** (0.5), [x,y]))
+            heapq.heappush(min_heap, [-(x**2 + y ** 2) ** (0.5), [x,y]])
             if len(min_heap) > k:
                 heapq.heappop(min_heap)
         

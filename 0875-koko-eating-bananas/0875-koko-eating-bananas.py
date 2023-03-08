@@ -2,11 +2,11 @@ class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         lowest, highest = 1, max(piles)
         
-        def check(hours):
+        def check(speed):
             num_hours = 0
             
             for p in piles:
-                num_hours +=  math.ceil(p / hours)
+                num_hours +=  math.ceil(p / speed)
             
             return num_hours
 

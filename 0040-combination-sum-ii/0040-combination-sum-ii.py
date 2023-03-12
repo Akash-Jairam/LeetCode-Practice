@@ -2,7 +2,8 @@ class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         candidates.sort()
         res = []
-        def backtrack(idx, target, curr):
+        
+        def backtrack(idx, curr, target):
             if target == 0:
                 res.append(curr.copy())
                 return
@@ -17,9 +18,10 @@ class Solution:
                     continue
                 
                 curr.append(candidates[i])
-                backtrack(i + 1, target - candidates[i], curr)
+                backtrack(i + 1, curr, target - candidates[i])
                 curr.pop()
                 prev = candidates[i]
+                
         
-        backtrack(0, target, [])
+        backtrack(0, [], target)
         return res

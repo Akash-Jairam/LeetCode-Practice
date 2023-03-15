@@ -4,12 +4,18 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
     def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
-        bfs = [root]
-        i = 0
-        while bfs[i]:
-            bfs.append(bfs[i].left)
-            bfs.append(bfs[i].right)
-            i += 1
-        return not any(bfs[i:])
+        queue = deque()
+        queue.append(root)
+        
+        while queue and queue[0]:
+            curr = queue.popleft()
+            queue.append(curr.left)
+            queue.append(curr.right)
+        
+        while queue and not queue[0]:
+            queue.popleft()
+        
+        return len(queue) == 0

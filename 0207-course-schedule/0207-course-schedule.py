@@ -16,12 +16,10 @@ class Solution:
         if not queue:
             return False
         
-        completed = set()
         while queue:
             size = len(queue)
             for _ in range(size):
                 curr  = queue.popleft()
-                completed.add(curr)
                 for c in c_map[curr]:
                     inDegree[c] -= 1
                     if inDegree[c] == 0:

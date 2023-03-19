@@ -3,9 +3,11 @@ class Solution:
     def canFinish(self, numCourses: int, prereqs: List[List[int]]) -> bool:
         inDegree = [0] * numCourses
         c_map = defaultdict(list)
+        removedEdges, totalDeps = 0,0
         for a, b in prereqs:
             inDegree[a] += 1
             c_map[b].append(a)
+            totalDeps += 1
         
         queue = deque()
             
@@ -24,10 +26,9 @@ class Solution:
                     inDegree[c] -= 1
                     if inDegree[c] == 0:
                         queue.append(c)
+                    removedEdges += 1
         
-        for c in inDegree:
-            if c > 0:
-                return False
+       
         
-        return True
+        return removedEdges == totalDeps
                 

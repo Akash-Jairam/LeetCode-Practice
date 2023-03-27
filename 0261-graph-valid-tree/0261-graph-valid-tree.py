@@ -30,6 +30,7 @@ class Uf:
         
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        # A valid tree will have n - 1 edges and no cycles
         if len(edges) != n - 1:
             return False 
         

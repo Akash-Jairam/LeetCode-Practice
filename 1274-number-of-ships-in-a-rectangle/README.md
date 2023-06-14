@@ -9,7 +9,7 @@
 <p>Submissions making <strong>more than 400 calls</strong> to <code>hasShips</code> will be judged <em>Wrong Answer</em>. Also, any solutions that attempt to circumvent the judge will result in disqualification.</p>
 
 <p>&nbsp;</p>
-<p><strong>Example :</strong></p>
+<p><strong class="example">Example :</strong></p>
 <img alt="" src="https://assets.leetcode.com/uploads/2019/07/26/1445_example_1.PNG" style="width: 496px; height: 500px;">
 <pre><strong>Input:</strong> 
 ships = [[1,1],[2,2],[3,3],[5,5]], topRight = [4,4], bottomLeft = [0,0]
@@ -17,7 +17,7 @@ ships = [[1,1],[2,2],[3,3],[5,5]], topRight = [4,4], bottomLeft = [0,0]
 <strong>Explanation:</strong> From [0,0] to [4,4] we can count 3 ships within the range.
 </pre>
 
-<p><strong>Example 2:</strong></p>
+<p><strong class="example">Example 2:</strong></p>
 
 <pre><strong>Input:</strong> ans = [[1,1],[2,2],[3,3]], topRight = [1000,1000], bottomLeft = [0,0]
 <strong>Output:</strong> 3

@@ -4,29 +4,22 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
 class Solution:
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
-        q = deque()
+        n_list = []
         
-        q.append(root)
-        vals = []
-        while q:
-            size = len(q)
-            for _ in range(size):
-                curr = q.popleft()
-                vals.append(curr.val)
-                
-                if curr.left:
-                    q.append(curr.left)
-                
-                if curr.right:
-                    q.append(curr.right)
-               
-        min_val = float('inf')
+        def traverse(node, node_list):
+            if not node:
+                return
+            
+            traverse(node.left, node_list)
+            node_list.append(node.val)
+            traverse(node.right, node_list)
         
-        for i in range(len(vals) - 1):
-            for j in range(i + 1, len(vals)):
-                min_val = min(min_val, abs(vals[i] - vals[j]))
+        traverse(root, n_list)
+        diff = float('inf')
+        for i in range(1, len(n_list)):
+            diff = min(diff, abs(n_list[i] - n_list[i-1]))
         
-        return min_val
+        return diff
+        

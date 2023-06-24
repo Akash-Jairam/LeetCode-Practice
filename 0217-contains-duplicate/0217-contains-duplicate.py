@@ -1,10 +1,11 @@
+from collections import defaultdict
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
-        prev_nums = set()
-        for n in nums:
-            if n in prev_nums:
-                return True
-            prev_nums.add(n)
-            
-        return False
+        n_map = defaultdict(int)
         
+        for num in nums:
+            if n_map[num]:
+                return True
+            n_map[num] += 1
+        
+        return False

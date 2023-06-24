@@ -1,22 +1,19 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        char_map = {}
+        n = len(s)
+        if len(s) != len(t):
+            return False
         
-        for c in s:
-            if c in char_map:
-                char_map[c] += 1
-            else:
-                char_map[c] = 1
+        s_map, t_map = [0] * 26, [0] * 26
         
-        for c in t:
-            if c not in char_map:
+        for i in range(n):
+            s_map[ord(s[i]) - ord('a')] += 1
+            t_map[ord(t[i]) - ord('a')] += 1
+        
+        for i in range(26):
+            if s_map[i] != t_map[i]:
                 return False
-            else:
-                char_map[c] -= 1
-        
-        for count in char_map.values():
-            if count != 0:
-                return False
+            
         
         return True
-        
+            

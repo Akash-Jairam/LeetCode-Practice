@@ -15,7 +15,4 @@ class Solution:
             i = ord(c) - ord('a')
             c_map[i] += 1
         
-        res = []
-        for i in range(len(c_map)):
-            res.append(str(c_map))
-        return ''.join(res)
+        return tuple(c_map)

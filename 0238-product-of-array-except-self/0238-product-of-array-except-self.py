@@ -1,21 +1,25 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        # Copy nums to our result array
-        # Create a variable to track our right product
-        # Iterate from right to left
-        # Update res[i] to the product of res[i] and right product
-        # Multiply right product by nums[i]
-        n = len(nums)
-        res = [1] * n
-        res[0] = 1
+        prev = 1
+        leftProd, rightProd = [], [0] * len(nums)
         
-        for i in range(1, n):
-            res[i] = res[i-1] * nums[i-1]
+        for i in range(len(nums)):
+            prev *= nums[i]
+            leftProd.append(prev)
         
-        r_prod = 1
         
-        for i in range(n - 1, -1, -1):
-            res[i] *= r_prod
-            r_prod *= nums[i]
+        prev = 1
+        i = len(nums) - 1
+        while i >= 0:
+            prev *= nums[i]
+            rightProd[i] = prev
+            i -= 1
         
+        
+        res = [rightProd[1]]
+        
+        for i in range(1, len(nums) - 1):
+            res.append(leftProd[i-1] * rightProd[i+1])
+        
+        res.append(leftProd[len(nums) -2])
         return res

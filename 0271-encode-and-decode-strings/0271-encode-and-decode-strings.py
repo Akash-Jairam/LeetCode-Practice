@@ -3,8 +3,10 @@ class Codec:
         """Encodes a list of strings to a single string.
         """
         res = ""
+        
         for s in strs:
-            res += str(len(s)) + '#' + s
+                length = len(s)
+                res += str(length) + '#' + s
         
         return res
         
@@ -12,14 +14,14 @@ class Codec:
     def decode(self, s: str) -> List[str]:
         """Decodes a single string to a list of strings.
         """
-        res, i = [], 0
-        
+        i = 0
+        res = []
         while i < len(s):
             j = i
             while s[j] != '#':
                 j += 1
             length = int(s[i:j])
-            curr = s[j+1: j + 1 + length]
+            curr = s[j+1: j+1+length]
             res.append(curr)
             i = j + 1 + length
         

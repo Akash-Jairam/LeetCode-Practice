@@ -1,6 +1,8 @@
 
 class MinStack:
-
+    # Use two stacks, one for the actual stack order and one for the order of min values
+    # Push the curr minimum to the min stack whenever you push to the stack
+    # Pop from the min stack whenever you pop from the stack
     def __init__(self):
         self.stack = []
         self.minStack = []

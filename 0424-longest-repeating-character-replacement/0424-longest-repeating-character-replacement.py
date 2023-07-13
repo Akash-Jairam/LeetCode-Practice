@@ -13,5 +13,6 @@ class Solution:
                 l += 1
             
             r += 1
-            
-        return (r - l )
+        
+        
+        return r - l

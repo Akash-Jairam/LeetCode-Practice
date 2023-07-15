@@ -3,7 +3,7 @@ class Solution:
         """
         1. Find the last peak which is index of the first number from the right which is greater than the number to the left of it
         2. pivot = lastPeak - 1
-        3. If pivot is not -1, find the first number from the right which is greater than the pivot (the swapPoint). Then swap the number at the pivot with the number at the swapPoint
+        3. If pivot is not -1, find the first number from the right which is greater than the # at pivot (the swapPoint). If there is no number greater than the number at the pivot, then swapPoint = pivot + 1. Then swap the number at the pivot with the number at the swapPoint
         4. Reverse all the numbers after the swap point
         """
         pivot = self.findLastPeak(nums) - 1

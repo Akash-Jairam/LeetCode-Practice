@@ -1,7 +1,7 @@
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:
         """
-        1. Find the last peak which is index of the first number from the right which is greater than the number to the right of it
+        1. Find the last peak which is index of the first number from the right which is greater than the number to the left of it
         2. pivot = lastPeak - 1
         3. If pivot is not -1, find the first number from the right which is greater than the pivot (the swapPoint). Then swap the number at the pivot with the number at the swapPoint
         4. Reverse all the numbers after the swap point

@@ -14,3 +14,4 @@ class Solution:
             head = nxt
         
         return prev
+            

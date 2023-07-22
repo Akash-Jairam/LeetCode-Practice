@@ -1,5 +1,12 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
+        # Keep a map of characters in t and their frequency
+        # Keep track of how many characters you have and how many you need
+        # Create a map to keep track of characters in s and their frequency
+        # Create a result array and a result length to track the indicies of the result and the minimum res length
+        # Iterate through s making sure to update the corresponding map and have count
+        # While have == need, we check to see if we need to update res and resLength,then we slide to the right making sure to decrement have if needed
+        # Finally, we return the substring if the resLength is not infinity, otherwise, we return ""
         if t == "":
             return t
         

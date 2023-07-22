@@ -1,5 +1,10 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
+        # Use a character map to keep track of the frequencies of the characters
+        # Update the max frequency whenever a character is counted
+        # Determine whether we need to replace more than k characters using the formula: r - l + 1 - max_f
+        # Slide whenever we are violating this condition
+        # Update the res by comparing it against the window at each iteration
         max_f, res = 0, 0
         c_map = {}
         l = 0

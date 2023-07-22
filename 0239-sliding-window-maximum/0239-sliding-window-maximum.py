@@ -1,6 +1,11 @@
 from collections import deque
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        # Use a queue to keep track of the max numbers at any given time
+        # Pop off numbers from the right of the queue that are less than the # at the current index
+        # Append the current index to the queue
+        # If the left pointer is greater than the curr index, pop the left value
+        # If we are within a window, we add the number at the front of the queue to the result array and increment the left pointer
         res = []
         q = deque()
         l = 0

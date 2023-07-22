@@ -1,5 +1,11 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
+        # Map s1 characters to their frequencies
+        # Iterate through s2 while also doing the same
+        # If the window is greater than the length of s1, we slide
+        # Compare the maps to each other to verify whether the permutation exists
+        # TC: O(N) * 26
+        # SC: O(N)
         m = len(s1)
         if m > len(s2):
             return False

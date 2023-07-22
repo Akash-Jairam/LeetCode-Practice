@@ -6,8 +6,13 @@
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
-        Do not return anything, modify head in-place instead.
+            Find the middle of the list
+            Reverse the part of the list after the midpt
+            Interleave the nodes from the beginning of the list and the beginning of the reversed Nodes
+            TC: O(N)
+            SC: O(1)
         """
+        
         slow, fast = head, head.next
         
         while fast and fast.next:
@@ -23,7 +28,9 @@ class Solution:
             first.next = second
             second.next = tmp1
             first, second = tmp1, tmp2
-    
+        
+        
+        
     def reverse(self, node):
         prev = None
         

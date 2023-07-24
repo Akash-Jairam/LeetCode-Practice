@@ -9,6 +9,11 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        # Create a copy of each node and place it between the original node and the original's next pointer
+        # Now create a dummy list to hold the result with its own it
+        # Iterate through the original list again and append the new nodes to the dummy list
+        # If a node has a random pointer, update the new node's pointer to point to the random's '.next'
+        # Return the resulting list
         it = head
         
         while it:

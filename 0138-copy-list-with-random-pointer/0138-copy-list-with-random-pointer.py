@@ -16,16 +16,16 @@ class Solution:
             it.next = Node(it.val, nxt)
             it = nxt
         
-        res = Node(-1)
-        it2 = res
+        res = Node(-1, head)
+        resIt = res
         it = head
         
         while it:
-            it2.next = it.next
+            resIt.next = it.next
             if it.random:
-                it2.next.random = it.random.next
+                resIt.next.random = it.random.next
             
             it = it.next.next
-            it2 = it2.next
+            resIt = resIt.next
         
         return res.next

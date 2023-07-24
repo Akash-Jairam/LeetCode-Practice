@@ -15,20 +15,17 @@ class Solution:
             nxt = it.next
             it.next = Node(it.val, nxt)
             it = nxt
-            
-        newHead = Node(-1)
-        newIt = newHead
+        
+        res = Node(-1)
+        it2 = res
         it = head
         
         while it:
-            newIt.next = it.next
+            it2.next = it.next
             if it.random:
-                newIt.next.random = it.random.next
+                it2.next.random = it.random.next
             
-            newIt = newIt.next
-            if it.next:
-                it = it.next.next
-            else:
-                it = it.next
-            
-        return newHead.next
+            it = it.next.next
+            it2 = it2.next
+        
+        return res.next

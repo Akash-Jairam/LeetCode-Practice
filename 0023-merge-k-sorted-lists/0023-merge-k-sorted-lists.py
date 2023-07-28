@@ -11,24 +11,18 @@ class Solution:
             return res.next
         lists.sort(key = lambda l : l.val)
         res.next = lists[0]
-        for l in lists[1:]:
-            it = res.next
-            while it and l:
-                prev = it
-                while it and it.val < l.val:
-                    prev = it
-                    it = it.next
-                nxt = prev.next
-                lnxt = l.next
-                l.next = None
-                prev.next = l
-                prev.next.next = nxt
-                if not it:
-                    prev.next.next = lnxt
-                    break
-                it = prev.next
-                l = lnxt
-                
+        it = res.next
         
+        for i in range( 1, len(lists)):
+            l2 = lists[i]
+            while l2:
+                it_v = it.next.val if it.next else float('inf')
+                if l2.val <= it_v:
+                    nxt = l2.next
+                    l2.next = it.next
+                    it.next = l2
+                    l2 = nxt
+                else:
+                    it = it.next
+            it = res.next
         return res.next
-            

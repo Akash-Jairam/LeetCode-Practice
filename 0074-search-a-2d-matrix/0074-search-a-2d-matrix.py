@@ -1,5 +1,7 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        # Do a binary search on the rows to find a row that might have the target
+        # Do a binary search on the numbers in that specific row to see if the target is there and return True or False based on your search
         m, n = len(matrix) - 1, len(matrix[0]) - 1
         top, bot = 0, m
         

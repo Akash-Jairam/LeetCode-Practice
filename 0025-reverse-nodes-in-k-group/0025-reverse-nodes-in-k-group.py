@@ -10,20 +10,21 @@ class Solution:
         
         while True:
             kth = self.getKth(groupPrev, k)
+            
             if not kth:
                 break
-            
             groupNext = kth.next
+            
             prev, curr = kth.next, groupPrev.next
             while curr != groupNext:
                 nxt = curr.next
                 curr.next = prev
                 prev = curr
                 curr = nxt
-                
-            tmp = groupPrev.next
+            
+            nxt = groupPrev.next
             groupPrev.next = kth
-            groupPrev = tmp
+            groupPrev = nxt
         
         return dummy.next
     
@@ -31,4 +32,5 @@ class Solution:
         while node and k > 0:
             node = node.next
             k -= 1
+        
         return node

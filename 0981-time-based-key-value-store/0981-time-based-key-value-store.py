@@ -2,27 +2,28 @@ from collections import defaultdict
 class TimeMap:
 
     def __init__(self):
-        self.time_map = defaultdict(list)
+        self.t_map = defaultdict(list)
+        
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.time_map[key].append((value, timestamp))
+        self.t_map[key].append((timestamp, value))
 
     def get(self, key: str, timestamp: int) -> str:
-        times = self.time_map[key]
-        l,r = 0, len(times) - 1
-        res = ""
-        
+        keyL = self.t_map[key]
+        l, r = 0, len(keyL) - 1
+        res = None
         while l <= r:
-            mid = l + (r-l) // 2
-            midTime = times[mid][1]
-            if midTime <= timestamp:
+            mid = l + (r - l) // 2
+            time, v = keyL[mid]
+            if time < timestamp:
+                res = keyL[mid][1]
                 l = mid + 1
-                res = times[mid][0]
-            else:
+            elif time > timestamp:
                 r = mid - 1
-                
+            else:
+                return v
         
-        return res
+        return "" if not res else res
 
 
 # Your TimeMap object will be instantiated and called as such:

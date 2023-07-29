@@ -5,6 +5,15 @@
 #         self.next = next
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        '''
+            Use a dummy pointer to function as the original previous position
+            Find the end of the current set of k nodes while keeping track of the current position and the previous position
+            Reverse this segment
+            Attach the new beginning of this segment to after the previous position
+            Update the previous position to point to the position that it was initially pointing to
+            Keep doing this until we reach the end of the list
+            
+        '''
         dummy = ListNode(-1, head)
         groupPrev = dummy
         

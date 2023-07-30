@@ -7,23 +7,19 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        lca = []
+        self.findLCA(root, p, q, lca)
+        return lca[0]
         
-        def dfs(node, p, q, lca):
-            if not node:
-                return 0
-            
-            findCurr = 1 if node.val == p.val or node.val == q.val else 0
-                
-            
-            findLeft = dfs(node.left, p, q, lca)
-            findRight = dfs(node.right, p, q, lca)
-            total = findCurr + findLeft + findRight
-            if total  >= 2 and not lca[0]:
-                lca[0] = node
-            
-            return total
+    def findLCA(self, node, p, q, lca):
+        if not node or len(lca) > 0:
+            return 0
         
-        res = [None]
-        dfs(root, p, q, res)
-        return res[0]
+        findLeft = self.findLCA(node.left, p, q, lca)
+        findRight = self.findLCA(node.right, p, q, lca)
+        findCurr = 1 if node.val == p.val or node.val == q.val else 0
         
+        if findLeft + findRight + findCurr >= 2:
+            lca.append(node)
+        
+        return findLeft + findRight + findCurr

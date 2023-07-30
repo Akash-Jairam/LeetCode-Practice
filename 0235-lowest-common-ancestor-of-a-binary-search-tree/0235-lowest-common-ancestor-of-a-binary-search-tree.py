@@ -7,6 +7,14 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        '''
+            Use dfs to traverse the root
+            Try to find the given nodes in the root or the subtrees
+            If all the nodes are present and our result variable has not been updated, update it
+            This is guaranteed to work because dfs will find the lca
+            TC: O(N) or O(V + E)
+            SC: O(N) or O(V + E)
+        '''
         lca = []
         self.findLCA(root, p, q, lca)
         return lca[0]

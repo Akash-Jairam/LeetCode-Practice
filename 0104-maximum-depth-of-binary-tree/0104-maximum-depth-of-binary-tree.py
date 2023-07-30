@@ -11,23 +11,22 @@ class Solution:
             return 0
         
         q = deque()
-        q.append((root, 1))
-        res = 1
+        q.append(root)
+        level = 0
         while q:
             size = len(q)
             for _ in range(size):
-                curr, v = q.popleft()
-              
-                res = max(res, v)
+                curr = q.popleft()
 
                 if curr.left:
-                    q.append((curr.left, v + 1))
+                    q.append((curr.left))
 
                 if curr.right:
-                    q.append((curr.right, v + 1))
-                
+                    q.append((curr.right))
+             
+            level += 1
         
-        return res
+        return level
             
                 
         

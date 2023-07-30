@@ -13,6 +13,8 @@ class Solution:
             Now we use dfs to see if the left sides are equal
             Then do dfs to see if the right sides are equal
             Finally, return whether both sides of both sides are equal and whether the value of the current nodes are the same
+            TC: O(N) or O(V + E)
+            SC: O(N) or O(V + E)
         '''
         if not p and not q:
             return True

@@ -12,4 +12,7 @@ class Solution:
         if not p or not q:
             return False
         
-        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right) and p.val == q.val
+        isLeftSame = self.isSameTree(p.left, q.left)
+        isRightSame = self.isSameTree(p.right, q.right)
+        
+        return p.val == q.val and isLeftSame and isRightSame

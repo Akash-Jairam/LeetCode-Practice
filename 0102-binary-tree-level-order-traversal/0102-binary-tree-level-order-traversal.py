@@ -7,6 +7,14 @@
 from collections import deque
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        '''
+            Use bfs to traverse the tree level by level
+            Create a list for each level and append the values of that level
+            After we finish traversing a given level, append the list to our result list and traverse the other levels
+            
+            TC: O(N) or O(V + E)
+            SC: O(N) or O(V + E)
+        '''
         res = []
         if not root:
             return res

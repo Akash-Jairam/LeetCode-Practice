@@ -7,6 +7,11 @@
 from collections import deque
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
+        # Use bfs and keep track of the level count
+        # Each time the inner loop executes, increment the level count
+        # Return the level count at the end
+        # TC: O(N) or O(V + E)
+        # SC: O(N) or O(width) since the worst case is all of the nodes are directly under the root
         if not root:
             return 0
         

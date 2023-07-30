@@ -6,6 +6,12 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int: 
+        '''
+            Use dfs 
+            If a node is greater than the previous maxvalue, set the count to 1
+            Update the previous max value if the node is greater than it
+            Add the dfs of the left and right children to the count
+        '''
         return self.dfs(root, float('-inf'))
        
     

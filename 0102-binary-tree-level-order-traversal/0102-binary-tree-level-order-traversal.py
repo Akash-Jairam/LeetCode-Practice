@@ -10,25 +10,21 @@ class Solution:
         res = []
         if not root:
             return res
-            
-        queue = deque()
-        queue.append(root)
         
-        while queue:
-            size = len(queue)
-            curr_list = []
+        q = deque()
+        q.append(root)
+        
+        while q:
+            size = len(q)
+            level = []
             for _ in range(size):
-                curr = queue.popleft()
-                
-                curr_list.append(curr.val)
+                curr = q.popleft()
+                level.append(curr.val)
                 
                 if curr.left:
-                    queue.append(curr.left)
-                
+                    q.append(curr.left)
+                    
                 if curr.right:
-                    queue.append(curr.right)
-            
-            res.append(curr_list)
-        
+                    q.append(curr.right)
+            res.append(level)        
         return res
-        

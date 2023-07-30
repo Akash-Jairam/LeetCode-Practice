@@ -6,6 +6,14 @@
 #         self.right = right
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        '''
+            Use dfs to check the whether the trees are the same
+            If both trees are None, return True
+            Else if either tree is None, return False
+            Now we use dfs to see if the left sides are equal
+            Then do dfs to see if the right sides are equal
+            Finally, return whether both sides of both sides are equal and whether the value of the current nodes are the same
+        '''
         if not p and not q:
             return True
         

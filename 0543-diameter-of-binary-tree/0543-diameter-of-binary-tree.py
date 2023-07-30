@@ -6,6 +6,13 @@
 #         self.right = right
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        '''
+            We need to use dfs to find the diameter
+            The dfs will return the max height of a given of the current node (1 + leftHeight, rightHeight)
+            The diameter = max(diameter, maxLeft + maxRight)
+            TC: O(N)
+            SC: O(N)
+        '''
         diameter = [0]
         self.dfs(root, diameter)
         

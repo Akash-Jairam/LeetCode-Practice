@@ -6,6 +6,9 @@
 #         self.right = right
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        '''
+            Do inorder traversal using a stack until you reach the kth element
+        '''
         stack = []
         curr = root
         

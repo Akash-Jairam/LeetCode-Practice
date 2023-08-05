@@ -9,12 +9,13 @@ class Solution:
         res = [float('-inf')]
         self.dfs(root, res)
         return res[0]
-        
-    def dfs(self, root, res):
-        if not root:
+    
+    def dfs(self, node, res):
+        if not node:
             return 0
         
-        left = max(0, self.dfs(root.left, res))
-        right = max(0, self.dfs(root.right, res))
-        res[0] = max(res[0], root.val + left + right)
-        return root.val + max(left, right)
+        left = max(0, self.dfs(node.left, res))
+        right = max(0, self.dfs(node.right, res))
+        res[0] = max(res[0], left + node.val + right)
+        
+        return node.val + max(left, right)

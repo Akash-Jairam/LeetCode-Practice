@@ -1,44 +1,46 @@
+from collections import deque
 class WordDictionary:
-    
     class Node:
         def __init__(self):
-            self.children = [None] * 26
+            self.children = {}
             self.word = None
             
     def __init__(self):
         self.root = self.Node()
 
     def addWord(self, word: str) -> None:
-        it = self.root
+        curr = self.root
         
         for c in word:
-            idx = ord(c) - ord('a')
-            
-            if not it.children[idx]:
-                it.children[idx] = self.Node()
-            
-            it = it.children[idx]
-            
-        it.word = word
+            curr.children[c] = curr.children.get(c, self.Node())
+            curr = curr.children[c]
         
-    def helper(self, it, word, j):
-        for i in range(j, len(word)):
-            if word[i] == '.':
-                res = False
-                for child in it.children:
-                    if child and self.helper(child, word, i+1):
-                        return True
-                return False
-            else:
-                idx = ord(word[i]) - ord('a')
-                if not it.children[idx]:
-                    return False
-                it = it.children[idx]
-        
-        return it.word != None
-    
+        curr.word = word
+
     def search(self, word: str) -> bool:
-        return self.helper(self.root, word, 0)
+        q = deque()
+        q.append(self.root)
+        
+        for c in word:
+            while q:
+                size = len(q)
+                for _ in range(size):
+                    curr = q.popleft()
+                    if c == '.':
+                        for child in curr.children.values():
+                            q.append(child)
+                    else:
+                        curr = curr.children.get(c, None)
+                        if curr:
+                            q.append(curr)
+                break
+        
+        for node in q:
+            if node.word:
+                return True
+        
+        return False
+
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()

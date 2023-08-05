@@ -1,46 +1,37 @@
 class Trie:
     class Node:
         def __init__(self):
-            self.children = [None] * 26
-            self.word = False
+            self.children = {}
+            self.word = None
+        
     def __init__(self):
         self.root = self.Node()
 
     def insert(self, word: str) -> None:
-        it = self.root
-        
+        curr = self.root
         for c in word:
-            idx = ord(c) - ord('a')
-            if not it.children[idx]:
-                it.children[idx] = self.Node()
-            
-            it = it.children[idx]
-        it.word = True
+            curr.children[c] = curr.children.get(c, self.Node())
+            curr = curr.children[c]
+        
+        curr.word =  word
 
     def search(self, word: str) -> bool:
-        curr = self.traverse(word)
+        result = self.traverse(word)
         
-        return curr and curr.word
+        return (result and result.word != None)
 
     def startsWith(self, prefix: str) -> bool:
-        curr = self.traverse(prefix)
-        if not curr:
-            return False
-        
-        return True if curr else False
+        result = self.traverse(prefix)
+        return result and len(result.children.keys()) >= 0
     
-    def traverse(self, word):
-        it = self.root
-        
-        for c in word:
-            idx = ord(c) - ord('a')
-            if not it.children[idx]:
+    def traverse(self, s):
+        curr = self.root
+        for c in s:
+            curr = curr.children.get(c, None)
+            if not curr:
                 return None
-            it = it.children[idx]
         
-        return it
-
-
+        return curr
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
 # obj.insert(word)

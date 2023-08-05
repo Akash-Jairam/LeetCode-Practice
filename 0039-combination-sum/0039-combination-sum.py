@@ -1,5 +1,11 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        '''
+            Backtrack 
+            We have two choices, either take the current number and backtrack from the same position
+            Or don't take the current number and backtrack from the next position
+            We return if we hit the target, if we are out of bounds or if the curr sum is greater than the target
+        '''
         res = []
         self.backtrack(0, candidates, [], 0, target, res)
         return res

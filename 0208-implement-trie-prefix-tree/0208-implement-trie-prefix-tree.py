@@ -1,4 +1,34 @@
 class Trie:
+    '''
+        Create a class Node that has an empty map of children and a variable word which is initially set to None
+        
+        Initialize:
+            Create a root variable and set it to Node()
+        
+        Insert method:
+            Set an iterator at the root
+            Go through the string and check to see if the iterator already has a child Node for that char else create one
+            Then update the iterator to the child Node
+            Keep doing this until we finish the word
+            Finally, set the word property at the current iterator to the given word
+        
+        Search method:
+            The search and startsWith methods have common functionality which will be extracted to a method called traverse
+            Make a call to the traverse method to get the resulting Node value
+            Return whether the Node value is not null and its word property is also not null
+            
+        StartsWith method:
+            The search and startsWith methods have common functionality which will be extracted to a method called traverse
+            Make a call to the traverse method to get the resulting Node value
+            Return whether the Node value is not null and it has more than 0 keys
+            
+        traverse method:
+            Set an iterator to the root 
+            Iterate through the given string
+            If there is a child for the given character, update the iterator else set the iterator to None
+            If the iterator is None, return None
+            When the loop is finished executing, return the Iterator
+    '''
     class Node:
         def __init__(self):
             self.children = {}

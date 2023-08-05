@@ -1,5 +1,11 @@
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        '''
+            Sort the input array
+            Backtrack
+            Each time we backtrack,we either add the current number or skip the current number
+            Skip the current number by incrementing the index until we encounter a number that is not the current number or we are out of bounds
+        '''
         res = []
         nums.sort()
         self.backtrack(0, nums, [], res)

@@ -1,26 +1,23 @@
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        '''
-            Sort the input array
-            Backtrack
-            Each time we backtrack,we either add the current number or skip the current number
-            Skip the current number by incrementing the index until we encounter a number that is not the current number or we are out of bounds
-        '''
-        res = []
         nums.sort()
+        res = []
         self.backtrack(0, nums, [], res)
         return res
     
-    def backtrack(self, i, nums, curr, res):
-        if i == len(nums):
-            res.append(curr[::])
+    def backtrack(self, i, nums, subset, res):
+        if i >= len(nums):
+            res.append(subset[::])
             return
         
-        curr.append(nums[i])
-        self.backtrack(i + 1, nums, curr, res)
-        curr.pop()
         
-        while i + 1 < len(nums) and nums[i] == nums[i+1]:
+        # All subsets that include nums[i]
+        subset.append(nums[i])
+        self.backtrack(i + 1, nums, subset, res)
+        subset.pop()
+        
+        # All subsets that don't include nums[i]
+        while i + 1 < len(nums) and nums[i] == nums[i + 1]:
             i += 1
         
-        self.backtrack(i + 1, nums, curr, res)
+        self.backtrack(i + 1, nums, subset, res)

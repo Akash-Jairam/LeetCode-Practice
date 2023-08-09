@@ -12,11 +12,19 @@ class Solution:
                 
             nums[p], nums[r] = nums[r], nums[p]
             
-            if p < kth:
-                return quickSelect(p + 1, r)
-            elif p > kth:
-                return quickSelect(l, p - 1)
-            else:
-                return nums[p]
+            return p
         
-        return quickSelect(0, len(nums) - 1)
+        left, right = 0, len(nums) - 1
+        
+        while left < right:
+            partition = quickSelect(left, right)
+            
+            if partition < kth:
+                left = partition + 1
+            elif partition > kth:
+                right = partition - 1
+            else:
+                break
+        
+        return nums[kth]
+            

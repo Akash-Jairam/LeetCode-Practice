@@ -18,6 +18,5 @@ class Solution:
                 return quickSelect(l, p - 1)
             else:
                 return nums[p]
-            
         
         return quickSelect(0, len(nums) - 1)

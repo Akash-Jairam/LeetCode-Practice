@@ -8,6 +8,9 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
+        # We use the dfs to return a copy of a given node complete with a copy of its neighbors
+        # TC: O(N + M)
+        # SC: O(N)
         copies = {}
         
         def dfs(node):

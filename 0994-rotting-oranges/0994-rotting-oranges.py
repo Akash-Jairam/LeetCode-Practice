@@ -1,6 +1,12 @@
 from collections import deque
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
+        '''
+            Find the rotten oranges and count the # fresh oranges
+            Use bfs to iteratively make the fresh oranges rot and add them to a queue
+            Count how many turns until the queue is either empty or we are out of fresh oranges
+            If there are no fresh oranges, return the # of turns else return -1
+        '''
         res = 0
         m, n = len(grid), len(grid[0])
         fresh = 0

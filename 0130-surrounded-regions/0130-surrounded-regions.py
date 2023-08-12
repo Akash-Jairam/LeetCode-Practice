@@ -2,7 +2,11 @@ class Solution:
     def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
+        DFS from edges which have O and see how far they go. Mark these regions as T
+        Mark all parts of the board that are still O to X
+        Change the Ts to O
         """
+        
         m, n = len(board), len(board[0])
         def capture(row, col):
             if not 0 <= row < m or not 0 <= col < n or board[row][col] != 'O':

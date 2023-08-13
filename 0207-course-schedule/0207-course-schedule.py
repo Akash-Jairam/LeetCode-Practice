@@ -1,34 +1,33 @@
-from collections import deque, defaultdict
+from collections import deque
 class Solution:
-    def canFinish(self, numCourses: int, prereqs: List[List[int]]) -> bool:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         inDegree = [0] * numCourses
-        c_map = defaultdict(list)
-        removedEdges, totalDeps = 0,0
-        for a, b in prereqs:
-            inDegree[a] += 1
-            c_map[b].append(a)
-            totalDeps += 1
         
-        queue = deque()
-            
+        for post, pre in prerequisites:
+            inDegree[post] += 1
+        
+        zeroDegree = deque()
         for i in range(numCourses):
             if inDegree[i] == 0:
-                queue.append(i)
-                
-        if not queue:
+                zeroDegree.append(i)
+        
+        if len(zeroDegree) == 0:
             return False
         
-        while queue:
-            size = len(queue)
+        completed = set()
+        numCompleted = 0
+        while zeroDegree:
+            size = len(zeroDegree)
             for _ in range(size):
-                curr  = queue.popleft()
-                for c in c_map[curr]:
-                    inDegree[c] -= 1
-                    if inDegree[c] == 0:
-                        queue.append(c)
-                    removedEdges += 1
+                curr = zeroDegree.popleft()
+                for post, pre in prerequisites:
+                    if pre == curr:
+                        inDegree[post] -= 1
+                        if inDegree[post] == 0:
+                            zeroDegree.append(post)
         
-       
-        
-        return removedEdges == totalDeps
-                
+        for i in range(len(inDegree)):
+            if inDegree[i] != 0:
+                return False
+            
+        return True

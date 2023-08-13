@@ -26,6 +26,8 @@ class Solution:
         for n1, n2 in edges:
             union(n1, n2)
         
-        return len(set(find(node) for node in range(n)))
-        
+        res = set()
+        for i in range(n):
+            res.add(find(i))
+        return len(res)
     

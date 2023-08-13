@@ -1,30 +1,31 @@
-from collections import deque
+from collections import defaultdict, deque
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        if endWord not in wordList:
+            return 0
+        
+        neigh = defaultdict(list)
+        
+        for word in wordList:
+            for j in range(len(word)):
+                pattern = word[:j] + "*" + word[j+1:]
+                neigh[pattern].append(word)
+        
+        visited = set([beginWord])
         q = deque([beginWord])
-        
-        def isAdj(w, cand):
-            diff = 0
-            for i in range(len(w)):
-                if w[i] != cand[i]:
-                    diff += 1
-                
-            return diff == 1
-        
-        numSteps = 0
-        visited = set()
+        steps = 0
         while q:
             size = len(q)
-            numSteps += 1
             for _ in range(size):
                 curr = q.popleft()
-                
-                for word in wordList:
-                    if word not in visited and isAdj(curr, word):
-                        visited.add(word)
-                        if word == endWord:
-                            return numSteps + 1
-                        q.append(word)
-
+                if curr == endWord:
+                    return steps + 1
+                for j in range(len(curr)):
+                    pattern = curr[:j] + "*" + curr[j+1:]
+                    for word in neigh[pattern]:
+                        if word not in visited:
+                            visited.add(word)
+                            q.append(word)
+            steps += 1
         
         return 0

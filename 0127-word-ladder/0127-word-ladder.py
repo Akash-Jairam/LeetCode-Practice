@@ -13,13 +13,13 @@ class Solution:
         
         visited = set([beginWord])
         q = deque([beginWord])
-        steps = 0
+        steps = 1
         while q:
             size = len(q)
             for _ in range(size):
                 curr = q.popleft()
                 if curr == endWord:
-                    return steps + 1
+                    return steps
                 for j in range(len(curr)):
                     pattern = curr[:j] + "*" + curr[j+1:]
                     for word in neigh[pattern]:

@@ -8,11 +8,10 @@ class Solution:
         
         def find(node):
             p = node
-            
             while p != parent[p]:
                 parent[p] = parent[parent[p]]
                 p = parent[p]
-        
+            
             return p
         
         def union(n1, n2):
@@ -25,14 +24,13 @@ class Solution:
                 parent[p2] = p1
                 rank[p1] += rank[p2]
             else:
-                parent[p1] =p2
+                parent[p1] = p2
                 rank[p2] += rank[p1]
-                
+            
             return True
         
         for n1, n2 in edges:
             if not union(n1, n2):
                 return False
-        
+            
         return True
-                

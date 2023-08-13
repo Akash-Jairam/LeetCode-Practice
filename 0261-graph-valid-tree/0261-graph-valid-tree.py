@@ -1,46 +1,38 @@
-class Uf:
-    
-    def __init__(self, n):
-        self.rank = [1] * n
-        self.parent = [i for i in range(n)]
-        
-    def find(self, x):
-        p = self.parent[x]
-        
-        while p != self.parent[p]:
-            self.parent[p] = self.parent[self.parent[p]]
-            p = self.parent[p]
-        
-        return p
-    
-    def union(self, x, y):
-        p1, p2 = self.find(x), self.find(y)
-        
-        if p1 == p2:
-            return False
-        
-        if self.rank[p1] > self.rank[p2]:
-            self.parent[p2] = self.parent[p1]
-            self.rank[p1] += self.rank[p2]
-        else:
-            self.rank[p2] += self.rank[p1]
-            self.parent[p1] = self.parent[p2]
-            
-        return True
-        
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        # A valid tree will have n - 1 edges and no cycles
+        parent = [i for i in range(n)]
+        rank = [1 for i in range(n)]
+        
         if len(edges) != n - 1:
-            return False 
+            return False
         
-        uf = Uf(n)
+        def find(node):
+            p = node
+            
+            while p != parent[p]:
+                parent[p] = parent[parent[p]]
+                p = parent[p]
         
-        for x, y in edges:
-            if not uf.union(x, y):
+            return p
+        
+        def union(n1, n2):
+            p1, p2 = find(n1), find(n2)
+            
+            if p1 == p2:
                 return False
             
+            if rank[p1] > rank[p2]:
+                parent[p2] = p1
+                rank[p1] += rank[p2]
+            else:
+                parent[p1] =p2
+                rank[p2] += rank[p1]
+                
+            return True
+        
+        for n1, n2 in edges:
+            if not union(n1, n2):
+                return False
+        
         return True
-            
-        
-        
+                

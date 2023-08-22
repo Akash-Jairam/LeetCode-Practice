@@ -1,15 +1,19 @@
 class Solution:
     def jump(self, nums: List[int]) -> int:
-        n = len(nums)
-        i, maxReachable, lastJumpedPos, jumps = 0,0,0,0
+        l, r = 0, 0
+        steps = 0
         
-        while lastJumpedPos < n - 1:
-            maxReachable = max(maxReachable, i + nums[i])
+        while r < len(nums) - 1:
+            maxSteps = 0
+            for i in range(l, r + 1):
+                maxSteps = max(maxSteps, i + nums[i])
             
-            if i == lastJumpedPos:
-                lastJumpedPos = maxReachable
-                jumps += 1
-            
-            i += 1
+            l = r + 1
+            r = maxSteps
+            steps += 1
         
-        return jumps
+        return steps
+            
+            
+        
+        

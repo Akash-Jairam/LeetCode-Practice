@@ -1,19 +1,14 @@
 class Solution:
     def jump(self, nums: List[int]) -> int:
-        l, r = 0, 0
         steps = 0
+        l, r = 0, 0
         
         while r < len(nums) - 1:
-            maxSteps = 0
+            maxJump = 0
             for i in range(l, r + 1):
-                maxSteps = max(maxSteps, i + nums[i])
+                maxJump = max(maxJump, i + nums[i])
             
             l = r + 1
-            r = maxSteps
+            r = maxJump 
             steps += 1
-        
         return steps
-            
-            
-        
-        

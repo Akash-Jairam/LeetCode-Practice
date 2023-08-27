@@ -4,25 +4,25 @@ class Solution:
         if not len(hand) % groupSize == 0:
             return False
         
-        count = {}
+        h_map = {}
+        
         for c in hand:
-            count[c] = 1 + count.get(c, 0)
-        
-        
-        minH = list(count.keys())
-        heapq.heapify(minH)
-        
-        
-        while minH:
-            first = minH[0]
-            for i in range(first, first + groupSize):
-                if i not in count:
-                    return False
-                count[i] -= 1
-                if count[i] == 0:
-                    if i != minH[0]:
-                        return False
-                    heapq.heappop(minH)
+            h_map[c] = 1 + h_map.get(c, 0)
             
+        cards = list(h_map.keys())
+        heapq.heapify(cards)
+        
+        while cards:
+            curr = cards[0]            
+            for i in range(curr, curr + groupSize):
+                if i not in h_map:
+                    return False
+                h_map[i] -= 1
+                if h_map[i] == 0:
+                    if i != cards[0]:
+                        return False
+                    heapq.heappop(cards)
+        
         return True
-                    
+        
+        

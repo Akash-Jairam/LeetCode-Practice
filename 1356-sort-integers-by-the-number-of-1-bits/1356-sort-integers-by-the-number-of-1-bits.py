@@ -6,7 +6,7 @@ class Solution:
     
     def countBits(self, num):
         numBits = 0
-        
+        # Technique to drop the last digit in num
         while num:
             num = num & num - 1
             numBits += 1

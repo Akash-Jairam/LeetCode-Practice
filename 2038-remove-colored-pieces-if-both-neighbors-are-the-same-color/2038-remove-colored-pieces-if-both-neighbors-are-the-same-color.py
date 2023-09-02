@@ -1,15 +1,12 @@
 class Solution:
     def winnerOfGame(self, colors: str) -> bool:
-        # Keep track of # of valid solutions
-        # Person with the greater number wins
-        count_A, count_B = 0,0
-        n = len(colors)
+        a_count, b_count = 0, 0
         
-        for i in range(1, n - 1):
-            if colors[i-1] == colors[i] == colors[i+1]:
+        for i in range(1, len(colors) - 1):
+            if colors[i - 1] == colors[i] == colors[i+1]:
                 if colors[i] == 'A':
-                    count_A += 1
+                    a_count += 1
                 else:
-                    count_B += 1
+                    b_count += 1
         
-        return count_A > count_B
+        return a_count > b_count

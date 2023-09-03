@@ -1,14 +1,13 @@
 class Solution:
     def sortByBits(self, arr: List[int]) -> List[int]:
-        numsByBits = sorted([(self.countBits(num), num) for num in arr])
-        return [p[1] for p in numsByBits]
+        numsByBits = [[self.countBits(num), num] for num in arr]
+        numsByBits.sort()
+        return [l[1] for l in numsByBits]
         
-    
     def countBits(self, num):
-        numBits = 0
-        # Technique to drop the last digit in num
+        bits = 0
         while num:
             num = num & num - 1
-            numBits += 1
+            bits += 1
         
-        return numBits
+        return bits

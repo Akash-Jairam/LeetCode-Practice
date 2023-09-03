@@ -1,17 +1,15 @@
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:
         """
-        1. Find the last peak which is index of the first number from the right which is greater than the number to the left of it
-        2. pivot = lastPeak - 1
-        3. If pivot is not -1, find the first number from the right which is greater than the # at pivot (the swapPoint). If there is no number greater than the number at the pivot, then swapPoint = pivot + 1. Then swap the number at the pivot with the number at the swapPoint
-        4. Reverse all the numbers after the swap point
+        Do not return anything, modify nums in-place instead.
         """
-        pivot = self.findLastPeak(nums) - 1
+        lastPeak = self.findLastPeak(nums)
+        pivot = lastPeak - 1
         if pivot != -1:
             swapPoint = self.findSwapPoint(nums, pivot)
-            nums[pivot], nums[swapPoint] =  nums[swapPoint], nums[pivot]
-
+            nums[pivot], nums[swapPoint] = nums[swapPoint], nums[pivot]
         self.reverse(nums, pivot + 1)
+        return nums
     
     def findLastPeak(self, nums):
         i = len(nums) - 1
@@ -24,11 +22,11 @@ class Solution:
     
     def findSwapPoint(self, nums, pivot):
         i = len(nums) - 1
-        
         while i >= 0:
             if nums[i] > nums[pivot]:
                 return i
-            i -= 1  
+            i -= 1
+        
         return pivot + 1
     
     def reverse(self, nums, i):
@@ -37,6 +35,5 @@ class Solution:
             nums[i], nums[j] = nums[j], nums[i]
             i += 1
             j -= 1
-    
-    
-    
+        
+        

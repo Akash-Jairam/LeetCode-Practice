@@ -1,10 +1,10 @@
 class Solution:
     def reachingPoints(self, sx: int, sy: int, tx: int, ty: int) -> bool:
-        while sx < tx and sy < ty:
+        while tx > sx and ty > sy:
             if tx > ty:
                 tx %= ty
             else:
                 ty %= tx
         
-        return sx == tx and sy <= ty and (ty - sy) % sx == 0 or \
-        sy == ty and sx <= tx and (tx - sx) % sy == 0
+        return sx == tx and sy <= ty and (sy - ty) % tx == 0 or \
+               sy == ty and sx <= tx and (sx - tx) % ty == 0

@@ -10,11 +10,7 @@ class Solution:
             else:
                 curr = nxt
         
-        res = []
-        for i in range(len(kept)):
-            if kept[i]:
-                res.append(words[i])
-        return res
+        return [words[i] for i in range(len(kept))  if kept[i]]
         
     
     def mapToTup(self, s):

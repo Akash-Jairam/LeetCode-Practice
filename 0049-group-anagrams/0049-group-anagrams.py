@@ -1,14 +1,14 @@
 from collections import defaultdict
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        s_map = defaultdict(list)
-        
+        an_map = defaultdict(list)
         for s in strs:
-            s_map[self.map_s(s)].append(s)
+            an_map[self.getAnagram(s)].append(s)
         
-        return s_map.values()
+        return an_map.values()
+        
     
-    def map_s(self, s):
+    def getAnagram(self, s):
         c_map = [0] * 26
         
         for c in s:

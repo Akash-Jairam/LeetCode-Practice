@@ -14,9 +14,7 @@ class Solution:
                 curr.append(')')
                 backtrack(numOpen, numClosed + 1, res, curr)
                 curr.pop()
-                
+        
         res = []
         backtrack(0, 0, res, [])
         return res
-        
-    

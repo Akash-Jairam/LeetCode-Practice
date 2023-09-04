@@ -6,5 +6,5 @@ class Solution:
             else:
                 ty %= tx
         
-        return sx == tx and sy <= ty and (sy - ty) % tx == 0 or \
-               sy == ty and sx <= tx and (sx - tx) % ty == 0
+        return tx == sx and sy <= ty and (ty - sy) % tx == 0 or \
+    ty == sy and sx <= tx and (tx - sx) % ty == 0

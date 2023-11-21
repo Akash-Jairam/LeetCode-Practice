@@ -9,7 +9,7 @@ class Solution:
                     continue
                 
                 if i == n - 1 or dp[i - n]:
-                    if s[i - n + 1 : i + 1] == word:
+                    if s[i - n + 1 : i+1] == word:
                         dp[i] = True
                         break
         

@@ -5,7 +5,7 @@ class Solution:
         for i in range(len(s)):
             for word in wordDict:
                 n = len(word)
-                if i < n - 1:
+                if i - n + 1 < 0:
                     continue
                 
                 if i == n - 1 or dp[i - n]:

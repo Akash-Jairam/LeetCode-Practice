@@ -1,11 +1,10 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        swapIdx = 1
+        swapPt = 1
         
         for i in range(1, len(nums)):
             if nums[i] != nums[i-1]:
-                nums[swapIdx] = nums[i]
-                swapIdx += 1
+                nums[swapPt] = nums[i]
+                swapPt += 1
         
-        return swapIdx
-        
+        return swapPt 

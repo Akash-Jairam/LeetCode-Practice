@@ -3,15 +3,9 @@ class Solution:
         n_map = {}
         
         for i in range(len(nums)):
-            if nums[i] not in n_map:
-                n_map[nums[i]] = []
-                
-            indices = n_map[nums[i]]
-            if len(indices) > 0:
-                for idx in indices:
-                    if i - idx <= k:
-                        return True
+            n = nums[i]
+            if n in n_map and i - n_map[n] <= k:
+                return True
             
-            indices.append(i)
-        
+            n_map[n] = i
         return False

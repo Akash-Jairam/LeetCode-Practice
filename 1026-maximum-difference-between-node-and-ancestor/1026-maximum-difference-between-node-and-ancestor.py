@@ -5,20 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def helper(self, max_val, min_val, node):
-        if node == None:
-            return -1
-        
-        diff = max(abs(min_val - node.val) , abs(max_val - node.val))
-        if node.val > max_val:
-            max_val = node.val
-        
-        if node.val < min_val:
-            min_val = node.val
-        
-        diff = max(diff, max(self.helper(max_val, min_val, node.right), self.helper(max_val, min_val, node.left)))
-        return diff
-        
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        return self.helper(root.val, root.val, root)
+        def helper(node, res, currMax, currMin):
+            if not node:
+                return 
+            
+            currMax = max(currMax, node.val)
+            currMin = min(currMin, node.val)
+            res[0] = max(res[0], abs(currMax - node.val))
+            res[0] = max(res[0], abs(currMin - node.val))
+            helper(node.left, res, currMax, currMin)
+            helper(node.right, res, currMax, currMin)
+            
         
+        res = [0]
+        helper(root, res, 0, float('inf'))
+        return res[0]

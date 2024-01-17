@@ -1,14 +1,10 @@
 class Solution:
     def twoCitySchedCost(self, costs: List[List[int]]) -> int:
-        totalCost = 0
-        refunds = []
+        costs.sort(key = lambda x: x[0] - x[1])
+        total = 0
+        n = len(costs) // 2
         
-        for c1, c2 in costs:
-            totalCost += c1
-            refunds.append(c2 - c1)
+        for i in range(n):
+            total = total + costs[i][0] + costs[i+n][1]
         
-        refunds.sort()
-        for i in range(len(refunds) // 2):
-            totalCost += refunds[i]
-        
-        return totalCost
+        return total

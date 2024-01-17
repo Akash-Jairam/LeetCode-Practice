@@ -1,29 +1,27 @@
 from collections import defaultdict
 class Solution:
     def invalidTransactions(self, transactions: List[str]) -> List[str]:
-        class transaction:
-            def __init__(self, s):
-                split = s.split(",")
-                self.name = split[0]
-                self.time = int(split[1])
-                self.cost =int(split[2])
-                self.loc = split[3]
-
-            def isInvalid(self, place, time):
-                return self.cost > 1000 or (self.loc != place and abs(self.time - time) <= 60)
-        
-        p_map = defaultdict(list)
-        res = []
-        for trans in transactions:
-            t = transaction(trans)
-            p_map[t.name].append(t)
-        
-        
-        for trans in transactions:
-            t = transaction(trans)
-            for item in p_map[t.name]:
-                if t.isInvalid(item.loc, item.time):
-                    res.append(trans)
+        t_map = defaultdict(list)
+        invalid = []
+        for t in transactions:
+            txn = self.Transaction(t)
+            t_map[txn.name].append(txn)
+            
+        for t in transactions:
+            txn = self.Transaction(t)
+            for t2 in t_map[txn.name]:
+                if self.isInvalid(txn, t2):
+                    invalid.append(t)
                     break
-                    
-        return res
+        
+        return invalid
+    def isInvalid(self, t1, t2):
+        return t1.amt > 1000 or (t1.city != t2.city and abs(t1.time - t2.time) <= 60)
+    
+    class Transaction:
+        def __init__(self, txn):
+            self.txn = txn.split(",")
+            self.time = int(self.txn[1])
+            self.city = self.txn[3]
+            self.amt = int(self.txn[2])
+            self.name = self.txn[0]

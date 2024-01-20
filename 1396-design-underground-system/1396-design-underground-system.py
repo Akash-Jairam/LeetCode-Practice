@@ -1,36 +1,28 @@
-from collections import defaultdict
 class UndergroundSystem:
-    class trip:
-        def __init__(self, start, uid, time):
-            self.startSt = start
-            self.uid = uid
-            self.start_time = time
-            self.endSt = ''
-            self.timeTaken = None
-            
+
     def __init__(self):
-            self.completed = defaultdict(list)
-            self.cust_map = {}
+        self.cust_map = {}
+        self.stat_map = {}
 
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        self.cust_map[id] = self.trip(stationName, id, t)
-        
+        self.cust_map[id] = (stationName, t)
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        curr_trip = self.cust_map[id]
-        curr_trip.endSt = stationName
-        curr_trip.timeTaken = t - curr_trip.start_time
+        start, start_t = self.cust_map[id]
         del self.cust_map[id]
-        self.completed[curr_trip.startSt].append(curr_trip)
+        if (start, stationName) not in self.stat_map:
+            self.stat_map[(start, stationName)] = []
+        self.stat_map[(start, stationName)].append(t - start_t)
+        
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        count, total = 0, 0
-        for trip in self.completed[startStation]:
-            if trip.endSt == endStation:
-                count += 1
-                total += trip.timeTaken
+        total = 0
+        count = 0
+        for t in self.stat_map[(startStation, endStation)]:
+            total += t
+            count += 1
         
-        return total / count if count > 0 else 0
+        return total / count if count else 0
 
 
 # Your UndergroundSystem object will be instantiated and called as such:

@@ -1,27 +1,29 @@
+from collections import deque
 class BrowserHistory:
 
     def __init__(self, homepage: str):
+        self.homepage = homepage
+        self.back_page = []
+        self.forward_page = deque()
         self.curr = homepage
-        self.prev = []
-        self.next = []
 
     def visit(self, url: str) -> None:
-        self.next = []
-        self.prev.append(self.curr)
+        self.back_page.append(self.curr)
+        self.forward_page = deque()
         self.curr = url
 
     def back(self, steps: int) -> str:
-        for _ in range(min(steps, len(self.prev))):
-            self.next.append(self.curr)
-            self.curr = self.prev.pop()
-        
+        while len(self.back_page) > 0 and steps:
+            steps -= 1
+            self.forward_page.appendleft(self.curr)
+            self.curr = self.back_page.pop()
         return self.curr
-
+    
     def forward(self, steps: int) -> str:
-        for _ in range(min(steps, len(self.next))):
-            self.prev.append(self.curr)
-            self.curr = self.next.pop()
-        
+        while len(self.forward_page) > 0 and steps:
+            steps -= 1
+            self.back_page.append(self.curr)
+            self.curr = self.forward_page.popleft()
         return self.curr
 
 # Your BrowserHistory object will be instantiated and called as such:

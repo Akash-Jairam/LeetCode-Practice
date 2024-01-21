@@ -1,7 +1,8 @@
 class Solution:
     def decodeString(self, s: str) -> str:
+        # Used to keep track of previous number and previous s
         stack = []
-        curr_s, curr_num = "", 0
+        curr_num, curr_s = 0, ""
         
         for c in s:
             if c.isdigit():

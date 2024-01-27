@@ -1,7 +1,9 @@
 class Solution:
     def checkValidString(self, s: str) -> bool:
         leftMin, leftMax = 0, 0
-        
+        #Left Min and Left Max represent the possibilities
+        # If left min < 0, it is because of the * and we will reset it
+        # Source of truth is left min == 0
         for c in s:
             if c == '(':
                 leftMin, leftMax = leftMin + 1, leftMax + 1

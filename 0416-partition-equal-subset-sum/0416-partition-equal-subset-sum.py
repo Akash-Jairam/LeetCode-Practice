@@ -3,15 +3,15 @@ class Solution:
         target = sum(nums)
         if target % 2 == 1:
             return False
+        
         target //= 2
         sum_set = set([0])
         
-        for i in range(len(nums)):
-            curr_list = []
-            for num in sum_set:
-                curr_list.append(nums[i] + num)
-            
-            sum_set.update(curr_list)
+        for num in nums:
+            tmp = set()
+            for n2 in sum_set:
+                tmp.add(num + n2)
+            sum_set.update(tmp)
             if target in sum_set:
                 return True
         

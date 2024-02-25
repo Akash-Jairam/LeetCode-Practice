@@ -6,13 +6,13 @@ class Solution:
         res = []
         
         for i in range(len(nums)):
-            num = nums.pop(0)
+            curr = nums.pop(0)
             perms = self.permute(nums)
             
-            for perm in perms:
-                perm.append(num)
+            for p in perms:
+                p.append(curr)
             
             res.extend(perms)
-            nums.append(num)
+            nums.append(curr)
         
         return res

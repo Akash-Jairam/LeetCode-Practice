@@ -15,14 +15,14 @@ class Solution:
             size = len(q)
             for _ in range(size):
                 curr = q.popleft()
-                if _ == 0:
-                    left = curr.val
+                left = curr.val
+                if curr.right:
+                    q.append(curr.right)
                     
                 if curr.left:
                     q.append(curr.left)
                 
-                if curr.right:
-                    q.append(curr.right)
+                
         
         
         return left

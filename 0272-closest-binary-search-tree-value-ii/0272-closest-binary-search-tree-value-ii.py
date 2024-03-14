@@ -4,14 +4,16 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-
 class Solution:
     def closestKValues(self, root: Optional[TreeNode], target: float, k: int) -> List[int]:
-        inOrder = []
-        self.dfs(root, inOrder)
+        inOrder = [] 
+        self.inOrderTraversal(root, inOrder)
         
-        left = bisect_left(inOrder, target) - 1
-        right = left + 1
+        # Find insertion point
+        # Alternative is to find the index with the smallest delta
+        right = bisect_left(inOrder, target)
+        left = right - 1
+        
         res = []
         
         while len(res) < k:
@@ -23,11 +25,13 @@ class Solution:
                 right += 1
         
         return res
-    
-    def dfs(self, node, nodes):
-        if not node: 
+        
+    def inOrderTraversal(self, node, nodes):
+        if not node:
             return
         
-        self.dfs(node.left, nodes)
+        self.inOrderTraversal(node.left, nodes)
         nodes.append(node.val)
-        self.dfs(node.right, nodes)
+        self.inOrderTraversal(node.right, nodes)
+    
+    

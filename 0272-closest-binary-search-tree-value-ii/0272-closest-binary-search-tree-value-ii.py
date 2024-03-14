@@ -6,6 +6,8 @@
 #         self.right = right
 class Solution:
     def closestKValues(self, root: Optional[TreeNode], target: float, k: int) -> List[int]:
+        # TC = O(N + k)
+        # SC = O(N)
         inOrder = [] 
         self.inOrderTraversal(root, inOrder)
         

@@ -22,33 +22,21 @@
 from collections import deque
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.list = self.flatten(nestedList)
-        self.i = 0
-        
+        self.stack = []
+        self.stack.extend(nestedList[::-1])
+    
     def next(self) -> int:
-        res = self.list[self.i]
-        self.i += 1
-        return res
+        self.makeTopStackAnInteger()
+        if self.stack:
+            return self.stack.pop().getInteger()
     
     def hasNext(self) -> bool:
-         return self.i < len(self.list)
+         self.makeTopStackAnInteger()
+         return len(self.stack) > 0
         
-    def flatten(self, nestedList):
-        tmp = []
-        q = deque()
-        q.extend(nestedList)
-        
-        while q:
-            size = len(q)
-            for _ in range(size):
-                curr = q.popleft()
-                if curr.isInteger():
-                    tmp.append(curr)
-                else:
-                    q.extendleft(curr.getList()[::-1])
-        
-        return tmp
-    
+    def makeTopStackAnInteger(self):
+        while self.stack and not self.stack[-1].isInteger():
+            self.stack.extend(reversed(self.stack.pop().getList()))
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []

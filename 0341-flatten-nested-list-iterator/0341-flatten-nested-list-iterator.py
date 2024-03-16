@@ -22,7 +22,8 @@
 from collections import deque
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.stack = nestedList[::-1]
+        self.stack = []
+        self.stack.extend(reversed(nestedList))
     
     def next(self) -> int:
         self.makeTopStackAnInteger()

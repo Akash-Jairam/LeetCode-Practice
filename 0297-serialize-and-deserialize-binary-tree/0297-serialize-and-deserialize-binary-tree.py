@@ -16,32 +16,36 @@ class Codec:
         if not root:
             return "null"
         
-        res =[str(root.val)]
-        res.append(self.serialize(root.left))
-        res.append(self.serialize(root.right))
-        return ",".join(res)
-        
-        
-
+        curr = [str(root.val)]
+        curr.append(self.serialize(root.left))
+        curr.append(self.serialize(root.right))
+        return ','.join(curr)
+    
     def deserialize(self, data):
         """Decodes your encoded data to tree.
         
         :type data: str
         :rtype: TreeNode
         """
-        q = deque(data.split(","))
+        split = data.split(',')
+        q = deque()
+        q.extend(split)
         return self.helper(q)
-    def helper(self, queue):
-        if not queue:
-            return None
-        curr = queue.popleft()
-        if curr == "null":
-            return None
+    
+    def helper(self, q):
+        if len(q) == 0:
+            return
         
-        curr = TreeNode(int(curr))
-        curr.left = self.helper(queue)
-        curr.right = self.helper(queue)
-        return curr
+        curr = q.popleft()
+        if curr == 'null':
+            return
+        
+        currNode = TreeNode(int(curr))
+        currNode.left = self.helper(q)
+        currNode.right = self.helper(q)
+        
+        return currNode
+        
 
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()

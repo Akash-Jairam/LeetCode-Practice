@@ -1,20 +1,26 @@
 class Solution:
     def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
-        length = len(flowerbed)
-        dp = [0] * length
+        if n == 0:
+            return True
         
-        for i in range(length):
-            left_bed_av = i == 0 or flowerbed[i-1] == 0
-            right_bed_av = i == length - 1 or flowerbed[i+1] == 0
+        for i in range(len(flowerbed)):
+            if flowerbed[i]:
+                continue
+            left = 0
+            right = 0
+            if i > 0 and flowerbed[i-1] == 1:
+                left = 1
             
-            if left_bed_av and right_bed_av and flowerbed[i] == 0:
-                if i == 1:
-                    dp[i] = 1
-                else:
-                    prev_2 = 0 if i - 2 < 0 else dp[i-2]
-                    prev_1 = 1 if i - 1 < 0 else dp[i-1]
-                    dp[i] = max(prev_2 + 1, prev_1)
-            else:
-                dp[i] = dp[i-1]
+            if i < len(flowerbed) - 1 and flowerbed[i+1] == 1:
+                right = 1
+                
+            if left == 0 and right == 0:
+                flowerbed[i] = 1
+                n -= 1
+                if n == 0:
+                    return True
         
-        return dp[length-1] >= n
+        return False
+                
+        
+        

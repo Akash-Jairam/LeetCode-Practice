@@ -1,98 +1,95 @@
-class ListNode:
-    def __init__(self, val):
-        self.keys = set()  # Holds the keys with the current count
-        self.prev = None   # Previous ListNode in the doubly linked list
-        self.next = None   # Next ListNode in the doubly linked list
-        self.val = val     # The count value of this node
+class AllOne:
 
-    def insertAfter(self, newNode):
-        # Inserts newNode after this node
-        newNode.prev = self
-        newNode.next = self.next
-        if self.next:
-            self.next.prev = newNode
-        self.next = newNode
-
-    def insertBefore(self, newNode):
-        # Inserts newNode before this node
-        newNode.prev = self.prev
-        newNode.next = self
-        if self.prev:
-            self.prev.next = newNode
-        self.prev = newNode
-
-    def delete(self):
-        # Removes this node from the list, connecting previous and next nodes
-        if self.prev:
-            self.prev.next = self.next
-        if self.next:
-            self.next.prev = self.prev
-
-class AllOne:        
     def __init__(self):
-        self.head = ListNode(0)  # Sentinel node for the head
-        self.tail = ListNode(float('inf'))  # Sentinel node for the tail
+        self.head = ListNode(0)
+        self.tail = ListNode(0)
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.nodes = {}  # Maps keys to their corresponding ListNode
+        
+        self.node_map = {}
 
     def inc(self, key: str) -> None:
-        if key in self.nodes:
-            node = self.nodes[key]
-            node.keys.remove(key)
-        else:
-            node = self.head
-
-        if node.next.val != node.val + 1:
-            newNode = ListNode(node.val + 1)
-            node.insertAfter(newNode)
-        else:
-            newNode = node.next
-
-        newNode.keys.add(key)
-        self.nodes[key] = newNode
-
-        if node != self.head and len(node.keys) == 0:
-            node.delete()
-
+        curr = self.node_map.get(key, self.head)
+        if key in curr.keys:
+            curr.keys.remove(key)
+            
+        nxt = curr.next
+        if nxt.val != curr.val + 1:
+            curr.insertAfter(ListNode(curr.val + 1))
+            nxt = curr.next
+            
+        if len(curr.keys) == 0 and curr != self.head:
+            curr.delete()
+        
+        nxt.keys.add(key)
+        self.node_map[key] = nxt
+        
     def dec(self, key: str) -> None:
-        if key not in self.nodes:
+        curr = self.node_map[key]
+        curr.keys.remove(key)
+        prev = curr.prev
+
+       
+        
+        if curr.val == 1:
+            if len(curr.keys) == 0:
+                curr.delete()
+            del self.node_map[key]
             return
-
-        node = self.nodes[key]
-        node.keys.remove(key)
-
-        if node.val == 1:
-            if len(node.keys) == 0:
-                node.delete()
-            del self.nodes[key]
-            return
-
-        if node.prev.val != node.val - 1:
-            newNode = ListNode(node.val - 1)
-            node.insertBefore(newNode)
-        else:
-            newNode = node.prev
-
-        newNode.keys.add(key)
-        self.nodes[key] = newNode
-
-        if len(node.keys) == 0:
-            node.delete()
+        
+        if prev.val != curr.val - 1:
+            prev = ListNode(curr.val - 1)
+            curr.insertBefore(prev)
+        
+        prev.keys.add(key)
+        self.node_map[key] = prev
+        if len(curr.keys) == 0:
+            curr.delete()
 
     def getMaxKey(self) -> str:
-        if self.tail.prev != self.head:
-            return next(iter(self.tail.prev.keys), "")
-        return ""
+        maxNode = self.tail.prev
+        return next(iter(maxNode.keys)) if maxNode != self.head else ""
 
     def getMinKey(self) -> str:
-        if self.head.next != self.tail:
-            return next(iter(self.head.next.keys), "")
-        return ""
+        minNode = self.head.next
+        return next(iter(minNode.keys)) if minNode != self.tail else ""
+        
+class ListNode:
+    
+    def __init__(self, val):
+        self.val = val
+        self.keys = set()
+        self.next = None
+        self.prev = None
+        
+    def insertAfter(self, node):
+        nxt = self.next
+        
+        node.next = nxt
+        nxt.prev = node
+        
+        self.next = node
+        node.prev = self
+        
+    def insertBefore(self, node):
+        prev = self.prev
+        
+        prev.next = node
+        node.prev = prev
+        
+        node.next = self
+        self.prev = node
+        
+    def delete(self):
+        nxt = self.next
+        prev = self.prev
+        
+        prev.next = nxt
+        nxt.prev = prev
 
-# Example of how to use the AllOne object
+# Your AllOne object will be instantiated and called as such:
 # obj = AllOne()
-# obj.inc("key1")
-# obj.dec("key1")
-# maxKey = obj.getMaxKey()
-# minKey = obj.getMinKey()
+# obj.inc(key)
+# obj.dec(key)
+# param_3 = obj.getMaxKey()
+# param_4 = obj.getMinKey()

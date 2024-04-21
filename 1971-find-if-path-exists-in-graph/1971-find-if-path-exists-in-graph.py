@@ -1,33 +1,31 @@
-from collections import deque
 class Solution:
     def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
-        path_map = {}
-        visited = set()
-        for edge in edges:
-            if edge[0] not in path_map:
-                path_map[edge[0]] = []
-            
-            if edge[1] not in path_map:
-                path_map[edge[1]] = []
-            path_map[edge[0]].append(edge[1])
-            path_map[edge[1]].append(edge[0])
+        uf = UnionFind(n)
+        for x, y in edges:
+            uf.union(x, y)
         
-        queue = deque()
-        queue.append(source)
+        parent = uf.parent
+        return uf.find(source) == uf.find(destination)
+
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.hier = [1] * n
+    
+    def union(self, x, y):
+        p1, p2 = self.find(x), self.find(y)
+        if p1 != p2:
+            if self.hier[p1] > self.hier[p2]:
+                self.parent[p2] = p1
+                self.hier[p1] += self.hier[p2]
+            else:
+                self.parent[p1] = p2
+                self.hier[p2] += self.hier[p1]
+    
+    def find(self, x):
+        node = self.parent[x]
+        while self.parent[node] != node:
+            self.parent[node] = self.parent[self.parent[node]]
+            node = self.parent[node]
         
-        while queue:
-            size = len(queue)
-            for i in range(size):
-                curr_node = queue.popleft()
-                visited.add(curr_node)
-                if(curr_node == destination):
-                    return True;
-                
-                if curr_node in path_map:
-                    for node in path_map[curr_node]:
-                        if node not in visited:
-                            queue.append(node)
-        
-        return False
-               
-        
+        return node

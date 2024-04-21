@@ -23,9 +23,8 @@ class UnionFind:
                 self.hier[p2] += self.hier[p1]
     
     def find(self, x):
-        node = self.parent[x]
-        while self.parent[node] != node:
-            self.parent[node] = self.parent[self.parent[node]]
-            node = self.parent[node]
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
         
         return node

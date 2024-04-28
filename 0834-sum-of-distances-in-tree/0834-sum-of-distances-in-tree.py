@@ -19,6 +19,7 @@ class Solution:
                 if i != pre:
                     res[i] = res[root] - count[i] + N - count[i]
                     dfs2(i, root)
+                    
         dfs(0, -1)
         dfs2(0, -1)
         return res

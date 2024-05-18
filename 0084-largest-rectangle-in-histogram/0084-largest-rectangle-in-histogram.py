@@ -7,21 +7,23 @@ class Solution:
         # Update the start value since the current value can extend backwards
         # After the loop is finished, pop off the remainder of the stack and calculate their values
         # Relative to the length of the array
+        
         maxArea = 0
         stack = []
-        n = len(heights)
         
-        for i in range(n):
+        for i in range(len(heights)):
             start = i
-            while stack and stack[-1][1] > heights[i]:
-                prev_i, prev_h = stack.pop()
-                maxArea = max(maxArea, (i - prev_i) * prev_h)
+            
+            while stack and stack[-1][0] > heights[i]:
+                prev_h, prev_i = stack.pop()
+                maxArea = max(maxArea, prev_h * (i - prev_i))
                 start = prev_i
             
-            stack.append((start, heights[i]))
+            stack.append((heights[i], start))
         
+        n = len(heights)
         while stack:
-            i, h = stack.pop()
-            maxArea = max(maxArea, (n - i) * h)
+            h, i = stack.pop()
+            maxArea = max(maxArea, h * (n - i))
         
         return maxArea

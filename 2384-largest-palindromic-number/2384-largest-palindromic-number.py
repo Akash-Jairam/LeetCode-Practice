@@ -1,24 +1,24 @@
 class Solution:
     def largestPalindromic(self, num: str) -> str:
-        half = []
-        mid = ''
         n_map = [0] * 10
         
-        for c in num:
-            n_map[int(c)] += 1
+        for n in num:
+            n_map[int(n)] += 1
         
-        idx = 9
-        
-        while idx >= 0:
-            if not len(half) and idx == 0:
+        i = 9
+        half = []
+        mid = ''
+        while i >= 0:
+            if i == 0 and not len(half):
                 break
             
-            if not mid and n_map[idx] % 2 == 1:
-                mid = str(idx)
+            if n_map[i] % 2 == 1 and not mid:
+                mid = str(i)
             
-            if n_map[idx] // 2 > 0:
-                half.append(str(idx) * (n_map[idx] // 2))
+            if n_map[i] > 1:
+                half.append(str(i) * (n_map[i] // 2))
+            i -= 1
         
-            idx -= 1
-        
-        return ''.join(half) + mid + ''.join(half[::-1]) if len(half) or mid else "0"
+        if not mid and not len(half):
+            return "0"
+        return ''.join(half) + mid + ''.join(half[::-1])

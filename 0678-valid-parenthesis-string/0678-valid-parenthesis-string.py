@@ -10,6 +10,7 @@ class Solution:
         
         for c in s:
             if c == '(':
+                
                 leftMin, leftMax = leftMin + 1, leftMax + 1
             elif c == ')':
                 leftMin, leftMax = leftMin - 1, leftMax - 1

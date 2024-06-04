@@ -1,17 +1,18 @@
+from collections import defaultdict
 class Solution:
     def longestPalindrome(self, s: str) -> int:
-        c_map = {}
-        
+        c_map = defaultdict(int)
+        res = 0
+        hasMid = 0
         for c in s:
-            c_map[c] = 1 + c_map.get(c, 0)
-         
-        half = 0
-        mid = 0
+            c_map[c] += 1
         
-        for count in c_map.values():
-            if not mid and count % 2 == 1:
-                mid += 1
+        for v in c_map.values():
+            if v % 2 == 1 and not hasMid:
+                hasMid += 1
             
-            half += count // 2
+            res += v // 2
         
-        return half * 2 + mid
+        return res * 2 + hasMid
+            
+        

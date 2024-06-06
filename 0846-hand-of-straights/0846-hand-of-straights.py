@@ -1,28 +1,30 @@
 import heapq
 class Solution:
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
-        if not len(hand) % groupSize == 0:
+        if len(hand) % groupSize:
             return False
         
-        h_map = {}
-        
+        c_map = {}
         for c in hand:
-            h_map[c] = 1 + h_map.get(c, 0)
+            c_map[c] = 1 + c_map.get(c, 0)
             
-        cards = list(h_map.keys())
-        heapq.heapify(cards)
+        min_heap = list(c_map.keys())
+        heapq.heapify(min_heap)
         
-        while cards:
-            curr = cards[0]            
-            for i in range(curr, curr + groupSize):
-                if i not in h_map:
+        while min_heap:
+            curr = min_heap[0]
+            
+            for i in range(groupSize):
+                if curr + i not in c_map or not c_map[curr + i]:
                     return False
-                h_map[i] -= 1
-                if h_map[i] == 0:
-                    if i != cards[0]:
-                        return False
-                    heapq.heappop(cards)
+                
+                c_map[curr + i] -= 1
+                if c_map[curr + i] == 0 and curr + i != heapq.heappop(min_heap):
+                    return False
         
         return True
+        
+    
+            
         
         

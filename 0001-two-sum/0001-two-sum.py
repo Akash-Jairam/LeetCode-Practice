@@ -8,6 +8,7 @@ class Solution:
             
             num_map[nums[i]] = i
         
+        
         return [-1, -1]
         
         

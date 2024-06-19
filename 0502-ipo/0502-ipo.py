@@ -5,6 +5,7 @@ class Solution:
         projects = list(zip(capital, profits))
         projects.sort()
         
+        
         # heapq is a min heap, but we need a max heap
         # so we will store negated elements
         q = []
